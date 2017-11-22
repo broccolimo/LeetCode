@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
 import org.junit.Test;
+
 import util.ListNode;
 import util.Utils;
 
@@ -16,6 +18,29 @@ import util.Utils;
  */
 @SuppressWarnings("all")
 public class LeetCode {
+	/**
+	 * 总测试控制
+	 * 以LeetCode的方式测试
+	 */
+    @Test
+    public void A(){
+    	/**
+    	 * 1-6均单独用控制台输出
+    	 */
+    	
+    	//7
+    	System.out.println(new LeetCode().C007_ReverseInteger(153246469));
+    	//
+    }
+    
+    /**
+     * 每个代码在测试的时候先用Junit的形式以查看控制台输出为检测手段
+     * 代码经LeetCode检验通过后
+     * 尽量把代码改成有返回值的方法 且不能以Junit的方式运行
+     * 再测试时用别的方法调用
+     */
+
+    
 	/**
 	 * description
 	 * Given an array of integers, 
@@ -328,8 +353,56 @@ public class LeetCode {
 			
 	}
 	
-	@Test
-	public void ccc(){
-		
-	}
+	/**
+	 * @problem #7 Reverse Integer
+	 * @date 2017-11-22
+	 * 
+	 * Given a 32-bit signed integer, reverse digits of an integer.
+	 * 
+	 * Example 1:
+	 * Input: 123
+	 * Output:  321
+	 * 
+	 * Example 2:
+	 * Input: -123
+	 * Output: -321
+	 * 
+	 * Example 3:
+	 * Input: 120
+	 * Output: 21
+	 * 
+	 * Note:
+	 * Assume we are dealing with an environment 
+	 * which could only hold integers within the 32-bit signed integer range. 
+	 * For the purpose of this problem, 
+	 * assume that your function returns 0 
+	 * when the reversed integer overflows.
+	 */
+    public int C007_ReverseInteger(int x) {
+        boolean flag = false;
+		if(x < 0){
+			flag = true;
+		}
+        long _x = x;
+		char[] c = String.valueOf(Math.abs(_x)).toCharArray();
+		int l = c.length;
+		for(int i = 0; i < l / 2; i++){
+			char temp = c[i];
+			c[i] = c[l - i - 1];
+			c[l - i - 1] = temp;
+		}
+		long y = Long.parseLong(String.valueOf(c));
+		int max = (int)Math.pow(2, 31) - 1;
+		int min = -(max + 1);
+		if(flag){
+			y = -y;
+		}
+		if(y < min || y > max){
+			return 0;
+		}
+		else{
+			return (int)y;
+		}
+    }
+   
 }
