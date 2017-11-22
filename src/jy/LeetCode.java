@@ -1,20 +1,19 @@
 package jy;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-
 import org.junit.Test;
-
 import util.ListNode;
 import util.Utils;
 
 /**
  * @author broccoli
- * @Environment JavaSE-1.7
+ * @environment JavaSE-1.7
  */
 @SuppressWarnings("all")
 public class LeetCode {
@@ -29,8 +28,9 @@ public class LeetCode {
     	 */
     	
     	//7
-    	System.out.println(new LeetCode().C007_ReverseInteger(153246469));
-    	//
+    	//System.out.println(new LeetCode().C007_ReverseInteger(153246469));
+    	//8
+    	//System.out.println(new LeetCode().C008_StringToInteger("   0 + 2 4"));
     }
     
     /**
@@ -392,17 +392,77 @@ public class LeetCode {
 			c[l - i - 1] = temp;
 		}
 		long y = Long.parseLong(String.valueOf(c));
-		int max = (int)Math.pow(2, 31) - 1;
-		int min = -(max + 1);
 		if(flag){
 			y = -y;
 		}
-		if(y < min || y > max){
+		if(y < Integer.MIN_VALUE || y > Integer.MAX_VALUE){
 			return 0;
 		}
 		else{
 			return (int)y;
 		}
     }
-   
+    
+    /**
+     * @problem #8 String to Integer (atoi)
+     * @date 2017-11-22
+     * 
+     * Requirements for atoi:
+     * The function first discards as many whitespace characters as necessary 
+     * until the first non-whitespace character is found. 
+     * Then, starting from this character, 
+     * takes an optional initial plus or minus sign followed 
+     * by as many numerical digits as possible, 
+     * and interprets them as a numerical value.
+     * The string can contain additional characters 
+     * after those that form the integral number, 
+     * which are ignored and have no effect on the behavior of this function.
+     * If the first sequence of non-whitespace characters in str 
+     * is not a valid integral number, or if no such sequence exists 
+     * because either str is empty or it contains only whitespace characters, 
+     * no conversion is performed.
+     * If no valid conversion could be performed, 
+     * a zero value is returned. 
+     * If the correct value is out of the range of representable values, 
+     * INT_MAX (2147483647) or INT_MIN (-2147483648) is returned.
+     */
+    public int C008_StringToInteger(String str) {
+    	int l = str.length();
+    	//区别正负
+    	int sign = 1;
+    	//最终值
+    	int total = 0;
+    	//游标
+    	int index = 0;
+    	if(str == null || l == 0){
+    		return 0;
+    	}
+    	//找到第一个不为空格的字符
+    	while(str.charAt(index) == ' ' && index < l){
+    		index++;
+    	}
+    	//如果一开始是正负号，处理一下
+    	//正负号只能出现在开头
+    	//若不是即为错误 即使前边全是0
+    	if(str.charAt(index) == '+' || str.charAt(index) == '-'){
+    		sign = str.charAt(index) == '+' ? 1 : -1;
+    		index++;
+    	}
+    	while(index < l){
+    		int digit = str.charAt(index) - '0';
+    		//判断是否为数字 若不是则直接把截至已有的结果输出
+    		if(digit < 0 || digit > 9){
+    			break;
+    		}
+    		//不能等到溢出的时候再处理 要提前处理 以下就是处理的确定性方法
+    		if(total > Integer.MAX_VALUE / 10 || total == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10){
+    			return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+    		}
+    		total = total * 10 + digit;
+    		index++;
+    	}
+    	return sign * total;
+    }
+    
+    
 }
