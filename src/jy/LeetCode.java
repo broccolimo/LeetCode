@@ -28,9 +28,11 @@ public class LeetCode {
     	 */
     	
     	//7
-    	//System.out.println(new LeetCode().C007_ReverseInteger(153246469));
+    	//System.out.println(new LeetCode().C007_ReverseInteger(-2147483648));
     	//8
     	//System.out.println(new LeetCode().C008_StringToInteger("   0 + 2 4"));
+    	//9
+    	//System.out.println(new LeetCode().C009_PalindromeNumber(2147483647));
     }
     
     /**
@@ -379,28 +381,38 @@ public class LeetCode {
 	 * when the reversed integer overflows.
 	 */
     public int C007_ReverseInteger(int x) {
-        boolean flag = false;
-		if(x < 0){
-			flag = true;
-		}
-        long _x = x;
-		char[] c = String.valueOf(Math.abs(_x)).toCharArray();
-		int l = c.length;
-		for(int i = 0; i < l / 2; i++){
-			char temp = c[i];
-			c[i] = c[l - i - 1];
-			c[l - i - 1] = temp;
-		}
-		long y = Long.parseLong(String.valueOf(c));
-		if(flag){
-			y = -y;
-		}
-		if(y < Integer.MIN_VALUE || y > Integer.MAX_VALUE){
-			return 0;
-		}
-		else{
-			return (int)y;
-		}
+    	int sign = 1;
+ 		if(x < 0){
+ 			sign = -1;
+ 		}
+ 		/**
+ 		 * Math.abs是个坑
+ 		 * 它的参数可以是int 也可以是double 
+ 		 * 如果参数是int 则结果也是int
+ 		 * 如果参数是double 则结果也是double
+ 		 * 在这里必须把int强行转化为long
+ 		 * 因为int的取值是 -2147483648 ~ 2147483647
+ 		 * 若输入的参数是-2147483648，它的类型是int
+ 		 * 按常规绝对值来说 结果应是2147483648
+ 		 * 这已经超出了int的范围
+ 		 * 所以这里是有问题的 abs处理不了这个数据
+ 		 * 结果还是-2147483648
+ 		 * 所以必须把int强行转化为long
+ 		 */
+ 		char[] c = String.valueOf(Math.abs((long)x)).toCharArray();
+ 		int l = c.length;
+ 		for(int i = 0; i < l / 2; i++){
+ 			char temp = c[i];
+ 			c[i] = c[l - i - 1];
+ 			c[l - i - 1] = temp;
+ 		}
+ 		long y = Long.parseLong(String.valueOf(c));
+ 		if(y * sign < Integer.MIN_VALUE || y * sign > Integer.MAX_VALUE){
+ 			return 0;
+ 		}
+ 		else{
+ 			return (int)y * sign;
+ 		}
     }
     
     /**
@@ -464,5 +476,25 @@ public class LeetCode {
     	return sign * total;
     }
     
-    
+    /**
+     * @problem #9 Palindrome Number
+     * @date 2017-11-22
+     * 
+     * 判断一个int类型的数字是否为回文数
+     * 没啥好说的
+     * 任何负数都不是回文数
+     */
+    public boolean C009_PalindromeNumber(int x) {
+    	if(x < 0){
+            return false;
+    	}
+    	String s = String.valueOf(x);
+    	int l = s.length();
+    	for(int i = 0; i < l / 2; i++){
+    		if(s.charAt(i) != s.charAt(l - i - 1)){
+                return false;
+    		}
+    	}
+    	return true;
+    }
 }
