@@ -1,14 +1,16 @@
 package jy;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
 import org.junit.Test;
+
 import util.ListNode;
+import util.RandomListNode;
 import util.Utils;
 
 /**
@@ -496,5 +498,207 @@ public class LeetCode {
     		}
     	}
     	return true;
+    }
+    
+    /**
+     * @problem #10 Regular Expression Matching
+     * @date 2017-11-23
+     * 
+     * Implement regular expression matching with support for '.' and '*'.
+     * 
+     * 记住吧 就这样写
+     */
+    public boolean C010_RegularExpressionMatching(String s, String p){
+    	boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+    	dp[0][0] = true;
+    	for(int i = 0; i < p.length(); i++){
+    		if(p.charAt(i) == '*' && dp[0][i - 1] == true){
+    			dp[0][i + 1] = true;
+    		}
+    	}
+    	for(int i = 0; i < s.length(); i++){
+    		for(int j = 0; j < p.length(); j++){
+    			if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'){
+    				dp[i + 1][j + 1] = dp[i][j];
+    			}
+    			if(p.charAt(j) == '*'){
+    				if(p.charAt(j - 1) != s.charAt(i) && p.charAt(j - 1) != '.'){
+    					dp[i + 1][j + 1] = dp[i + 1][j - 1];
+    				}
+    				else{
+    					dp[i + 1][j + 1] = dp[i + 1][j] || dp[i][j + 1] || dp[i + 1][j - 1];
+    				}
+    			}
+    		}
+    	}
+    	return dp[s.length()][p.length()];
+    }
+    
+    /**
+     * @problem #11 Container With Most Water
+     * @date 2017-11-23
+     * 
+     * Given n non-negative integers a1, a2, ..., an, 
+     * where each represents a point at coordinate (i, ai). 
+     * n vertical lines are drawn 
+     * such that the two endpoints of line i is at (i, ai) and (i, 0). 
+     * Find two lines, which together with x-axis forms a container, 
+     * such that the container contains the most water.
+     * Note: You may not slant the container and n is at least 2.
+     * 
+     * 最简单的用蛮力法就能解决
+     * 可是当数据量大的时候 
+     * 会因时间太长而不通过
+     * 原因是存在很多不必要的计算
+     * 解决方法就是从两边向中间逼近
+     */
+    public int C011_ContainerWithMostWater(int[] height) {
+    	int l = height.length;
+    	int max = 0;
+    	int i = 0;
+    	int j = l - 1;
+    	while(i < j){
+    		int temp = Math.min(height[i], height[j]) * (j - i);
+    		max = temp > max ? temp : max;
+    		if(height[i] <= height[j]){
+    			i++;
+    		}
+    		else{
+    			j--;
+    		}
+    	}
+        return max;
+    }
+    
+    /**
+     * @problem #12 Integer to Roman
+     * @date 2017-11-23
+     */
+    public String C012_IntegerToRoman(int num){
+    	String[] M = {"", "M", "MM", "MMM"};
+    	String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+    	String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+    	String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+    	return M[num / 1000] + C[(num % 1000) / 100] + X[(num % 100) / 10] + I[num % 10];
+    }
+    
+    /**
+     * @problem #13 Roman to Integer
+     * @date 2017-11-23
+     */
+    public int C013_RomanToInteger(String s) {
+    	s = s + ' ';
+    	int num = 0;
+    	for(int i = 0; i < s.length() - 1; i++){
+    		switch (s.charAt(i)) {
+			case 'M':
+				num += 1000;
+				break;
+			case 'D':
+				num += 500;
+				break;
+			case 'C':
+				num = s.charAt(i + 1) == 'M' || s.charAt(i + 1) == 'D' ? num - 100 : num + 100;
+				break;
+			case 'L':
+				num += 50;
+				break;
+			case 'X':
+				num = s.charAt(i + 1) == 'C' || s.charAt(i + 1) == 'L'? num - 10 : num + 10;
+				break;
+			case 'V':
+				num += 5;
+				break;
+			case 'I':
+				num = s.charAt(i + 1) == 'X' || s.charAt(i + 1) == 'V' ? num - 1 : num + 1;
+				break;
+			default:
+				break;
+			}
+    	}
+    	return num;
+    }
+    
+    /**
+     * @problem #138 Copy List with Random Pointer
+     * @date 2017-11-23
+     * @reference util/RandomListNode.java
+     * 
+     * A linked list is given such that 
+     * each node contains an additional random pointer 
+     * which could point to any node in the list or null.
+     * Return a deep copy of the list.
+     * 
+     */
+    public RandomListNode C138_CopyListWithRandomPointer(){
+    	RandomListNode head = new RandomListNode(3);
+    	RandomListNode cursor = head;
+    	RandomListNode next;
+    	//在每个节点后边(next)都加上自身的复制
+    	//并指向复制 让复制指向原来自己的指向
+    	//Round 1
+    	while(cursor != null){
+    		//next表示原链表中当前节点真实的next指向
+    		next = cursor.next;
+    		//创建复制节点 注意参数是由cursor得来的
+    		RandomListNode copy = new RandomListNode(cursor.label);
+    		//改变原链表当前节点的next指向 指向自身的复制
+    		cursor.next = copy;
+    		//让自身复制next指向原链表中自身的next指向
+    		copy.next = next;
+    		//跳到下一个要处理的节点
+    		cursor = next;
+    	}
+    	//重新来 这次处理random
+    	cursor = head;
+    	//Round 2 
+    	while(cursor != null){
+    		//要对复制的random赋值
+    		//赋的值是源节点random的赋值 也就是其如今的next
+    		//但原来的如果就是null的话 就不处理random了
+    		if(cursor.random != null){
+    			cursor.next.random = cursor.random.next;
+    		}
+    		//跳到下一个要处理的节点
+    		cursor = cursor.next.next;
+    	}
+    	//next和random指向都做好了 
+    	//把当前链表拆成原链表和复制好的链表
+    	//当然拆是按next拆的 
+    	//为啥不考虑random
+    	//因为没有动过random在原链表中的指向
+    	//所以不用管
+    	cursor = head;
+    	//cursor毕竟只是相当于索引 要来回变
+    	//所以需要一个新节点来引导复制到好的链表
+    	//这个节点的值是随便赋的
+    	RandomListNode fr = new RandomListNode(0);
+    	//应该也有一个相当于fr的cursor
+    	//这里需要2个
+    	//cr1 相当于 先锋游标 是找节点的 出身随意
+    	RandomListNode cr1;
+    	//cr2相当于 大部队 ，必须从指挥部(fr)出发 跟着cr1走 
+    	//cr1到哪 cr2就先指向cr1 再跟cr1会合
+    	RandomListNode cr2 = fr;
+    	//开始探索
+    	//Round 3
+    	while(cursor != null){
+    		//next依然是原链表中当前链表的真实的next指向
+    		next = cursor.next.next;
+     		//第一个爬到复制上
+    		cr1 = cursor.next;
+    		//第二个 也就是 新起点 next指向cr1
+    		//这个连接不能由fr建立 所以cr2必须和fr出身相同
+    		cr2.next = cr1;
+    		//第二个也爬到当前复制上
+    		//指向由fr保留
+    		cr2 = cr1;
+    		//还原原链表指向
+    		cursor.next = next;
+    		//跳到下一个节点
+    		cursor = next;
+    	}
+    	//指挥部指向的第一个节点 就是要返回的
+    	return fr.next;
     }
 }
