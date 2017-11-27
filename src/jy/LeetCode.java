@@ -1,11 +1,15 @@
 package jy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Stack;
 
 import org.junit.Test;
 
@@ -19,32 +23,6 @@ import util.Utils;
  */
 @SuppressWarnings("all")
 public class LeetCode {
-	/**
-	 * 总测试控制
-	 * 以LeetCode的方式测试
-	 */
-    @Test
-    public void A(){
-    	/**
-    	 * 1-6均单独用控制台输出
-    	 */
-    	
-    	//7
-    	//System.out.println(new LeetCode().C007_ReverseInteger(-2147483648));
-    	//8
-    	//System.out.println(new LeetCode().C008_StringToInteger("   0 + 2 4"));
-    	//9
-    	//System.out.println(new LeetCode().C009_PalindromeNumber(2147483647));
-    }
-    
-    /**
-     * 每个代码在测试的时候先用Junit的形式以查看控制台输出为检测手段
-     * 代码经LeetCode检验通过后
-     * 尽量把代码改成有返回值的方法 且不能以Junit的方式运行
-     * 再测试时用别的方法调用
-     */
-
-    
 	/**
 	 * description
 	 * Given an array of integers, 
@@ -285,7 +263,7 @@ public class LeetCode {
 			System.out.println("the median is (" + tar[m / 2 - 1] + " + " + tar[m / 2] + ") = " + (double)(tar[m / 2 - 1] +  tar[m / 2]) / 2);
 		}
 	}
-	
+
 	/**
 	 * description
 	 * Given a string s, find the longest palindromic substring in s. 
@@ -335,17 +313,17 @@ public class LeetCode {
 		}
 		System.out.println("the longest palindromic substring is " + sb);
 	}
-	
+
 	/**
 	 * 未完成
 	 */
 	@Test
 	public void C006(){
-//		Scanner sc = new Scanner(System.in);
-//		System.out.println("please input:");
-//		String s = sc.nextLine();
-//		int n = Integer.parseInt(sc.nextLine());
-//		sc.close();
+		//		Scanner sc = new Scanner(System.in);
+		//		System.out.println("please input:");
+		//		String s = sc.nextLine();
+		//		int n = Integer.parseInt(sc.nextLine());
+		//		sc.close();
 		int m = 14;
 		int n = 3;
 		int x = n;
@@ -354,9 +332,9 @@ public class LeetCode {
 		System.out.println(y);
 		int i = 0;
 		int j = 0;
-			
+
 	}
-	
+
 	/**
 	 * @problem #7 Reverse Integer
 	 * @date 2017-11-22
@@ -382,215 +360,215 @@ public class LeetCode {
 	 * assume that your function returns 0 
 	 * when the reversed integer overflows.
 	 */
-    public int C007_ReverseInteger(int x) {
-    	int sign = 1;
- 		if(x < 0){
- 			sign = -1;
- 		}
- 		/**
- 		 * Math.abs是个坑
- 		 * 它的参数可以是int 也可以是double 
- 		 * 如果参数是int 则结果也是int
- 		 * 如果参数是double 则结果也是double
- 		 * 在这里必须把int强行转化为long
- 		 * 因为int的取值是 -2147483648 ~ 2147483647
- 		 * 若输入的参数是-2147483648，它的类型是int
- 		 * 按常规绝对值来说 结果应是2147483648
- 		 * 这已经超出了int的范围
- 		 * 所以这里是有问题的 abs处理不了这个数据
- 		 * 结果还是-2147483648
- 		 * 所以必须把int强行转化为long
- 		 */
- 		char[] c = String.valueOf(Math.abs((long)x)).toCharArray();
- 		int l = c.length;
- 		for(int i = 0; i < l / 2; i++){
- 			char temp = c[i];
- 			c[i] = c[l - i - 1];
- 			c[l - i - 1] = temp;
- 		}
- 		long y = Long.parseLong(String.valueOf(c));
- 		if(y * sign < Integer.MIN_VALUE || y * sign > Integer.MAX_VALUE){
- 			return 0;
- 		}
- 		else{
- 			return (int)y * sign;
- 		}
-    }
-    
-    /**
-     * @problem #8 String to Integer (atoi)
-     * @date 2017-11-22
-     * 
-     * Requirements for atoi:
-     * The function first discards as many whitespace characters as necessary 
-     * until the first non-whitespace character is found. 
-     * Then, starting from this character, 
-     * takes an optional initial plus or minus sign followed 
-     * by as many numerical digits as possible, 
-     * and interprets them as a numerical value.
-     * The string can contain additional characters 
-     * after those that form the integral number, 
-     * which are ignored and have no effect on the behavior of this function.
-     * If the first sequence of non-whitespace characters in str 
-     * is not a valid integral number, or if no such sequence exists 
-     * because either str is empty or it contains only whitespace characters, 
-     * no conversion is performed.
-     * If no valid conversion could be performed, 
-     * a zero value is returned. 
-     * If the correct value is out of the range of representable values, 
-     * INT_MAX (2147483647) or INT_MIN (-2147483648) is returned.
-     */
-    public int C008_StringToInteger(String str) {
-    	int l = str.length();
-    	//区别正负
-    	int sign = 1;
-    	//最终值
-    	int total = 0;
-    	//游标
-    	int index = 0;
-    	if(str == null || l == 0){
-    		return 0;
-    	}
-    	//找到第一个不为空格的字符
-    	while(str.charAt(index) == ' ' && index < l){
-    		index++;
-    	}
-    	//如果一开始是正负号，处理一下
-    	//正负号只能出现在开头
-    	//若不是即为错误 即使前边全是0
-    	if(str.charAt(index) == '+' || str.charAt(index) == '-'){
-    		sign = str.charAt(index) == '+' ? 1 : -1;
-    		index++;
-    	}
-    	while(index < l){
-    		int digit = str.charAt(index) - '0';
-    		//判断是否为数字 若不是则直接把截至已有的结果输出
-    		if(digit < 0 || digit > 9){
-    			break;
-    		}
-    		//不能等到溢出的时候再处理 要提前处理 以下就是处理的确定性方法
-    		if(total > Integer.MAX_VALUE / 10 || total == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10){
-    			return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-    		}
-    		total = total * 10 + digit;
-    		index++;
-    	}
-    	return sign * total;
-    }
-    
-    /**
-     * @problem #9 Palindrome Number
-     * @date 2017-11-22
-     * 
-     * 判断一个int类型的数字是否为回文数
-     * 没啥好说的
-     * 任何负数都不是回文数
-     */
-    public boolean C009_PalindromeNumber(int x) {
-    	if(x < 0){
-            return false;
-    	}
-    	String s = String.valueOf(x);
-    	int l = s.length();
-    	for(int i = 0; i < l / 2; i++){
-    		if(s.charAt(i) != s.charAt(l - i - 1)){
-                return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    /**
-     * @problem #10 Regular Expression Matching
-     * @date 2017-11-23
-     * 
-     * Implement regular expression matching with support for '.' and '*'.
-     * 
-     * 记住吧 就这样写
-     */
-    public boolean C010_RegularExpressionMatching(String s, String p){
-    	boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
-    	dp[0][0] = true;
-    	for(int i = 0; i < p.length(); i++){
-    		if(p.charAt(i) == '*' && dp[0][i - 1] == true){
-    			dp[0][i + 1] = true;
-    		}
-    	}
-    	for(int i = 0; i < s.length(); i++){
-    		for(int j = 0; j < p.length(); j++){
-    			if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'){
-    				dp[i + 1][j + 1] = dp[i][j];
-    			}
-    			if(p.charAt(j) == '*'){
-    				if(p.charAt(j - 1) != s.charAt(i) && p.charAt(j - 1) != '.'){
-    					dp[i + 1][j + 1] = dp[i + 1][j - 1];
-    				}
-    				else{
-    					dp[i + 1][j + 1] = dp[i + 1][j] || dp[i][j + 1] || dp[i + 1][j - 1];
-    				}
-    			}
-    		}
-    	}
-    	return dp[s.length()][p.length()];
-    }
-    
-    /**
-     * @problem #11 Container With Most Water
-     * @date 2017-11-23
-     * 
-     * Given n non-negative integers a1, a2, ..., an, 
-     * where each represents a point at coordinate (i, ai). 
-     * n vertical lines are drawn 
-     * such that the two endpoints of line i is at (i, ai) and (i, 0). 
-     * Find two lines, which together with x-axis forms a container, 
-     * such that the container contains the most water.
-     * Note: You may not slant the container and n is at least 2.
-     * 
-     * 最简单的用蛮力法就能解决
-     * 可是当数据量大的时候 
-     * 会因时间太长而不通过
-     * 原因是存在很多不必要的计算
-     * 解决方法就是从两边向中间逼近
-     */
-    public int C011_ContainerWithMostWater(int[] height) {
-    	int l = height.length;
-    	int max = 0;
-    	int i = 0;
-    	int j = l - 1;
-    	while(i < j){
-    		int temp = Math.min(height[i], height[j]) * (j - i);
-    		max = temp > max ? temp : max;
-    		if(height[i] <= height[j]){
-    			i++;
-    		}
-    		else{
-    			j--;
-    		}
-    	}
-        return max;
-    }
-    
-    /**
-     * @problem #12 Integer to Roman
-     * @date 2017-11-23
-     */
-    public String C012_IntegerToRoman(int num){
-    	String[] M = {"", "M", "MM", "MMM"};
-    	String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
-    	String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
-    	String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
-    	return M[num / 1000] + C[(num % 1000) / 100] + X[(num % 100) / 10] + I[num % 10];
-    }
-    
-    /**
-     * @problem #13 Roman to Integer
-     * @date 2017-11-23
-     */
-    public int C013_RomanToInteger(String s) {
-    	s = s + ' ';
-    	int num = 0;
-    	for(int i = 0; i < s.length() - 1; i++){
-    		switch (s.charAt(i)) {
+	public int C007_ReverseInteger(int x) {
+		int sign = 1;
+		if(x < 0){
+			sign = -1;
+		}
+		/**
+		 * Math.abs是个坑
+		 * 它的参数可以是int 也可以是double 
+		 * 如果参数是int 则结果也是int
+		 * 如果参数是double 则结果也是double
+		 * 在这里必须把int强行转化为long
+		 * 因为int的取值是 -2147483648 ~ 2147483647
+		 * 若输入的参数是-2147483648，它的类型是int
+		 * 按常规绝对值来说 结果应是2147483648
+		 * 这已经超出了int的范围
+		 * 所以这里是有问题的 abs处理不了这个数据
+		 * 结果还是-2147483648
+		 * 所以必须把int强行转化为long
+		 */
+		char[] c = String.valueOf(Math.abs((long)x)).toCharArray();
+		int l = c.length;
+		for(int i = 0; i < l / 2; i++){
+			char temp = c[i];
+			c[i] = c[l - i - 1];
+			c[l - i - 1] = temp;
+		}
+		long y = Long.parseLong(String.valueOf(c));
+		if(y * sign < Integer.MIN_VALUE || y * sign > Integer.MAX_VALUE){
+			return 0;
+		}
+		else{
+			return (int)y * sign;
+		}
+	}
+
+	/**
+	 * @problem #8 String to Integer (atoi)
+	 * @date 2017-11-22
+	 * 
+	 * Requirements for atoi:
+	 * The function first discards as many whitespace characters as necessary 
+	 * until the first non-whitespace character is found. 
+	 * Then, starting from this character, 
+	 * takes an optional initial plus or minus sign followed 
+	 * by as many numerical digits as possible, 
+	 * and interprets them as a numerical value.
+	 * The string can contain additional characters 
+	 * after those that form the integral number, 
+	 * which are ignored and have no effect on the behavior of this function.
+	 * If the first sequence of non-whitespace characters in str 
+	 * is not a valid integral number, or if no such sequence exists 
+	 * because either str is empty or it contains only whitespace characters, 
+	 * no conversion is performed.
+	 * If no valid conversion could be performed, 
+	 * a zero value is returned. 
+	 * If the correct value is out of the range of representable values, 
+	 * INT_MAX (2147483647) or INT_MIN (-2147483648) is returned.
+	 */
+	public int C008_StringToInteger(String str) {
+		int l = str.length();
+		//区别正负
+		int sign = 1;
+		//最终值
+		int total = 0;
+		//游标
+		int index = 0;
+		if(str == null || l == 0){
+			return 0;
+		}
+		//找到第一个不为空格的字符
+		while(str.charAt(index) == ' ' && index < l){
+			index++;
+		}
+		//如果一开始是正负号，处理一下
+		//正负号只能出现在开头
+		//若不是即为错误 即使前边全是0
+		if(str.charAt(index) == '+' || str.charAt(index) == '-'){
+			sign = str.charAt(index) == '+' ? 1 : -1;
+			index++;
+		}
+		while(index < l){
+			int digit = str.charAt(index) - '0';
+			//判断是否为数字 若不是则直接把截至已有的结果输出
+			if(digit < 0 || digit > 9){
+				break;
+			}
+			//不能等到溢出的时候再处理 要提前处理 以下就是处理的确定性方法
+			if(total > Integer.MAX_VALUE / 10 || total == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10){
+				return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+			}
+			total = total * 10 + digit;
+			index++;
+		}
+		return sign * total;
+	}
+
+	/**
+	 * @problem #9 Palindrome Number
+	 * @date 2017-11-22
+	 * 
+	 * 判断一个int类型的数字是否为回文数
+	 * 没啥好说的
+	 * 任何负数都不是回文数
+	 */
+	public boolean C009_PalindromeNumber(int x) {
+		if(x < 0){
+			return false;
+		}
+		String s = String.valueOf(x);
+		int l = s.length();
+		for(int i = 0; i < l / 2; i++){
+			if(s.charAt(i) != s.charAt(l - i - 1)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @problem #10 Regular Expression Matching
+	 * @date 2017-11-23
+	 * 
+	 * Implement regular expression matching with support for '.' and '*'.
+	 * 
+	 * 记住吧 就这样写
+	 */
+	public boolean C010_RegularExpressionMatching(String s, String p){
+		boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+		dp[0][0] = true;
+		for(int i = 0; i < p.length(); i++){
+			if(p.charAt(i) == '*' && dp[0][i - 1] == true){
+				dp[0][i + 1] = true;
+			}
+		}
+		for(int i = 0; i < s.length(); i++){
+			for(int j = 0; j < p.length(); j++){
+				if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'){
+					dp[i + 1][j + 1] = dp[i][j];
+				}
+				if(p.charAt(j) == '*'){
+					if(p.charAt(j - 1) != s.charAt(i) && p.charAt(j - 1) != '.'){
+						dp[i + 1][j + 1] = dp[i + 1][j - 1];
+					}
+					else{
+						dp[i + 1][j + 1] = dp[i + 1][j] || dp[i][j + 1] || dp[i + 1][j - 1];
+					}
+				}
+			}
+		}
+		return dp[s.length()][p.length()];
+	}
+
+	/**
+	 * @problem #11 Container With Most Water
+	 * @date 2017-11-23
+	 * 
+	 * Given n non-negative integers a1, a2, ..., an, 
+	 * where each represents a point at coordinate (i, ai). 
+	 * n vertical lines are drawn 
+	 * such that the two endpoints of line i is at (i, ai) and (i, 0). 
+	 * Find two lines, which together with x-axis forms a container, 
+	 * such that the container contains the most water.
+	 * Note: You may not slant the container and n is at least 2.
+	 * 
+	 * 最简单的用蛮力法就能解决
+	 * 可是当数据量大的时候 
+	 * 会因时间太长而不通过
+	 * 原因是存在很多不必要的计算
+	 * 解决方法就是从两边向中间逼近
+	 */
+	public int C011_ContainerWithMostWater(int[] height) {
+		int l = height.length;
+		int max = 0;
+		int i = 0;
+		int j = l - 1;
+		while(i < j){
+			int temp = Math.min(height[i], height[j]) * (j - i);
+			max = temp > max ? temp : max;
+			if(height[i] <= height[j]){
+				i++;
+			}
+			else{
+				j--;
+			}
+		}
+		return max;
+	}
+
+	/**
+	 * @problem #12 Integer to Roman
+	 * @date 2017-11-23
+	 */
+	public String C012_IntegerToRoman(int num){
+		String[] M = {"", "M", "MM", "MMM"};
+		String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+		String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+		String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+		return M[num / 1000] + C[(num % 1000) / 100] + X[(num % 100) / 10] + I[num % 10];
+	}
+
+	/**
+	 * @problem #13 Roman to Integer
+	 * @date 2017-11-23
+	 */
+	public int C013_RomanToInteger(String s) {
+		s = s + ' ';
+		int num = 0;
+		for(int i = 0; i < s.length() - 1; i++){
+			switch (s.charAt(i)) {
 			case 'M':
 				num += 1000;
 				break;
@@ -615,90 +593,575 @@ public class LeetCode {
 			default:
 				break;
 			}
+		}
+		return num;
+	}
+
+	/**
+	 * @problem #14 Longest Common Prefix
+	 * @date 2017-11-24
+	 * 
+	 * Write a function to find the longest common prefix string 
+	 * amongst an array of strings.
+	 * 
+	 * 用V2
+	 */
+	public String C014_LongestCommonPrefix(String[] strs) {
+		int l = strs.length;
+		if(l == 0 || strs == null){
+			return "";
+		}
+		if(l == 1){
+			return strs[0];
+		}
+		int i = 0;
+		int il = strs[0].length();
+		String result = "";
+		DL:
+			for(int k = 0; k < il; k++){
+				for(int j = 1; j < l; j++){
+					if(strs[j].length() < k + 1){
+						break DL;
+					}
+					if(strs[0].charAt(k) != strs[j].charAt(k)){
+						break DL;
+					}
+				}
+				result += strs[0].charAt(k);
+			}
+		return result;
+	}
+
+	/**
+	 * 2种思想的差异
+	 * 前者(自己想的)
+	 * 从第一个元素的第一个字符开始
+	 * 把每一个字符跟后续所有元素的相应字符比较
+	 * 只要有一个对不上
+	 * 就把之前的返回
+	 * 
+	 * 后者(别人的)
+	 * 直接从第2个元素比较第1个元素
+	 * 中间经过若干次对第一个元素的削减
+	 * 知道第一个元素削减成第2个元素的前缀
+	 * 再拿削减后的前缀去跟后续元素比较
+	 * 如果前缀不幸被削为空
+	 * 则证明没有LCS 返回空字符串
+	 * 
+	 * 如果把字符在元素上移动的方向说是横向
+	 * 把遍历元素的过程说是纵向
+	 * 则前者是先横再纵
+	 * 后者是先纵后横
+	 */
+
+	/**
+	 * indexOf值分3类
+	 * a) -1
+	 * 压根不包含
+	 * b) 0
+	 * 是前缀
+	 * c) 1,2,...
+	 * 包含但不是前缀
+	 */
+	public String C014_LongestCommonPrefix_V2(String[] strs) {
+		int l = strs.length;
+		if(l == 0){
+			return "";
+		}
+		String prefix = strs[0];
+		//让i从1开始有2个作用
+		//若数组中仅有一个元素 则直接返回 不进入for循环
+		//若数组中不止一个元素 进入循环 正常逻辑
+		for(int i = 1; i < l; i++){
+			//只要prefix不是前缀 就从后往前削
+			//直到是当前元素的前缀
+			//再把当前值给后边的数组元素食用
+			//不行就再削
+			//如果不幸被削完了 
+			//那就只能GG了 返回""
+			while(strs[i].indexOf(prefix) != 0){
+				prefix = prefix.substring(0, prefix.length() - 1);
+				if(prefix.isEmpty()){
+					return "";
+				}
+			}
+		}
+		return prefix;
+	}
+
+	/**
+	 * @problem #15 3Sum
+	 * @date 2017-11-24
+	 * 
+	 * Given an array S of n integers, 
+	 * are there elements a, b, c in S such that a + b + c = 0? 
+	 * Find all unique triplets in the array which gives the sum of zero.
+	 */
+	public List<List<Integer>> C015_3Sum(int[] nums) {
+		int l = nums.length;
+		List<List<Integer>> list = new ArrayList<>();
+		Arrays.sort(nums);
+		for(int i = 0; i < l - 2; i++){
+			if(i == 0 || (i > 0 && nums[i] != nums[i - 1])){
+				int j = i + 1;
+				int k = l - 1;
+				while(j < k){
+					if(nums[i] + nums[j] + nums[k] == 0){
+						list.add(Arrays.asList(nums[i], nums[j], nums[k]));
+						while(j < k && nums[j] == nums[j + 1]){
+							j++;
+						}
+						while(j < k && nums[k] == nums[k - 1]){
+							k--;
+						}
+						j++;
+						k--;
+					}
+					else if(nums[i] + nums[j] + nums[k] < 0){
+						j++;
+					}
+					else{
+						k--;
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * @problem #16 3Sum Closest
+	 * @date 2017-11-27
+	 * 
+	 * Given an array S of n integers, 
+	 * find three integers in S such that the sum is closest to a given number, target. 
+	 * Return the sum of the three integers. 
+	 * You may assume that each input would have exactly one solution.
+	 * 
+	 * 输入数组的长度不小于3
+	 * 跟#15的思想保持一致
+	 */
+	public int C016_3SumClosest(int[] nums, int target) {
+		Arrays.sort(nums);
+		int result = nums[0] + nums[1] + nums[2];
+		int m = Math.abs(result - target);
+		int l =nums.length;
+		DL:
+			for(int i = 0; i < l - 2; i++){
+				if(i == 0 || (i > 0 && i != i - 1)){
+					int j = i + 1;
+					int k = l - 1;
+					while(j < k){
+						if(nums[i] + nums[j] + nums[k] == target){
+							result = target;
+							break DL;
+						}
+						else if(nums[i] + nums[j] + nums[k] < target){
+							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
+								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
+								result = nums[i] + nums[j] + nums[k];
+							}
+							j++;
+							while(j < k && nums[j] == nums[j - 1]){
+								j++;
+							}
+						}
+						else{
+							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
+								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
+								result = nums[i] + nums[j] + nums[k];
+							}
+							k--;
+							while(j < k && nums[k] == nums[k + 1]){
+								k--;
+							}
+						}
+					}
+				}
+			}
+		return result;
+	}
+
+
+
+
+
+	/**
+	 * @problem #17 Letter Combinations of a Phone Number
+	 * @date 2017-11-27
+	 * 
+	 * Given a digit string, 
+	 * return all possible letter combinations that the number could represent.
+	 */
+	public List<String> C017_LetterCombinationsOfAPhoneNumber(String digits) {
+		LinkedList<String> res = new LinkedList<String>();
+		String[] mapping = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+		int l = digits.length();
+		//测试时会用空字符串
+		if(l == 0){
+			return res;
+		}
+		/**
+		 * 这里加个空字符串
+		 * 1是为了一开始peek()可用 体现在加了一个对象
+		 * 2是为了与i对应 体现在这个对象的长度是0
+		 */
+		res.add("");
+		for(int i = 0; i < l; i++){
+			//char类型的数字变成int
+			int x = Character.getNumericValue(digits.charAt(i));
+			//LinkedList相当于一个队列 先进先出 peek相当于头
+			//i的值 自己体会
+			while(res.peek().length() == i){
+				String remove = res.remove();
+				for(char c : mapping[x].toCharArray()){
+					res.add(remove + c);
+				}
+			}
+		}
+		return res;
+	}
+	
+	/**
+	 * @problem #18 4Sum
+	 * @date 2017-11-27
+	 * 
+	 * Given an array S of n integers, 
+	 * are there elements a, b, c, and d in S such that a + b + c + d = target? 
+	 * Find all unique quadruplets in the array which gives the sum of target.
+	 */
+	public List<List<Integer>> C018_4Sum(int[] nums, int target) {
+		List<List<Integer>> res = new ArrayList<>();
+		Arrays.sort(nums);
+		int l = nums.length;
+		for(int i = 0; i < l - 3; i++){
+			if(i == 0 || nums[i] != nums[i - 1]){
+				for(int m = l - 1; i < m; m--){
+					if(m == l - 1 || nums[m] != nums[m + 1]){
+						int j = i + 1;
+						int k = m - 1;
+						while(j < k){
+							if(nums[i] + nums[j] + nums[k] + nums[m] == target){
+								res.add(Arrays.asList(nums[i], nums[j], nums[k], nums[m]));
+								j++;
+								k--;
+								while(j < k && nums[j] == nums[j - 1]){
+									j++;
+								}
+								while(j < k && nums[k] == nums[k + 1]){
+									k--;
+								}
+							}
+							else if(nums[i] + nums[j] + nums[k] + nums[m] < target){
+								j++;
+							}
+							else{
+								k--;
+							}
+						}
+					}
+				}
+			}
+		}
+		return res;
+	}
+	
+	/**
+	 * @problem #19 Remove Nth Node From End of List
+	 * @date 2017-11-27
+	 * @reference ListNode.java
+	 * 
+	 * Given a linked list, 
+	 * remove the nth node from the end of list and return its head.
+	 */
+    public ListNode C019_RemoveNthNodeFromEndOfList(ListNode head, int n) {
+        int l = 1;
+        ListNode cursor = head;
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        while(cursor.next != null){
+        	l++;
+        	cursor = cursor.next;
+        }
+        cursor = head;
+        if(n == l){
+        	pre.next = head.next;
+        	head.next = null;
+        }
+        else{
+        	for(int i = 1; i < l - n; i++){
+        		cursor = cursor.next;
+        	}
+        	cursor.next = cursor.next.next;
+        }
+        return pre.next;
+    }
+    
+    
+    /**
+     * @problem #20 Valid Parentheses
+     * @date 2017-11-27
+     * 
+     * Given a string containing just the characters '(', ')', '{', '}', '[' and ']', 
+     * determine if the input string is valid.
+     * The brackets must close in the correct order, "()" and "()[]{}" are all valid 
+     * but "(]" and "([)]" are not.
+     * 
+     * 用V3
+     */
+    public boolean C020_ValidParentheses(String s) {
+    	LinkedList<Character> list = new LinkedList<>();
+    	int l = s.length();
+    	int count = 0;
+    	for(int i = 0; i < l; i++){
+    		switch (s.charAt(i)) {
+			case '(':
+				list.add('(');
+				count++;
+				break;
+			case '{':
+				list.add('{');
+				count++;
+				break;
+			case '[':
+				list.add('[');
+				count++;
+				break;
+			case ')':
+				if(list.indexOf('(') >= 0){
+					while(list.peekLast() != '('){
+						list.removeLast();
+					}
+					list.removeLast();
+					count--;
+				}
+				else{
+					return false;
+				}
+				break;
+			case '}':
+				if(list.indexOf('{') >= 0){
+					while(list.peekLast() != '{'){
+						list.removeLast();
+					}
+					list.removeLast();
+					count--;
+				}
+				else{
+					return false;
+				}
+				break;
+			case ']':
+				if(list.indexOf('[') >= 0){
+					while(list.peekLast() != '['){
+						list.removeLast();
+					}
+					list.removeLast();
+					count--;
+				}
+				else{
+					return false;
+				}
+				break;
+			default:
+				break;
+			}
     	}
-    	return num;
+    	if(count == 0){
+    		return true;
+    	}
+    	return false;
     }
     
     /**
-     * @problem #138 Copy List with Random Pointer
-     * @date 2017-11-23
-     * @reference util/RandomListNode.java
-     * 
-     * A linked list is given such that 
-     * each node contains an additional random pointer 
-     * which could point to any node in the list or null.
-     * Return a deep copy of the list.
-     * 
+     * 按V3的思路修改
      */
-    public RandomListNode C138_CopyListWithRandomPointer(){
-    	RandomListNode head = new RandomListNode(3);
-    	RandomListNode cursor = head;
-    	RandomListNode next;
-    	//在每个节点后边(next)都加上自身的复制
-    	//并指向复制 让复制指向原来自己的指向
-    	//Round 1
-    	while(cursor != null){
-    		//next表示原链表中当前节点真实的next指向
-    		next = cursor.next;
-    		//创建复制节点 注意参数是由cursor得来的
-    		RandomListNode copy = new RandomListNode(cursor.label);
-    		//改变原链表当前节点的next指向 指向自身的复制
-    		cursor.next = copy;
-    		//让自身复制next指向原链表中自身的next指向
-    		copy.next = next;
-    		//跳到下一个要处理的节点
-    		cursor = next;
+    public boolean C020_ValidParentheses_V2(String s) {
+    	LinkedList<Character> list = new LinkedList<>();
+    	int l = s.length();
+    	for(int i = 0; i < l; i++){
+    		switch (s.charAt(i)) {
+			    case '(':
+				    list.add(')');
+				    break;
+			    case '{':
+				    list.add('}');
+				    break;
+			    case '[':
+				    list.add(']');
+				    break;
+			    case ')':
+                    if(list.size() == 0 || list.peekLast() != ')'){
+                        return false;
+                    }
+                    else{
+                        list.removeLast();
+                    }
+                    break;
+			    case '}':
+                    if(list.size() == 0 || list.peekLast() != '}'){
+                        return false;
+                    }
+                    else{
+                        list.removeLast();
+                    }
+                    break;
+			    case ']':
+                    if(list.size() == 0 || list.peekLast() != ']'){
+                        return false;
+                    }
+                    else{
+                        list.removeLast();
+                    }
+                    break;
+			    default:
+				    break;
+			}
     	}
-    	//重新来 这次处理random
-    	cursor = head;
-    	//Round 2 
-    	while(cursor != null){
-    		//要对复制的random赋值
-    		//赋的值是源节点random的赋值 也就是其如今的next
-    		//但原来的如果就是null的话 就不处理random了
-    		if(cursor.random != null){
-    			cursor.next.random = cursor.random.next;
-    		}
-    		//跳到下一个要处理的节点
-    		cursor = cursor.next.next;
+    	if(list.size() != 0){
+    		return false;
     	}
-    	//next和random指向都做好了 
-    	//把当前链表拆成原链表和复制好的链表
-    	//当然拆是按next拆的 
-    	//为啥不考虑random
-    	//因为没有动过random在原链表中的指向
-    	//所以不用管
-    	cursor = head;
-    	//cursor毕竟只是相当于索引 要来回变
-    	//所以需要一个新节点来引导复制到好的链表
-    	//这个节点的值是随便赋的
-    	RandomListNode fr = new RandomListNode(0);
-    	//应该也有一个相当于fr的cursor
-    	//这里需要2个
-    	//cr1 相当于 先锋游标 是找节点的 出身随意
-    	RandomListNode cr1;
-    	//cr2相当于 大部队 ，必须从指挥部(fr)出发 跟着cr1走 
-    	//cr1到哪 cr2就先指向cr1 再跟cr1会合
-    	RandomListNode cr2 = fr;
-    	//开始探索
-    	//Round 3
-    	while(cursor != null){
-    		//next依然是原链表中当前链表的真实的next指向
-    		next = cursor.next.next;
-     		//第一个爬到复制上
-    		cr1 = cursor.next;
-    		//第二个 也就是 新起点 next指向cr1
-    		//这个连接不能由fr建立 所以cr2必须和fr出身相同
-    		cr2.next = cr1;
-    		//第二个也爬到当前复制上
-    		//指向由fr保留
-    		cr2 = cr1;
-    		//还原原链表指向
-    		cursor.next = next;
-    		//跳到下一个节点
-    		cursor = next;
-    	}
-    	//指挥部指向的第一个节点 就是要返回的
-    	return fr.next;
+    	return true;
     }
+    /**
+     * 用Stack
+     */
+    public boolean C020_ValidParentheses_V3(String s) {
+    	Stack<Character> stack = new Stack<>();
+    	for(char c : s.toCharArray()){
+    		if(c == '('){
+    			stack.push(')');
+    		}
+    		else if(c == '{'){
+    			stack.push('}');
+    		}
+    		else if(c == '['){
+    			stack.push(']');
+    		}
+    		/** 
+    		 * pop前一定要考虑栈是否为空
+    		 * 若为空 借助||的短路 直接就不用pop了
+    		 * 直接判错 例如 ']' 左是进不到这个判断条件的
+    		 * 
+    		 * pop的作用
+    		 * 如果输入了一个右 想要判断为正确
+    		 * 那么栈顶一定为相应的左
+    		 * [{] 
+    		 * [{}]
+    		 */
+    		else if(stack.isEmpty() || stack.pop() != c){
+    			return false;
+    		}
+    	}
+    	return stack.isEmpty();
+    }
+    
+	/**
+	 * @problem #138 Copy List with Random Pointer
+	 * @date 2017-11-23
+	 * @reference RandomListNode.java
+	 * 
+	 * A linked list is given such that 
+	 * each node contains an additional random pointer 
+	 * which could point to any node in the list or null.
+	 * Return a deep copy of the list.
+	 * 
+	 */
+	public RandomListNode C138_CopyListWithRandomPointer(RandomListNode head){
+		RandomListNode cursor = head;
+		RandomListNode next;
+		//在每个节点后边(next)都加上自身的复制
+		//并指向复制 让复制指向原来自己的指向
+		//Round 1
+		while(cursor != null){
+			//next表示原链表中当前节点真实的next指向
+			next = cursor.next;
+			//创建复制节点 注意参数是由cursor得来的
+			RandomListNode copy = new RandomListNode(cursor.label);
+			//改变原链表当前节点的next指向 指向自身的复制
+			cursor.next = copy;
+			//让自身复制next指向原链表中自身的next指向
+			copy.next = next;
+			//跳到下一个要处理的节点
+			cursor = next;
+		}
+		//重新来 这次处理random
+		cursor = head;
+		//Round 2 
+		while(cursor != null){
+			//要对复制的random赋值
+			//赋的值是源节点random的赋值 也就是其如今的next
+			//但原来的如果就是null的话 就不处理random了
+			if(cursor.random != null){
+				cursor.next.random = cursor.random.next;
+			}
+			//跳到下一个要处理的节点
+			cursor = cursor.next.next;
+		}
+		//next和random指向都做好了 
+		//把当前链表拆成原链表和复制好的链表
+		//当然拆是按next拆的 
+		//为啥不考虑random
+		//因为没有动过random在原链表中的指向
+		//所以不用管
+		cursor = head;
+		//cursor毕竟只是相当于索引 要来回变
+		//所以需要一个新节点来引导复制到好的链表
+		//这个节点的值是随便赋的
+		RandomListNode fr = new RandomListNode(0);
+		//应该也有一个相当于fr的cursor
+		//这里需要2个
+		//cr1 相当于 先锋游标 是找节点的 出身随意
+		RandomListNode cr1;
+		//cr2相当于 大部队 ，必须从指挥部(fr)出发 跟着cr1走 
+		//cr1到哪 cr2就先指向cr1 再跟cr1会合
+		RandomListNode cr2 = fr;
+		//开始探索
+		//Round 3
+		while(cursor != null){
+			//next依然是原链表中当前链表的真实的next指向
+			next = cursor.next.next;
+			//第一个爬到复制上
+			cr1 = cursor.next;
+			//第二个 也就是 新起点 next指向cr1
+			//这个连接不能由fr建立 所以cr2必须和fr出身相同
+			cr2.next = cr1;
+			//第二个也爬到当前复制上
+			//指向由fr保留
+			cr2 = cr1;
+			//还原原链表指向
+			cursor.next = next;
+			//跳到下一个节点
+			cursor = next;
+		}
+		//指挥部指向的第一个节点 就是要返回的
+		return fr.next;
+	}
+
+
+	/**
+	 * @problem #237 Delete Node in a Linked List
+	 * @date 2017-11-24
+	 * @reference ListNode.java
+	 * 
+	 * Write a function to delete a node (except the tail) in a singly linked list, 
+	 * given only access to that node.
+	 * Supposed the linked list is 1 -> 2 -> 3 -> 4 
+	 * and you are given the third node with value 3, 
+	 * the linked list should become 1 -> 2 -> 4 after calling your function.
+	 */
+	public void C237_DeleteNodeInALinkedList(ListNode node) {
+		ListNode next = node.next;
+		node.next = next.next;
+		node.val = next.val;
+		next.next = null;
+	}
+
+
+	@Test
+	public void z(){
+	}
+	
+
+
 }

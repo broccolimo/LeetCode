@@ -1,7 +1,7 @@
 package util;
 
 /**
- * @target jy.LeetCode.C138_CopyListWithRandomPointer()
+ * @target C138_CopyListWithRandomPointer
  * @author broccoli
  *
  */
