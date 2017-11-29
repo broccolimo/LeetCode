@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
+
+import javax.annotation.Resource;
 
 import org.junit.Test;
 
@@ -748,6 +749,7 @@ public class LeetCode {
 		int l =nums.length;
 		DL:
 			for(int i = 0; i < l - 2; i++){
+				//过滤重复数字 i==0是例外
 				if(i == 0 || (i > 0 && i != i - 1)){
 					int j = i + 1;
 					int k = l - 1;
@@ -756,22 +758,26 @@ public class LeetCode {
 							result = target;
 							break DL;
 						}
+						//和比目标小 j要加
 						else if(nums[i] + nums[j] + nums[k] < target){
 							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
 								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
 								result = nums[i] + nums[j] + nums[k];
 							}
 							j++;
+							//过滤重复数字
 							while(j < k && nums[j] == nums[j - 1]){
 								j++;
 							}
 						}
+						//和比目标大 k要减
 						else{
 							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
 								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
 								result = nums[i] + nums[j] + nums[k];
 							}
 							k--;
+							//过滤重复数字
 							while(j < k && nums[k] == nums[k + 1]){
 								k--;
 							}
@@ -835,19 +841,25 @@ public class LeetCode {
 		Arrays.sort(nums);
 		int l = nums.length;
 		for(int i = 0; i < l - 3; i++){
+			//i为头 总循环为i的移动 if过滤重复数字
 			if(i == 0 || nums[i] != nums[i - 1]){
 				for(int m = l - 1; i < m; m--){
+					//m是尾 且对于每个i都是尾 每次都由m向i逼近 总宏观控制为i和m
+					//if过滤重复数字
 					if(m == l - 1 || nums[m] != nums[m + 1]){
 						int j = i + 1;
 						int k = m - 1;
+						//j k为每次宏观控制下的活动元素 遍历宏观规定的内容
 						while(j < k){
 							if(nums[i] + nums[j] + nums[k] + nums[m] == target){
 								res.add(Arrays.asList(nums[i], nums[j], nums[k], nums[m]));
 								j++;
 								k--;
+								//过滤重复数字
 								while(j < k && nums[j] == nums[j - 1]){
 									j++;
 								}
+								//过滤重复数字
 								while(j < k && nums[k] == nums[k + 1]){
 									k--;
 								}
@@ -1056,6 +1068,154 @@ public class LeetCode {
     	return stack.isEmpty();
     }
     
+    /**
+     * @problem #21 Merge Two Sorted Lists
+     * @date 2017-11-28
+     * 
+     * Merge two sorted linked lists and return it as a new list. 
+     * The new list should be made by splicing together the nodes of 
+     * the first two lists.
+     * 
+     * 默认排序是从小到大
+     * 不排除空链表的情况
+     * 时间超时要转变方法 用递归(recursion)
+     */
+    public ListNode C021_MergeTwoSortedLists(ListNode l1, ListNode l2) {
+    	if(l1 == null){
+    		return l2;
+    	}
+    	if(l2 == null){
+    		return l1;
+    	}
+    	if(l1.val <= l2.val){
+    		l1.next = C021_MergeTwoSortedLists(l1.next, l2);
+    		return l1;
+    	}
+    	else{
+    		l2.next = C021_MergeTwoSortedLists(l1, l2.next);
+    		return l2;
+    	}
+    }
+    
+    /**
+     * @problem #22 Generate Parentheses
+     * @date 2017-11-28
+     * 
+     * Given n pairs of parentheses, 
+     * write a function to generate all combinations of well-formed parentheses.
+     */
+	public List<String> C022_GenerateParentheses(int n){
+		List<String> res = new ArrayList<>();
+		C022_r(res, "", n, n);
+		return res;
+	}
+	
+	public void C022_r(List<String> list, String s, int left, int right){
+		if(left < 0 || right < 0 || left > right){
+			return;
+		}
+		if(left == 0 && right == 0){
+			list.add(s);
+		}
+		//加一个左括号
+		C022_r(list, s + "(", left - 1, right);
+		//加一个右括号
+		C022_r(list, s + ")", left, right - 1);
+	}
+	
+	
+	/**
+	 * @problem #23 Merge k Sorted Lists
+	 * @date 2017-11-29
+	 * 
+	 * Merge k sorted linked lists and return it as one sorted list. 
+	 * Analyze and describe its complexity.
+	 * 
+	 * 总的思想是归并(分治)
+	 * 
+	 * 时间复杂度(不考虑系数)
+	 * 假设一共有k个链表 共n个节点
+	 * while执行的次数为O(logk)
+	 * 对于每一次归并
+	 * for执行的次数为O(k)
+	 * 每次都是O(n)个节点在比较大小 所以每次比较的时间复杂度为O(n)
+	 * 总的时间复杂度=O(logk)*O(k)*O(n)=O(nklogk)
+	 * 
+	 * 错误思想：
+	 * 不应该从头开始 由小及大一次串成一个链表
+	 * 而应该每2个链表合并 最后合并成一个单一链表  即为所求
+	 */
+	public ListNode C023_MergeKSortedLists(ListNode[] lists) {
+		if(lists == null){
+			return null;
+		}
+		int len = lists.length;
+		if(len == 0){
+			return null;
+		}
+		if(len == 1){
+			return lists[0];
+		}
+		//数组的长度是几就代表剩几个链表没有合并
+		while(len > 1){
+			//mid代表跨度 也代表合并后剩余的链表个数
+			//0 1 => 01 => 1 1
+			//0 1 2 => 02 1 => 2 2
+			//0 1 2 3 => 02 13 =>差为2 最后也剩2个
+			//0 1 2 3 4 => 03 14 2 => 3 3
+			//0 1 2 3 4 5 => 03 14 25 => 3 3
+			int mid = (len + 1) / 2;
+			for(int i = 0 ; i < len / 2; i++){
+				lists[i] = C023_r1(lists[i], lists[i + mid]);
+				//lists[i] = C023_r2(lists[i], lists[i + mid]);
+			}
+			len = mid;
+		}
+		return lists[0];
+    }
+	
+	//合并2个链表 不难吧。。
+	//递归也好 循环也好
+	//r1 用递归 r2 用循环
+	public ListNode C023_r1(ListNode l1, ListNode l2){
+		if(l1 == null) return l2;
+		if(l2 == null) return l1;
+		if(l1.val <= l2.val){
+			l1.next = C023_r1(l1.next, l2);
+			return l1;
+		}
+		else{
+			l2.next = C023_r1(l1, l2.next);
+			return l2;
+		}
+	}
+	
+	public ListNode C023_r2(ListNode l1, ListNode l2){
+		if(l1 == null) return l2;
+		if(l2 == null) return l1;
+		ListNode source = new ListNode(0);
+		ListNode cursor = source;
+		while(l1 != null && l2 != null){
+			if(l1.val <= l2.val){
+				cursor.next = l1;
+				cursor = cursor.next;
+				l1 = l1.next;
+			}
+			else{
+				cursor.next = l2;
+				cursor = cursor.next;
+				l2 = l2.next;
+			}
+		}
+		if(l1 != null){
+			cursor.next = l1;
+		}
+		if(l2 != null){
+			cursor.next = l2;
+		}
+		return source.next;
+	}
+	
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -1156,12 +1316,4 @@ public class LeetCode {
 		node.val = next.val;
 		next.next = null;
 	}
-
-
-	@Test
-	public void z(){
-	}
-	
-
-
 }
