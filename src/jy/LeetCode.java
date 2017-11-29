@@ -10,8 +10,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
-import javax.annotation.Resource;
-
 import org.junit.Test;
 
 import util.ListNode;
@@ -1216,6 +1214,121 @@ public class LeetCode {
 		return source.next;
 	}
 	
+	/**
+	 * @problem #24 Swap Nodes in Pairs
+	 * @date 2017-11-29
+	 * 
+	 * Given a linked list, swap every two adjacent nodes and return its head.
+	 */
+    public ListNode C024_SwapNodesInPairs(ListNode head) {
+    	//本身就是空 或者 只有1个节点
+        if(head == null || head.next == null){
+        	return head;
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode cursor = dummy;
+        dummy.next = head;
+        while(cursor.next != null && cursor.next.next != null){
+        	ListNode l1 = cursor.next;
+        	ListNode l2 = cursor.next.next;
+        	l1.next = l2.next;
+        	cursor.next = l2;
+        	l2.next = l1;
+        	cursor = l1;
+        }
+        return dummy.next;
+    }
+    
+    /**
+     * @problem #26 Remove Duplicates from Sorted Array
+     * @date 2017-11-29
+     * 
+     * Given a sorted array, 
+     * remove the duplicates in-place such that 
+     * each element appear only once and return the new length.
+     * Do not allocate extra space for another array, 
+     * you must do this by modifying the input array in-place with O(1) extra memory.
+     */
+    public int C026_RemoveDuplicatesFromSortedArray(int[] nums) {
+        int len = nums.length;
+        if(len == 0) return 0;
+        if(len == 1) return 1;
+        int i = 0;
+        for(int j = 1; j < len; j++){
+        	if(nums[j] != nums[i]){
+        		nums[++i] = nums[j];
+        	}
+        }
+        return i + 1;
+    }
+    
+    
+   /**
+    * @problem #27 Remove Element
+    * @date 2017-11-29
+    * 
+    * Given an array and a value, 
+    * remove all instances of that value in-place and return the new length.
+    * Do not allocate extra space for another array, 
+    * you must do this by modifying the input array in-place with O(1) extra memory.
+    * The order of elements can be changed. 
+    * It doesn't matter what you leave beyond the new length.
+    */
+    public int C027_RemoveElement(int[] nums, int val) {
+        int len = nums.length;
+        if(len == 0) return 0;
+        if(len == 1) return nums[0] == val ? 0 : 1;
+        int i = 0;
+        int j = len;
+        while(i < j){
+        	if(nums[i] == val){
+        		int temp = nums[i];
+        		nums[i] = nums[j - 1];
+        		nums[j - 1] = temp;
+        		j--;
+        	}
+        	else{
+        		i++;
+        	}
+        }
+        if(nums[0] == val){
+        	return 0;
+        }
+        return i;
+    }
+    
+    
+    /**
+     * @problem #28 Implement strStr()
+     * @date 2017-11-29
+     * 
+     * Return the index of the first occurrence of needle in haystack, 
+     * or -1 if needle is not part of haystack.
+     * 
+     * 暴力匹配法
+     * 需要优化用KMP
+     */
+    public int C028_ImplementStrStr(String haystack, String needle) {
+    	int i = 0;
+    	int j = 0;
+    	int hl = haystack.length();
+    	int nl = needle.length();
+    	while(i < hl && j < nl){
+    		if(haystack.charAt(i) == needle.charAt(j)){
+    			i++;
+    			j++;
+    		}
+    		else{
+    			i = i - j + 1;
+    			j = 0;
+    		}
+    	}
+    	if(j == nl){
+    		return i - j;
+    	}
+    	return -1;
+    }
+    
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
