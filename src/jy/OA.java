@@ -18,9 +18,4 @@ public class OA {
 		}
 	}
 	
-	@Test
-	public void z(){
-		String s = "(()(";
-		System.out.println(s.lastIndexOf(")("));
-	}
 }

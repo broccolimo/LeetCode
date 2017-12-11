@@ -6,11 +6,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
 import org.junit.Test;
+
+import com.sun.accessibility.internal.resources.accessibility;
+import com.sun.javafx.image.impl.IntArgb;
+import com.sun.org.apache.bcel.internal.generic.ISTORE;
 
 import util.ListNode;
 import util.RandomListNode;
@@ -22,6 +27,14 @@ import util.Utils;
  */
 @SuppressWarnings("all")
 public class LeetCode {
+	/**
+	 * 也许一开始是一片荒芜
+	 * 可能也知道如何去绿化
+	 * 
+	 * 那就走吧
+	 * 走着见的多了
+	 * 自然就会了
+	 */
 	/**
 	 * description
 	 * Given an array of integers, 
@@ -825,7 +838,7 @@ public class LeetCode {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * @problem #18 4Sum
 	 * @date 2017-11-27
@@ -875,7 +888,7 @@ public class LeetCode {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * @problem #19 Remove Nth Node From End of List
 	 * @date 2017-11-27
@@ -884,47 +897,47 @@ public class LeetCode {
 	 * Given a linked list, 
 	 * remove the nth node from the end of list and return its head.
 	 */
-    public ListNode C019_RemoveNthNodeFromEndOfList(ListNode head, int n) {
-        int l = 1;
-        ListNode cursor = head;
-        ListNode pre = new ListNode(0);
-        pre.next = head;
-        while(cursor.next != null){
-        	l++;
-        	cursor = cursor.next;
-        }
-        cursor = head;
-        if(n == l){
-        	pre.next = head.next;
-        	head.next = null;
-        }
-        else{
-        	for(int i = 1; i < l - n; i++){
-        		cursor = cursor.next;
-        	}
-        	cursor.next = cursor.next.next;
-        }
-        return pre.next;
-    }
-    
-    
-    /**
-     * @problem #20 Valid Parentheses
-     * @date 2017-11-27
-     * 
-     * Given a string containing just the characters '(', ')', '{', '}', '[' and ']', 
-     * determine if the input string is valid.
-     * The brackets must close in the correct order, "()" and "()[]{}" are all valid 
-     * but "(]" and "([)]" are not.
-     * 
-     * 用V3
-     */
-    public boolean C020_ValidParentheses(String s) {
-    	LinkedList<Character> list = new LinkedList<>();
-    	int l = s.length();
-    	int count = 0;
-    	for(int i = 0; i < l; i++){
-    		switch (s.charAt(i)) {
+	public ListNode C019_RemoveNthNodeFromEndOfList(ListNode head, int n) {
+		int l = 1;
+		ListNode cursor = head;
+		ListNode pre = new ListNode(0);
+		pre.next = head;
+		while(cursor.next != null){
+			l++;
+			cursor = cursor.next;
+		}
+		cursor = head;
+		if(n == l){
+			pre.next = head.next;
+			head.next = null;
+		}
+		else{
+			for(int i = 1; i < l - n; i++){
+				cursor = cursor.next;
+			}
+			cursor.next = cursor.next.next;
+		}
+		return pre.next;
+	}
+
+
+	/**
+	 * @problem #20 Valid Parentheses
+	 * @date 2017-11-27
+	 * 
+	 * Given a string containing just the characters '(', ')', '{', '}', '[' and ']', 
+	 * determine if the input string is valid.
+	 * The brackets must close in the correct order, "()" and "()[]{}" are all valid 
+	 * but "(]" and "([)]" are not.
+	 * 
+	 * 用V3
+	 */
+	public boolean C020_ValidParentheses(String s) {
+		LinkedList<Character> list = new LinkedList<>();
+		int l = s.length();
+		int count = 0;
+		for(int i = 0; i < l; i++){
+			switch (s.charAt(i)) {
 			case '(':
 				list.add('(');
 				count++;
@@ -976,138 +989,138 @@ public class LeetCode {
 			default:
 				break;
 			}
-    	}
-    	if(count == 0){
-    		return true;
-    	}
-    	return false;
-    }
-    
-    /**
-     * 按V3的思路修改
-     */
-    public boolean C020_ValidParentheses_V2(String s) {
-    	LinkedList<Character> list = new LinkedList<>();
-    	int l = s.length();
-    	for(int i = 0; i < l; i++){
-    		switch (s.charAt(i)) {
-			    case '(':
-				    list.add(')');
-				    break;
-			    case '{':
-				    list.add('}');
-				    break;
-			    case '[':
-				    list.add(']');
-				    break;
-			    case ')':
-                    if(list.size() == 0 || list.peekLast() != ')'){
-                        return false;
-                    }
-                    else{
-                        list.removeLast();
-                    }
-                    break;
-			    case '}':
-                    if(list.size() == 0 || list.peekLast() != '}'){
-                        return false;
-                    }
-                    else{
-                        list.removeLast();
-                    }
-                    break;
-			    case ']':
-                    if(list.size() == 0 || list.peekLast() != ']'){
-                        return false;
-                    }
-                    else{
-                        list.removeLast();
-                    }
-                    break;
-			    default:
-				    break;
+		}
+		if(count == 0){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 按V3的思路修改
+	 */
+	public boolean C020_ValidParentheses_V2(String s) {
+		LinkedList<Character> list = new LinkedList<>();
+		int l = s.length();
+		for(int i = 0; i < l; i++){
+			switch (s.charAt(i)) {
+			case '(':
+				list.add(')');
+				break;
+			case '{':
+				list.add('}');
+				break;
+			case '[':
+				list.add(']');
+				break;
+			case ')':
+				if(list.size() == 0 || list.peekLast() != ')'){
+					return false;
+				}
+				else{
+					list.removeLast();
+				}
+				break;
+			case '}':
+				if(list.size() == 0 || list.peekLast() != '}'){
+					return false;
+				}
+				else{
+					list.removeLast();
+				}
+				break;
+			case ']':
+				if(list.size() == 0 || list.peekLast() != ']'){
+					return false;
+				}
+				else{
+					list.removeLast();
+				}
+				break;
+			default:
+				break;
 			}
-    	}
-    	if(list.size() != 0){
-    		return false;
-    	}
-    	return true;
-    }
-    /**
-     * 用Stack
-     */
-    public boolean C020_ValidParentheses_V3(String s) {
-    	Stack<Character> stack = new Stack<>();
-    	for(char c : s.toCharArray()){
-    		if(c == '('){
-    			stack.push(')');
-    		}
-    		else if(c == '{'){
-    			stack.push('}');
-    		}
-    		else if(c == '['){
-    			stack.push(']');
-    		}
-    		/** 
-    		 * pop前一定要考虑栈是否为空
-    		 * 若为空 借助||的短路 直接就不用pop了
-    		 * 直接判错 例如 ']' 左是进不到这个判断条件的
-    		 * 
-    		 * pop的作用
-    		 * 如果输入了一个右 想要判断为正确
-    		 * 那么栈顶一定为相应的左
-    		 * [{] 
-    		 * [{}]
-    		 */
-    		else if(stack.isEmpty() || stack.pop() != c){
-    			return false;
-    		}
-    	}
-    	return stack.isEmpty();
-    }
-    
-    /**
-     * @problem #21 Merge Two Sorted Lists
-     * @date 2017-11-28
-     * 
-     * Merge two sorted linked lists and return it as a new list. 
-     * The new list should be made by splicing together the nodes of 
-     * the first two lists.
-     * 
-     * 默认排序是从小到大
-     * 不排除空链表的情况
-     * 时间超时要转变方法 用递归(recursion)
-     */
-    public ListNode C021_MergeTwoSortedLists(ListNode l1, ListNode l2) {
-    	if(l1 == null){
-    		return l2;
-    	}
-    	if(l2 == null){
-    		return l1;
-    	}
-    	if(l1.val <= l2.val){
-    		l1.next = C021_MergeTwoSortedLists(l1.next, l2);
-    		return l1;
-    	}
-    	else{
-    		l2.next = C021_MergeTwoSortedLists(l1, l2.next);
-    		return l2;
-    	}
-    }
-    
-    /**
-     * @problem #22 Generate Parentheses
-     * @date 2017-11-28
-     * 
-     * Given n pairs of parentheses, 
-     * write a function to generate all combinations of well-formed parentheses.
-     */
+		}
+		if(list.size() != 0){
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 用Stack
+	 */
+	public boolean C020_ValidParentheses_V3(String s) {
+		Stack<Character> stack = new Stack<>();
+		for(char c : s.toCharArray()){
+			if(c == '('){
+				stack.push(')');
+			}
+			else if(c == '{'){
+				stack.push('}');
+			}
+			else if(c == '['){
+				stack.push(']');
+			}
+			/** 
+			 * pop前一定要考虑栈是否为空
+			 * 若为空 借助||的短路 直接就不用pop了
+			 * 直接判错 例如 ']' 左是进不到这个判断条件的
+			 * 
+			 * pop的作用
+			 * 如果输入了一个右 想要判断为正确
+			 * 那么栈顶一定为相应的左
+			 * [{] 
+			 * [{}]
+			 */
+			else if(stack.isEmpty() || stack.pop() != c){
+				return false;
+			}
+		}
+		return stack.isEmpty();
+	}
+
+	/**
+	 * @problem #21 Merge Two Sorted Lists
+	 * @date 2017-11-28
+	 * 
+	 * Merge two sorted linked lists and return it as a new list. 
+	 * The new list should be made by splicing together the nodes of 
+	 * the first two lists.
+	 * 
+	 * 默认排序是从小到大
+	 * 不排除空链表的情况
+	 * 时间超时要转变方法 用递归(recursion)
+	 */
+	public ListNode C021_MergeTwoSortedLists(ListNode l1, ListNode l2) {
+		if(l1 == null){
+			return l2;
+		}
+		if(l2 == null){
+			return l1;
+		}
+		if(l1.val <= l2.val){
+			l1.next = C021_MergeTwoSortedLists(l1.next, l2);
+			return l1;
+		}
+		else{
+			l2.next = C021_MergeTwoSortedLists(l1, l2.next);
+			return l2;
+		}
+	}
+
+	/**
+	 * @problem #22 Generate Parentheses
+	 * @date 2017-11-28
+	 * 
+	 * Given n pairs of parentheses, 
+	 * write a function to generate all combinations of well-formed parentheses.
+	 */
 	public List<String> C022_GenerateParentheses(int n){
 		List<String> res = new ArrayList<>();
 		C022_r(res, "", n, n);
 		return res;
 	}
-	
+
 	public void C022_r(List<String> list, String s, int left, int right){
 		if(left < 0 || right < 0 || left > right){
 			return;
@@ -1120,8 +1133,8 @@ public class LeetCode {
 		//加一个右括号
 		C022_r(list, s + ")", left, right - 1);
 	}
-	
-	
+
+
 	/**
 	 * @problem #23 Merge k Sorted Lists
 	 * @date 2017-11-29
@@ -1170,8 +1183,8 @@ public class LeetCode {
 			len = mid;
 		}
 		return lists[0];
-    }
-	
+	}
+
 	//合并2个链表 不难吧。。
 	//递归也好 循环也好
 	//r1 用递归 r2 用循环
@@ -1187,7 +1200,7 @@ public class LeetCode {
 			return l2;
 		}
 	}
-	
+
 	public ListNode C023_r2(ListNode l1, ListNode l2){
 		if(l1 == null) return l2;
 		if(l2 == null) return l1;
@@ -1213,122 +1226,686 @@ public class LeetCode {
 		}
 		return source.next;
 	}
-	
+
 	/**
 	 * @problem #24 Swap Nodes in Pairs
 	 * @date 2017-11-29
 	 * 
 	 * Given a linked list, swap every two adjacent nodes and return its head.
 	 */
-    public ListNode C024_SwapNodesInPairs(ListNode head) {
-    	//本身就是空 或者 只有1个节点
-        if(head == null || head.next == null){
-        	return head;
-        }
-        ListNode dummy = new ListNode(0);
-        ListNode cursor = dummy;
-        dummy.next = head;
-        while(cursor.next != null && cursor.next.next != null){
-        	ListNode l1 = cursor.next;
-        	ListNode l2 = cursor.next.next;
-        	l1.next = l2.next;
-        	cursor.next = l2;
-        	l2.next = l1;
-        	cursor = l1;
-        }
-        return dummy.next;
-    }
-    
-    /**
-     * @problem #26 Remove Duplicates from Sorted Array
-     * @date 2017-11-29
-     * 
-     * Given a sorted array, 
-     * remove the duplicates in-place such that 
-     * each element appear only once and return the new length.
-     * Do not allocate extra space for another array, 
-     * you must do this by modifying the input array in-place with O(1) extra memory.
-     */
-    public int C026_RemoveDuplicatesFromSortedArray(int[] nums) {
-        int len = nums.length;
-        if(len == 0) return 0;
-        if(len == 1) return 1;
-        int i = 0;
-        for(int j = 1; j < len; j++){
-        	if(nums[j] != nums[i]){
-        		nums[++i] = nums[j];
-        	}
-        }
-        return i + 1;
-    }
-    
-    
-   /**
-    * @problem #27 Remove Element
-    * @date 2017-11-29
-    * 
-    * Given an array and a value, 
-    * remove all instances of that value in-place and return the new length.
-    * Do not allocate extra space for another array, 
-    * you must do this by modifying the input array in-place with O(1) extra memory.
-    * The order of elements can be changed. 
-    * It doesn't matter what you leave beyond the new length.
-    */
-    public int C027_RemoveElement(int[] nums, int val) {
-        int len = nums.length;
-        if(len == 0) return 0;
-        if(len == 1) return nums[0] == val ? 0 : 1;
-        int i = 0;
-        int j = len;
-        while(i < j){
-        	if(nums[i] == val){
-        		int temp = nums[i];
-        		nums[i] = nums[j - 1];
-        		nums[j - 1] = temp;
-        		j--;
-        	}
-        	else{
-        		i++;
-        	}
-        }
-        if(nums[0] == val){
-        	return 0;
-        }
-        return i;
-    }
-    
-    
-    /**
-     * @problem #28 Implement strStr()
-     * @date 2017-11-29
-     * 
-     * Return the index of the first occurrence of needle in haystack, 
-     * or -1 if needle is not part of haystack.
-     * 
-     * 暴力匹配法
-     * 需要优化用KMP
-     */
-    public int C028_ImplementStrStr(String haystack, String needle) {
-    	int i = 0;
-    	int j = 0;
-    	int hl = haystack.length();
-    	int nl = needle.length();
-    	while(i < hl && j < nl){
-    		if(haystack.charAt(i) == needle.charAt(j)){
-    			i++;
-    			j++;
-    		}
-    		else{
-    			i = i - j + 1;
-    			j = 0;
-    		}
-    	}
-    	if(j == nl){
-    		return i - j;
-    	}
-    	return -1;
-    }
-    
+	public ListNode C024_SwapNodesInPairs(ListNode head) {
+		//本身就是空 或者 只有1个节点
+		if(head == null || head.next == null){
+			return head;
+		}
+		ListNode dummy = new ListNode(0);
+		ListNode cursor = dummy;
+		dummy.next = head;
+		while(cursor.next != null && cursor.next.next != null){
+			ListNode l1 = cursor.next;
+			ListNode l2 = cursor.next.next;
+			l1.next = l2.next;
+			cursor.next = l2;
+			l2.next = l1;
+			cursor = l1;
+		}
+		return dummy.next;
+	}
+
+	/**
+	 * @problem #26 Remove Duplicates from Sorted Array
+	 * @date 2017-11-29
+	 * 
+	 * Given a sorted array, 
+	 * remove the duplicates in-place such that 
+	 * each element appear only once and return the new length.
+	 * Do not allocate extra space for another array, 
+	 * you must do this by modifying the input array in-place with O(1) extra memory.
+	 */
+	public int C026_RemoveDuplicatesFromSortedArray(int[] nums) {
+		int len = nums.length;
+		if(len == 0) return 0;
+		if(len == 1) return 1;
+		int i = 0;
+		for(int j = 1; j < len; j++){
+			if(nums[j] != nums[i]){
+				nums[++i] = nums[j];
+			}
+		}
+		return i + 1;
+	}
+
+
+	/**
+	 * @problem #27 Remove Element
+	 * @date 2017-11-29
+	 * 
+	 * Given an array and a value, 
+	 * remove all instances of that value in-place and return the new length.
+	 * Do not allocate extra space for another array, 
+	 * you must do this by modifying the input array in-place with O(1) extra memory.
+	 * The order of elements can be changed. 
+	 * It doesn't matter what you leave beyond the new length.
+	 */
+	public int C027_RemoveElement(int[] nums, int val) {
+		int len = nums.length;
+		if(len == 0) return 0;
+		if(len == 1) return nums[0] == val ? 0 : 1;
+		int i = 0;
+		int j = len;
+		while(i < j){
+			if(nums[i] == val){
+				int temp = nums[i];
+				nums[i] = nums[j - 1];
+				nums[j - 1] = temp;
+				j--;
+			}
+			else{
+				i++;
+			}
+		}
+		if(nums[0] == val){
+			return 0;
+		}
+		return i;
+	}
+
+
+	/**
+	 * @problem #28 Implement strStr()
+	 * @date 2017-11-29
+	 * 
+	 * Return the index of the first occurrence of needle in haystack, 
+	 * or -1 if needle is not part of haystack.
+	 * 
+	 * 暴力匹配法
+	 */
+	public int C028_ImplementStrStr(String haystack, String needle) {
+		int i = 0;
+		int j = 0;
+		int hl = haystack.length();
+		int nl = needle.length();
+		while(i < hl && j < nl){
+			if(haystack.charAt(i) == needle.charAt(j)){
+				i++;
+				j++;
+			}
+			else{
+				i = i - j + 1;
+				j = 0;
+			}
+		}
+		if(j == nl){
+			return i - j;
+		}
+		return -1;
+	}
+
+	/**
+	 * 利用KMP的实现
+	 */
+	public int C028_ImplementStrStr_V2(String haystack, String needle) {
+		int hl = haystack.length();
+		int nl = needle.length();
+		if(nl == 0) return 0;
+		//求next数组
+		int[] next = new int[nl];
+		int j = 0;
+		int k = -1;
+		next[0] = -1;
+		while(j < nl - 1){
+			if(k == -1 || needle.charAt(j) == needle.charAt(k)){
+				next[++j] = ++k;
+			}
+			else{
+				k = next[k];
+			}
+		}
+		//
+		int i = 0;
+		j = 0;
+		while(i < hl && j < nl){
+			if(haystack.charAt(i) == needle.charAt(j)){
+				i++;
+				j++;
+			}
+			else{
+				if(next[j] == -1){
+					i++;
+					j = 0;
+				}
+				else{
+					j = next[j];
+				}
+			}
+		}
+		if(j == nl){
+			return i - j;
+		}
+		return -1;
+	}
+
+	/**
+	 * @problem #29 Divide Two Integers
+	 * @date 2017-11-30
+	 * 
+	 * Divide two integers without using multiplication, division and mod operator.
+	 * If it is overflow, return MAX_INT.
+	 * 
+	 * 除法的本质就是多次减法
+	 * 每次减的都是除数
+	 * 这样是可以的 但效率太低
+	 * 思路就是让每一次尽可能的去减多个除数
+	 * 最好的增长方式就是指数级增长
+	 * 用左移
+	 */
+	public int C029_DivideTwoIntegers(int dividend, int divisor) {
+		//返回MAX_INT的情况只有除数是0或者MIN_VALUE/-1
+		if(divisor == 0 || dividend == Integer.MIN_VALUE && divisor == -1) return Integer.MAX_VALUE;
+		boolean flag = dividend > 0 && divisor > 0 || dividend < 0 && divisor < 0 ? true : false;
+		long m = Math.abs((long)dividend);
+		long n = Math.abs((long)divisor);
+		int result = 0;
+		//m>=n代表什么 表示m至少包含一个n
+		while(m >= n){
+			//count表示移位 一开始不能移 所以初始化为0
+			int count = 0;
+			//看m是否包含1个n 2个n 4个n 8个n ...?
+			//若能 削减m 提高n的指数级
+			//若不能 再次比较削减后的m和n 再从1个n比较
+			while(m >= n << count){
+				//按1 2 4 8的方式计算结果
+				result += 1 << count;
+				m -= n << count;
+				count++;
+			}
+		}
+		return flag ? result : -result;
+	}
+
+
+	/**
+	 * @problem #30 Substring with Concatenation of All Words
+	 * @date 2017-12-01
+	 * 
+	 * You are given a string, s, and a list of words, words, 
+	 * that are all of the same length. 
+	 * Find all starting indices of substring(s) in s 
+	 * that is a concatenation of each word in words exactly once 
+	 * and without any intervening characters.
+	 */
+	public List<Integer> C030_SubstringWithConcatenationOfAllWords(String s, String[] words) {
+		final Map<String, Integer> map = new HashMap<>();
+		//把words里的值放入map中
+		//key是元素的值
+		//value是元素出现的次数
+		for(String word : words){
+			map.put(word, map.getOrDefault(word, 0) + 1);
+		}
+		List<Integer> result = new ArrayList<>();
+		//主串长度
+		int sl = s.length();
+		//数组里元素的个数
+		int num = words.length;
+		//每个元素的长度
+		int len = words[0].length();
+		//模式串的长度为num*len
+		//所以应该匹配sl - num * len + 1次
+		for(int i = 0; i < sl - num * len + 1; i++){
+			int j = 0;
+			Map<String, Integer> temp = new HashMap<>();
+			while(j < num){
+				//截取当前要匹配的主串上第j+1个长度为len的字串
+				String match = s.substring(i + j * len, i + (j + 1) * len);
+				//匹配上的
+				if(map.containsKey(match)){
+					temp.put(match, temp.getOrDefault(match, 0) + 1);
+					//防重复 
+					//例如 words中某元素只有一个 当前主串的字串上出现了第二个该元素
+					if(temp.get(match) > map.get(match)){
+						break;
+					}
+					else{
+						j++;
+					}
+				}
+				else{
+					break;
+				}
+			}
+			if(j == num){
+				result.add(i);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @problem #31 Next Permutation
+	 * @date 2017-12-04
+	 * 
+	 * Implement next permutation, 
+	 * which rearranges numbers into the lexicographically next 
+	 * greater permutation of numbers.
+	 * If such arrangement is not possible, 
+	 * it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+	 * The replacement must be in-place, do not allocate extra memory.
+	 * Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+	 * 1,2,3 → 1,3,2
+	 * 3,2,1 → 1,2,3
+	 * 1,1,5 → 1,5,1
+	 */
+	public void C031_NextPermutation(int[] nums) {
+		int l = nums.length;
+		int k = l - 1;
+		//从后往前找个下标k 该值小于其前边的数
+		//隐藏规律: k前边的那个元素就是刀口
+		while(k > 0){
+			if(nums[k - 1] < nums[k]) break;
+			else k--;
+		}
+		//若k=0 则说明整个数组排列为倒序 
+		//直接对全部进行reserve操作即可
+		//若k!=0 则先将k前边那个数与从k往后倒序第一个大于其的数交换
+		//之后再从k开始排序 reserve即可
+		if(k != 0){
+			for(int i = l - 1; i >= k; i--){
+				if(nums[i] > nums[k - 1]){
+					int temp = nums[i];
+					nums[i] = nums[k - 1];
+					nums[k - 1] = temp;
+					break;
+				}
+			}
+		}
+		C031_r1(nums, k, l - 1);
+	}
+
+	//由于要排序的数一定是从大到小排序的 所以只需要reserve
+	//C031_r1(nums, 0, nums.length - 1);
+	public void C031_r1(int[] nums, int left, int right){
+		while(left < right){
+			int temp = nums[left];
+			nums[left++] = nums[right];
+			nums[right--] = temp;
+		}
+	}
+
+	//温习一下 快速排序
+	//快排的思想是分治
+	//所以 分 是一个函数 治又是一个函数
+	//在 分 里边 用递归 
+	//分不分（也就是什么时候算分到头） 依赖于判断条件
+	public void C031_r2(int[] nums, int left, int right){
+		if(left < right){
+			int pos = C031_r3(nums, left, right);
+			C031_r2(nums, left, pos - 1);
+			C031_r2(nums, pos + 1, right);
+		}
+	}
+
+	//治
+	public int C031_r3(int[] nums, int left, int right){
+		int value = nums[right];
+		int pos = left;
+		for(int i = left; i < right; i++){
+			if(nums[i] <= value){
+				int temp = nums[i];
+				nums[i] = nums[pos];
+				nums[pos++] = temp;
+			}
+		}
+		nums[right] = nums[pos];
+		nums[pos] = value;
+		return pos;
+	}
+
+	/**
+	 * @problem #32 LongestValidParentheses
+	 * @date 2017-12-04
+	 * 
+	 * Given a string containing just the characters '(' and ')', 
+	 * find the length of the longest valid (well-formed) parentheses substring.
+	 * For "(()", the longest valid parentheses substring is "()", 
+	 * which has length = 2.
+	 * Another example is ")()())", 
+	 * where the longest valid parentheses substring is "()()", which has length = 4.
+	 * 
+	 * tmd是怎么想出来的
+	 */
+	public int C032_LongestValidParentheses(String s) {
+		LinkedList<Integer> stack = new LinkedList<>();
+		int result = 0;
+		stack.push(-1);
+		int l = s.length();
+		for(int i = 0; i < l; i++){
+			if(s.charAt(i) == ')' && stack.size() > 1 && s.charAt(stack.peek()) == '('){
+				stack.pop();
+				result = Math.max(result, i - stack.peek());
+			}
+			else{
+				stack.push(i);
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 * @problem #33 Search in Rotated Sorted Array
+	 * @date 2017-12-05
+	 * 
+	 * Suppose an array sorted in ascending order is rotated at 
+	 * some pivot unknown to you beforehand.
+	 * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+	 * You are given a target value to search. 
+	 * If found in the array return its index, otherwise return -1.
+	 * You may assume no duplicate exists in the array.
+	 * 
+	 * 二分查找也可以用循环 也可用递归
+	 * 这个仿照的是循环的二分查找
+	 * 通过移动2端的位置来确定mid的位置
+	 */
+	public int C033_SearchInRotatedSortedArray(int[] nums, int target) {
+		int min = 0;
+		int max = nums.length - 1;
+		while(min <= max){
+			int mid = (min + max) / 2;
+			if(nums[mid] == target) return mid;
+			if(nums[min] <= nums[mid]){
+				if(nums[min] <= target && target <= nums[mid]){
+					max--;
+				}
+				else{
+					min++;
+				}
+			}
+			else{
+				if(nums[mid] <= target && target <= nums[max]){
+					min++;
+				}
+				else{
+					max--;
+				}
+			}
+		} 
+		return -1;
+	}
+
+
+
+	/**
+	 * @problem #34 Search for a Range
+	 * @date 2017-12-05
+	 * 
+	 * Given an array of integers sorted in ascending order, 
+	 * find the starting and ending position of a given target value.
+	 * Your algorithm's runtime complexity must be in the order of O(log n).
+	 * If the target is not found in the array, return [-1, -1].
+	 * For example,
+	 * Given [5, 7, 7, 8, 8, 10] and target value 8,
+	 * return [3, 4].
+	 */
+	public int[] C034_SearchForARange(int[] nums, int target) {
+		int l = nums.length;
+		int[] notFound = {-1, -1};
+		if(l == 0) return notFound;
+		int lo = 0;
+		int hi = l - 1;
+		while(lo < hi){
+			int mid = (lo + hi) / 2;
+			if(target <= nums[mid]){
+				hi--;
+			}
+			else{
+				lo++;
+			}
+		}
+		if(nums[lo] != target) return notFound;
+		int k = lo + 1;
+		while(k < l){
+			if(nums[k] != target){
+				break;
+			}
+			k++;
+		}
+		int[] found = new int[2];
+		found[0] = lo;
+		found[1] = k - 1;
+		return found;
+	}
+
+	/**
+	 * @problem #35 Search Insert Position
+	 * @date 2017-12-05
+	 * 
+	 * Given a sorted array and a target value, 
+	 * return the index if the target is found. 
+	 * If not, return the index where it would be if it were inserted in order.
+	 * You may assume no duplicates in the array.
+	 */
+	public int C035_SearchInsertPosition(int[] nums, int target) {
+		int l = nums.length;
+		if(l == 0) return 0;
+		int lo = 0;
+		int hi = l - 1;
+		while(lo < hi){
+			int mid = (lo + hi) / 2;
+			if(target <= nums[mid]) hi = mid;
+			else lo = mid + 1;
+		}
+		if(target <= nums[lo]) return lo;
+		return lo + 1;
+	}
+
+	/**
+	 * @problem #36 Valid Sudoku
+	 * @date 2017-12-05
+	 * 
+	 * Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+	 * The Sudoku board could be partially filled, 
+	 * where empty cells are filled with the character '.'.
+	 */
+	public boolean C036_ValidSudoku(char[][] board) {
+		for(int i = 0; i < 9; i++){
+			HashSet<Character> row = new HashSet<>();
+			HashSet<Character> col = new HashSet<>();
+			HashSet<Character> cube = new HashSet<>();
+			int rowIndex = 3 * (i / 3);
+			int colIndex = 3 * (i % 3);
+			for(int j = 0; j < 9; j++){
+				if(board[i][j] != '.' && !row.add(board[i][j])) return false;
+				if(board[j][i] != '.' && !col.add(board[j][i])) return false;
+				if(board[rowIndex + j / 3][colIndex + j % 3] != '.' && !cube.add(board[rowIndex + j / 3][colIndex + j % 3]))
+					return false;
+			}
+		}
+		return true;
+	}
+
+
+	/**
+	 * @problem #37 Sudoku Solver
+	 * @date 2017-12-06
+	 * 
+	 * Write a program to solve a Sudoku puzzle by filling the empty cells.
+	 * Empty cells are indicated by the character '.'.
+	 * You may assume that there will be only one unique solution.
+	 */
+	public boolean C037_SudokuSolver(char[][] board) {
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				if(board[i][j] == '.'){
+					for(int k = 1; k <= 9; k++){
+						board[i][j] = (char) ('0' + k);
+						if(C037_r(board, i, j) && C037_SudokuSolver(board)) return true;
+						board[i][j] = '.';
+					}
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean C037_r(char[][] board, int x, int y){
+		for(int i = 0; i < 9; i++){
+			if(i != y && board[x][y] == board[x][i]) return false;
+		}
+		for(int i = 0; i < 9; i++){
+			if(i != x && board[x][y] == board[i][y]) return false;
+		}
+		for(int i = 3 * (x / 3) ; i <= 3 * (x / 3) + 2; i++){
+			for(int j = 3 * (y / 3); j <= 3 * (y / 3) + 2; j++){
+				if(i != x && j != y && board[x][y] == board[i][j]) return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @problem #38 Count and Say
+	 * @date 2017-12-06
+	 * 
+	 * 1 is read off as "one 1" or 11.
+	 * 11 is read off as "two 1s" or 21.
+	 * 21 is read off as "one 2, then one 1" or 1211.
+	 * Given an integer n, generate the nth term of the count-and-say sequence.
+	 */
+	public String C038_CountAndSay(int n) {
+		if(n == 1){
+			return "1";
+		}
+		else{
+			return C038_r(C038_CountAndSay(n - 1));
+		}
+	}
+
+	public String C038_r(String s){
+		List<Integer> list = new ArrayList<>();
+		int l = s.length();
+		for(int i = 0; i < l; i++){
+			if(i == 0 || s.charAt(i) != s.charAt(i - 1)){
+				list.add(1);
+				list.add(Integer.parseInt(String.valueOf(s.charAt(i))));
+			}
+			else{
+				list.set(list.size() - 2, list.get(list.size() - 2) + 1);
+			}
+		}
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < list.size(); i++){
+			sb.append(list.get(i));
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * @problem #39  Combination Sum
+	 * @date 2017-12-11
+	 * 
+	 * Given a set of candidate numbers (C) (without duplicates) and a target number (T), 
+	 * find all unique combinations in C where the candidate numbers sums to T.
+	 * The same repeated number may be chosen from C unlimited number of times.
+	 * Note:
+	 * All numbers (including target) will be positive integers.
+	 * The solution set must not contain duplicate combinations.
+	 * For example, given candidate set [2, 3, 6, 7] and target 7, 
+	 * A solution set is: 
+	 * [[7],[2, 2, 3]]
+	 * 
+	 * 注意点
+	 * 1.用于存放每个分支内容的容器不要用List,因为即使用定义一个对象等于它，改变这个对象仍然会改变它
+	 * 2.返回的类型最里边类型是Integer,处理过程中还用int类型的数组,最后手动转换,用java native方法会出问题
+	 * 3.定义的回溯方法里边的参数里边的len值是必须有的 因为不能通过list的长度往list里边添加元素
+	 * 4.list的长度初始化为target,这个是自定义的,比较科学
+	 * 5.不用对一开始的数组排序,毕竟回溯
+	 */
+	public List<List<Integer>> C039_CombinationSum(int[] candidates, int target) {
+		int[] list = new int[target];
+		List<List<Integer>> res = new ArrayList<>();
+		C039_r(candidates, res, list, 0, 0, target);
+		return res;
+	}
+
+	public void C039_r(int[] nums, List<List<Integer>> res, int[] list, int len, int start, int target){
+		if(target == 0){
+			List<Integer> temp = new ArrayList<>();
+			for(int i = 0; i < len; i++){
+				temp.add(list[i]);
+			}
+			res.add(temp);
+			return;
+		}
+		else if(target < 0){
+			return;
+		}
+		else{
+			for(int i = start; i < nums.length; i++){
+				int[] temp = list;
+				temp[len] = nums[i];
+				C039_r(nums, res, temp, len + 1, i, target - nums[i]);
+			}
+		}
+	}
+	
+	/**
+	 * @problem #40 Combination Sum II
+	 * @date 2017-12-11
+	 * 
+	 * Given a collection of candidate numbers (C) and a target number (T), 
+	 * find all unique combinations in C where the candidate numbers sums to T.
+	 * Each number in C may only be used once in the combination.
+	 * Note:
+	 * All numbers (including target) will be positive integers.
+	 * The solution set must not contain duplicate combinations.
+	 * For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, 
+	 * A solution set is: 
+	 * [[1, 7],[1, 2, 5],[2, 6],[1, 1, 6]]
+	 * 
+	 * 这道题相较于上道题
+	 * 要求每个数只能用一次
+	 * 看上去是容易了
+	 * 其实是更难了
+	 * 因为给定数组中的数是可以重复的 但结果是不能包含重复结果的
+	 * 放弃set吧 runtime太长了
+	 * 一般这种情况就是写个if条件 但这也是核心难点
+	 */
+	public List<List<Integer>> C040_CombinationSumII(int[] candidates, int target) {
+		Arrays.sort(candidates);
+		List<List<Integer>> result = new ArrayList<>();
+		List<Integer> temp = new ArrayList<>();
+		C040_r(result, temp, candidates, target, 0);
+		return result;
+	}
+
+	public void C040_r(List<List<Integer>> result, List<Integer> temp, int[] candidates, int target, int start){
+		if(target < 0) return;
+		if(target == 0){
+			//为何用new ArrayList来承接
+			//不new的话指向的temp本身的地址
+			//我们是要把此时此刻的temp值放进result
+			//不new的话就让result add指向当前的地址
+			//但这个地址上的内容是动态变化的 最后内容为空
+			//结果就是指了若干次同样的地址，最后这个地址里边是空的
+			//所以要new一个新的地址保存当前内容
+			//那么以后原temp内容变了也就无所谓了
+			result.add(new ArrayList<>(temp));
+			return;
+		}
+		//target >= candidates[i] 本身就是从小到大排的 减少操作次数
+		for(int i = start; i < candidates.length && target >= candidates[i]; i++){
+			//{1,2,2,5}
+			//若target=10  1->2->2->5没问题 i一直和start相同
+			//若target=8   1->2->5  1->2->5 第二个的i比start大
+			if(i > start && candidates[i] == candidates[i - 1]) continue;
+			temp.add(candidates[i]);
+			//注意这里是i+1 不是start+1
+			C040_r(result, temp, candidates, target - candidates[i], i + 1);
+			temp.remove(temp.size() - 1);
+		}
+	}
+
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -1429,4 +2006,8 @@ public class LeetCode {
 		node.val = next.val;
 		next.next = null;
 	}
+
+
+	//----------------------------------底线------------------------------------------------
+	//----------------------------------底线------------------------------------------------
 }
