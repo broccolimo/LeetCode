@@ -1905,7 +1905,155 @@ public class LeetCode {
 			temp.remove(temp.size() - 1);
 		}
 	}
-
+	
+	/**
+	 * @problem #41 First Missing Positive
+	 * @date 2017-12-14
+	 */
+    public int C041_FirstMissingPositive(int[] nums) {
+    	Arrays.sort(nums);
+    	int l = nums.length;
+    	int count = 1;
+    	for(int i = 0; i < l; i++){
+    		if(i > 0 && nums[i] == nums[i - 1]) continue;
+    		if(nums[i] > 0){
+    			if(nums[i] != count) return count;
+    			count++;
+    		}
+    	}
+    	return count;
+    }
+    
+    /**
+     * @problem #42 Trapping Rain Water
+     * @date 2017-12-14
+     * 
+     * Given n non-negative integers representing an elevation map 
+     * where the width of each bar is 1, 
+     * compute how much water it is able to trap after raining.
+     * For example,
+     * Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+     * 
+     * 不要横着加这样思考
+     * 最终思路是竖着加
+     */
+    public int C042_TrappingRainWater(int[] height) {
+    	int res = 0;
+    	int left = 0;
+    	int right = height.length - 1;
+    	int left_max = 0;
+    	int right_max = 0;
+    	while(left < right){
+    		//这个条件确保了 
+    		//只要左边符合了条件就只管去加
+    		//大不了右边来收尾
+    		if(height[left] <= height[right]){
+    			if(height[left] >= left_max){
+    				left_max = height[left];
+    			}
+    			else{
+    				res += (left_max - height[left]);
+    			}
+    			left++;
+    		}
+    		else{
+    			if(height[right] >= right_max){
+    				right_max = height[right];
+    			}
+    			else{
+    				res += (right_max - height[right]);
+    			}
+    			right--;
+    		}
+    	}
+    	return res;
+    }
+    
+    /**
+     * @problem #43 Multiply Strings
+     * @date 2018-02-05
+     * 
+     * Given two non-negative integers num1 and num2 represented as strings, 
+     * return the product of num1 and num2.
+     * Note:
+     * The length of both num1 and num2 is < 110.
+     * Both num1 and num2 contains only digits 0-9.
+     * Both num1 and num2 does not contain any leading zero.
+     * You must not use any built-in BigInteger library or convert the inputs to integer directly.
+     */
+    public String C043_MultiplyStrings(String num1, String num2) {
+    	int m = num1.length();
+    	int n = num2.length();
+    	int[] arr = new int[m + n];
+    	int sum = 0;
+    	for(int i = n - 1; i >= 0; i--){
+    		for(int j = m - 1; j >= 0; j--){
+    			int pos1 = i + j;
+    			int pos2 = i + j + 1;
+    			sum = (num1.charAt(j) - '0') * (num2.charAt(i) - '0') + arr[pos2];
+    			arr[pos1] += sum / 10;
+    			arr[pos2] = sum % 10;
+    		}
+    	}
+    	StringBuffer sb = new StringBuffer();
+    	for(int p : arr){
+    		if(!(sb.length() == 0 && p == 0)){
+    			sb.append(p);
+    		}
+    	}
+    	return sb.length() == 0 ? "0" : sb.toString();
+    }
+    
+    
+    /**
+     * @problem #44 Wildcard Matching
+     * @date 2018-02-24
+     * 
+     * Implement wildcard pattern matching with support for '?' and '*'.
+     * '?' Matches any single character.
+     * '*' Matches any sequence of characters (including the empty sequence).
+     * The matching should cover the entire input string (not partial).
+     */
+    public boolean C044_WildcardMatching(String s, String p) {
+    	//s是字符串 p是通配符
+    	int i = 0;
+    	int j = 0;
+    	int sl = s.length();
+    	int pl = p.length();
+    	int match = 0;
+    	int ps = -1;
+    	while(i < sl){
+    		if(j < pl && (p.charAt(j) == '?' || p.charAt(j) == s.charAt(i))){
+    			i++;
+    			j++;
+    		}
+    		else if(j < pl && p.charAt(j) == '*'){
+    			//记录出现*号 二者的位置
+    			match = i;
+    			ps = j;
+    			//字符串不动 匹配段继续
+    			j++;
+    		}
+    		//这个匹配有问题
+    		else if(ps != -1){
+    			//始终把*后边一位作为基准
+    			j = ps + 1;
+    			//i 是 随着 match 变得
+    			match++;
+    			i = match;
+    		}
+    		else{
+    			return false;
+    		}
+    	}
+    	//单单用一个*匹配一个空字符串 666
+    	while(j < pl && p.charAt(j) == '*'){
+    		j++;
+    	}
+    	return j == pl ? true : false;
+    }
+    
+    
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -2006,8 +2154,8 @@ public class LeetCode {
 		node.val = next.val;
 		next.next = null;
 	}
-
-
+	
+	
 	//----------------------------------底线------------------------------------------------
 	//----------------------------------底线------------------------------------------------
 }
