@@ -2053,6 +2053,41 @@ public class LeetCode {
     	return j == pl ? true : false;
     }
     
+    /**
+     * @problem #45 Jump Game II
+     * @date 2017-02-27
+     * 
+     * Given an array of non-negative integers, 
+     * you are initially positioned at the first index of the array.
+     * Each element in the array represents your maximum jump length at that position.
+     * Your goal is to reach the last index in the minimum number of jumps.
+     * For example:
+     * Given array A = [2,3,1,1,4]
+     * The minimum number of jumps to reach the last index is 2. 
+     * (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
+     */
+    public int C45_JumpGameII(int[] nums) {
+    	//看了思路 但没看具体实现
+    	//莫名其妙就AC了
+    	//跳的时候 肯定要计算count
+    	//不管跳不跳都要计算t 在跳的时候赋予max 因为max决定跳不跳
+    	//需要注意的是在跳的点 仍然要计算t 故有i--
+        int max = nums[0];
+        int count = nums.length <= 1 ? 0 : 1;
+        int t = 0;
+        for(int i = 1; i < nums.length; i++){
+        	if(i <= max){
+        		t = nums[i] + i > t ? nums[i] + i : t;
+        	}
+        	else{
+        		max = t;
+        		i--;
+        		count++;
+        	}
+        }
+        return count;
+    }
+    
     
 	/**
 	 * @problem #138 Copy List with Random Pointer
@@ -2154,8 +2189,6 @@ public class LeetCode {
 		node.val = next.val;
 		next.next = null;
 	}
-	
-	
 	//----------------------------------底线------------------------------------------------
 	//----------------------------------底线------------------------------------------------
 }
