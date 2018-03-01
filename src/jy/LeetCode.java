@@ -2055,7 +2055,7 @@ public class LeetCode {
     
     /**
      * @problem #45 Jump Game II
-     * @date 2017-02-27
+     * @date 2018-02-27
      * 
      * Given an array of non-negative integers, 
      * you are initially positioned at the first index of the array.
@@ -2066,7 +2066,7 @@ public class LeetCode {
      * The minimum number of jumps to reach the last index is 2. 
      * (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
      */
-    public int C45_JumpGameII(int[] nums) {
+    public int C045_JumpGameII(int[] nums) {
     	//看了思路 但没看具体实现
     	//莫名其妙就AC了
     	//跳的时候 肯定要计算count
@@ -2087,6 +2087,99 @@ public class LeetCode {
         }
         return count;
     }
+    
+    /**
+     * @problem #46 Permutations
+     * @date 2018-02-28
+     * 
+     * Given a collection of distinct numbers, return all possible permutations.
+     */
+    public List<List<Integer>> C046_Permutations(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        C046_backtracking(res, temp, nums);
+        return res;
+    }
+    
+    public void C046_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums){
+    	if(temp.size() == nums.length){
+    		//temp的值是动态的 如果new一个 其实加的时候有数据 最后经过remove里边都是空元素
+    		//new的含义是创建一个新对象来保存当前状态
+    		res.add(new ArrayList<>(temp));
+    	}
+    	else{
+    		for(int i = 0; i < nums.length; i++){
+    			//省去了一些麻烦
+    			//统一用这种方式来辨别
+    			if(temp.contains(nums[i])) continue;
+    			temp.add(nums[i]);
+    			C046_backtracking(res, temp, nums);
+    			//前边add的是多少 这里remove的就是多少
+    			//即使中间有回溯操作 但回溯还是这个 不矛盾
+    			//这个过程理解起来有点难受 多弄弄就好了
+    			temp.remove(temp.size() - 1);
+    		}
+    	}
+    }
+    
+    /**
+     * @problem #47 Permutations II
+     * @date 2018-02-28
+     * 
+     * Given a collection of numbers that might contain duplicates, 
+     * return all possible unique permutations.
+     */
+    public List<List<Integer>> C047_PermutationsII(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        Arrays.sort(nums);
+        C047_backtracking(res, temp, nums, used);
+        return res;
+    }
+    
+    public void C047_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums, boolean[] used){
+    	if(temp.size() == nums.length){
+    		res.add(new ArrayList<>(temp));
+    	}
+    	else{
+    		for(int i = 0; i < nums.length; i++){
+    			if(used[i] == true) continue;
+    			if(i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
+    			temp.add(nums[i]);
+    			used[i] = true;
+    			C047_backtracking(res, temp, nums, used);
+    			temp.remove(temp.size() - 1);
+    			used[i] = false;
+    		}
+    	}
+    }
+    
+    /**
+     * @problem #48 Rotate Image
+     * @date 2018-03-01
+     * 
+     * you are given an n x n 2D matrix representing an image.
+     * Rotate the image by 90 degrees (clockwise).
+     */
+    public void C048_RotateImage(int[][] matrix) {
+        int l = matrix.length;
+        for(int i = 0; i < l - 1; i++){
+        	for(int j = i + 1; j < l; j++){
+        		int temp = matrix[i][j];
+        		matrix[i][j] = matrix[j][i];
+        		matrix[j][i] = temp;
+        	}
+        }
+        for(int i = 0; i < l; i++){
+        	for(int j = 0; j < l / 2; j++){
+        		int temp = matrix[i][j];
+        		matrix[i][j] = matrix[i][l - j - 1];
+        		matrix[i][l - j - 1] = temp;
+        	}
+        }
+    }
+    
     
     
 	/**
