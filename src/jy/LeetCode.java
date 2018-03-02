@@ -2180,7 +2180,34 @@ public class LeetCode {
         }
     }
     
-    
+    /**
+     * @problem #49 Group Anagrams
+     * @date 2018-03-02
+     * 
+     * Given an array of strings, group anagrams together.
+     * For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"], 
+     * Return:
+     * [
+     * 	["ate", "eat","tea"],
+     * 	["nat","tan"],
+     *  ["bat"]
+     * ]
+     * Note: All inputs will be in lower-case.
+     */
+    public List<List<String>> C049_GroupAnagrams(String[] strs) {
+        if(strs.length == 0) return new ArrayList<>();
+        Map<String, List<String>> res = new HashMap<>();
+        for(String s : strs){
+        	char[] c = s.toCharArray();
+        	Arrays.sort(c);
+        	String key = String.valueOf(c);
+        	if(!res.containsKey(key)){
+        		res.put(key, new ArrayList<String>());
+        	}
+        	res.get(key).add(s);
+        }
+        return new ArrayList<>(res.values());
+    }
     
 	/**
 	 * @problem #138 Copy List with Random Pointer
