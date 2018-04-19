@@ -89,6 +89,55 @@ public class programing {
 			}
 		}  
 	}
+	
+	@Test
+	/**
+	 * @date 2018-04-19
+	 * @problem 网易2019年第二道编程题 被3整除
+	 */
+	//我去,这什么题
+	//不要妄图把数字之和全加起来得到一个数字看能不能被3整除来解决问题
+	//时间上都不允许
+	//这道题就是找个规律。。。
+	public void C_02(){
+		Scanner sc = new Scanner(System.in);
+		int l = sc.nextInt();
+		int r = sc.nextInt();
+		sc.close();
+		int i = l % 3;
+		int j = r % 3;
+		int m = 0;
+		int n = 0;
+		switch (i) {
+			case 1:
+				m = l + 2;
+				break;
+			case 2:
+				m = l + 1;
+				break;
+			case 0:
+				m = l ;
+				break;
+			default:
+				break;
+		}
+		switch (j) {
+			case 1:
+				n = r;
+				break;
+			case 2:
+				n = r - 1;
+				break;
+			case 0:
+				n = r - 2;
+				break;
+			default:
+				break;
+		}
+		int sub = n - m - 1;
+		System.out.println(sub == -3 ? (j == 0 ? 2 : 1) : ((i == 0 ? 1 : 2) + (j == 1 ? 0 : (j == 2 ? 1 : 2)) + ((sub / 3) * 2)));
+	}
+
 }
 
 
