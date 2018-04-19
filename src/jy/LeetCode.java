@@ -2209,6 +2209,29 @@ public class LeetCode {
         return new ArrayList<>(res.values());
     }
     
+    
+    /**
+     * @problem #50 Pow(x, n)
+     * @date 2018-03-09
+     * 
+     * 求幂运算
+     * 直接循环着乘是不行的 肯定要用递归的思想
+     * 另外还要用折半
+     * 分成2个函数是为了处理n的正负
+     * 当然也能在一个递归里用 以后有时间再优化
+     */
+    public double C050_Powxn(double x, int n) {
+        if(n < 0) return 1 / C050_pow(x, -n);
+        return C050_pow(x, n);
+    }
+    
+    public double C050_pow(double x, int n){
+    	if(n == 0) return 1;
+    	double half = C050_pow(x, n / 2);
+    	if(n % 2 == 0) return half * half;
+    	return half * half * x;
+    }
+    
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23

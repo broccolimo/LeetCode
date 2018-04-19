@@ -1,7 +1,5 @@
 package jy;
 
-import org.junit.Test;
-
 public class OA {
 	/**
 	 * @problem ººÅµËþ
