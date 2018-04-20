@@ -2,6 +2,7 @@ package jy;
 
 import java.util.Arrays;
 import java.util.Scanner;
+
 import org.junit.Test;
 
 /**
@@ -22,7 +23,7 @@ public class programing {
 	/**
 	 * @ref work
 	 * @date 2018-04-19
-	 * @problem 网易2019年第一道编程题 牛牛找工作
+	 * @problem 网易2019年第1道编程题 牛牛找工作
 	 */
 	public void C_01(){
 		Scanner sc = new Scanner(System.in);
@@ -93,7 +94,7 @@ public class programing {
 	@Test
 	/**
 	 * @date 2018-04-19
-	 * @problem 网易2019年第二道编程题 被3整除
+	 * @problem 网易2019年第2道编程题 被3整除
 	 */
 	//我去,这什么题
 	//不要妄图把数字之和全加起来得到一个数字看能不能被3整除来解决问题
@@ -137,7 +138,88 @@ public class programing {
 		int sub = n - m - 1;
 		System.out.println(sub == -3 ? (j == 0 ? 2 : 1) : ((i == 0 ? 1 : 2) + (j == 1 ? 0 : (j == 2 ? 1 : 2)) + ((sub / 3) * 2)));
 	}
-
+	
+	/**
+	 * @date 2018-04-20
+	 * @problem 网易2019年第3道编程题 安置路灯
+	 * @reference C_03_R
+	 */
+	//这种题不用想，绝对要用递归，找个规律就行
+	//试出来纯属运气
+	//主体是递归函数
+	//其实就算有注释 也可能看不懂
+	@Test
+	public void C_03(){
+		Scanner sc = new Scanner(System.in);
+		int num = Integer.parseInt(sc.nextLine());
+		String[] arr = new String[num];
+		for(int i = 0; i < num; i++){
+			sc.nextLine();
+			arr[i] = sc.nextLine();
+		}
+		sc.close();
+		for(int i = 0; i < num; i++){
+			C_03_R(arr[i], 1, 1, true);
+		}
+	}
+	
+	public void C_03_R(String str, int flag, int count, boolean init){
+		//递归的终结
+		//分情况
+		//如果一开始就终结 表明没有 输出0
+		//其余情况输出count
+		if(str.indexOf(".") < 0){
+			System.out.println(init? 0 : count);
+			return;
+		}
+		int index = str.indexOf(".");
+		//递归一开始count就是1 所以默认开始不是X
+		if(init){
+			str = str.substring(index, str.length());
+			index = 0;
+		}
+		//小于等于3 说明之前的灯还能照亮
+		if(index + flag <= 3){
+			C_03_R(str.substring(index + 1, str.length()), flag + index + 1, count, false);
+		}
+		//大于3说明需要有新的灯 所以count要加1
+		//为什么flag是2 
+		//因为就应该是2
+		//只是刚开始时flag必须为1
+		else{
+			C_03_R(str.substring(index + 1, str.length()), 2, count + 1, false);
+		}
+	}
+	
+	@Test
+	/**
+	 * @date 2018-04-20
+	 * @problem 网易2019年第4道编程题 牛牛找工作
+	 */
+	//太简单了 不注释了
+	public void C_04(){
+		Scanner sc = new Scanner(System.in);
+		sc.nextLine();
+		String str = sc.nextLine();
+		sc.close();
+		int n = 0;
+		for(char c : str.toCharArray()){
+			if(c == 'L'){
+				n--;
+			}
+			else{
+				n++;
+			}
+		}
+		char[] des1 = {'N', 'E', 'S', 'W'};
+		char[] des2 = {'N', 'W', 'S', 'E'};
+		if(n > 0){
+			System.out.println(des1[n % 4]);
+		}
+		else{
+			System.out.println(des2[Math.abs(n) % 4]);
+		}
+	}
 }
 
 
