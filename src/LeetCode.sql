@@ -144,6 +144,23 @@ from
 		t.Request_at between "2013-10-01" and "2013-10-03" 
 group by t.Request_at;
 
+#620 Not Boring Movies
+select *from cinema where id % 2 = 1 and description <> "boring" order by rating desc;
+
+#626 Exchange Seats
+#case的用法
+#when的用法
+#派生表必须有表名
+select 
+	(case 
+		when mod(id, 2) != 0 and id != counts then id + 1
+		when mod(id, 2) != 0 and id = counts then id
+		else id - 1
+	end) as id, 
+	student 
+from 
+	seat, (select count(*) as counts from seat) as _seat 
+order by id;
  
 
 
