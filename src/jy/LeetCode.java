@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import org.hamcrest.DiagnosingMatcher;
 import org.junit.Test;
 
 import com.sun.accessibility.internal.resources.accessibility;
@@ -47,35 +48,20 @@ public class LeetCode {
 	 * Because nums[0] + nums[1] = 2 + 7 = 9,
 	 * return [0, 1].
 	 */
-	@Test
-	public void C001_TwoSum(){
-		try{
-			Scanner sc = new Scanner(System.in);
-			System.out.println("please give nums:");
-			String sl = sc.nextLine();
-			System.out.println("please give target:");
-			int target = sc.nextInt();
-			sc.close();
-			int[] a = Utils.Turn(sl.split(" "));
-			HashMap<Integer, Integer> map = new HashMap<>();
-			int[] result = new int[2];
-			int l = a.length;
-			for(int i = 0; i < l; i++){
-				if(map.containsKey(target - a[i])){
-					result[0] = map.get(target - a[i]);
-					result[1] = i;
-					System.out.println("result: [" + result[0] + ", " + result[1] + "]");
-					return;
-				}
-				else{
-					map.put(a[i], i);
-				}
+	public int[] C001_TwoSum(int[] nums, int target){
+		int[] res = new int[2];
+		Map<Integer, Integer> map = new HashMap<>();
+		for(int i = 0; i < nums.length; i++){
+			if(map.containsKey(target - nums[i])){
+				res[0] = map.get(target - nums[i]);
+				res[1] = i;
+				break;
 			}
-			System.out.println("no result!");
+			else{
+				map.put(nums[i], i);
+			}
 		}
-		catch(Exception e){
-			System.out.println("input error!");
-		}
+		return res;
 	}
 
 	/**
@@ -327,26 +313,50 @@ public class LeetCode {
 	}
 
 	/**
-	 * 未完成
+	 * @problem ZigZag Conversion
+	 * @date 2018-05-04
+	 * 
+	 * 具体要求看leetcode
 	 */
-	@Test
-	public void C006(){
-		//		Scanner sc = new Scanner(System.in);
-		//		System.out.println("please input:");
-		//		String s = sc.nextLine();
-		//		int n = Integer.parseInt(sc.nextLine());
-		//		sc.close();
-		int m = 14;
-		int n = 3;
-		int x = n;
-		//下边的表达式是错的
-		int y = (n - 1) * m / (2 * (n - 1)) * + (m % (2 * (n - 1)) > n ? 2 : 1);
-		System.out.println(y);
-		int i = 0;
-		int j = 0;
-
+	public String C006_Convert(String s, int numRows) {
+    	if(numRows == 1) return s;
+    	//一组有几个元素
+    	int m = numRows * 2 - 2;
+    	//一组占几行
+    	int line = numRows - 1;
+    	//余数
+    	int yushu = s.length() % m;
+    	//商
+    	int shang = s.length() / m;
+    	//有几组
+    	int n = yushu == 0 ? shang : shang + 1;
+    	//额外要加的数
+    	int extra = yushu == 0 ? (numRows - 2) : (yushu <= numRows ? 0 : (yushu - numRows));
+    	//总共需要几行
+    	int count = line * (n - 1) + 1 + extra;
+    	char[][] arr = new char[numRows][count];
+    	C006_r(0, 0, 0, s, arr, numRows);
+    	StringBuffer sb = new StringBuffer();
+    	for(int i = 0; i < numRows; i++){
+    		for(int j = 0; j < count; j++){
+    			if(arr[i][j] == 0) continue;
+    			sb.append(arr[i][j]);
+    		}
+    	}
+    	return sb.toString();
+    }
+	
+	public void C006_r(int x, int y, int index, String s, char[][] arr, int row){
+		if(index == s.length()) return;
+		else if(y % (row - 1) == 0 && x != (row - 1)){
+			arr[x++][y] = s.charAt(index++);
+			C006_r(x, y, index, s, arr, row);
+		}
+		else{
+			arr[x--][y++] = s.charAt(index++);
+			C006_r(x, y, index, s, arr, row);
+		}
 	}
-
 	/**
 	 * @problem #7 Reverse Integer
 	 * @date 2017-11-22
@@ -2331,6 +2341,35 @@ public class LeetCode {
 		node.next = next.next;
 		node.val = next.val;
 		next.next = null;
+	}
+	
+	public List<String> subdomainVisits(String[] cpdomains) {
+		Map<String, Integer> map = new HashMap<>();
+		for(int i = 0; i < cpdomains.length; i++){
+			int num = Integer.parseInt(cpdomains[i].split(" ")[0]);
+			String domain = cpdomains[i].split(" ")[1];
+			int index = 0;
+			do{
+				domain = index == 0 ? domain : domain.substring(index + 1, domain.length());
+				if(!map.keySet().contains(domain)){
+					map.put(domain, num);
+				}
+				else{
+					map.put(domain, map.get(domain) + num);
+				}
+			}while((index = domain.indexOf(".")) > 0);
+		}
+		List<String> res = new ArrayList<>();
+		for(String key : map.keySet()){
+			String s = map.get(key) + " " + key;
+			res.add(s);
+		}
+        return res;
+    }
+	
+	
+	@Test
+	public void zzzz(){
 	}
 	//----------------------------------底线------------------------------------------------
 	//----------------------------------底线------------------------------------------------
