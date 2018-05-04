@@ -332,7 +332,7 @@ public class LeetCode {
     	int n = yushu == 0 ? shang : shang + 1;
     	//额外要加的数
     	int extra = yushu == 0 ? (numRows - 2) : (yushu <= numRows ? 0 : (yushu - numRows));
-    	//总共需要几行
+    	//总共需要几列
     	int count = line * (n - 1) + 1 + extra;
     	char[][] arr = new char[numRows][count];
     	C006_r(0, 0, 0, s, arr, numRows);
@@ -2343,7 +2343,26 @@ public class LeetCode {
 		next.next = null;
 	}
 	
-	public List<String> subdomainVisits(String[] cpdomains) {
+	/**
+	 * @problem Subdomain Visit Count
+	 * @date 2018-04-29
+	 * 
+	 * 直接看输入输出就能明白该题意图
+	 * Example 1:
+	 * Input: 
+	 * ["9001 discuss.leetcode.com"]
+	 * Output: 
+	 * ["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
+	 * 
+	 * Example 2:
+	 * Input: 
+	 * ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", 
+	 * "5 wiki.org"]
+	 * Output: 
+	 * ["901 mail.com","50 yahoo.com","900 google.mail.com",
+	 * "5 wiki.org","5 org","1 intel.mail.com","951 com"]
+	 */
+	public List<String> C811_SubdomainVisitCount(String[] cpdomains) {
 		Map<String, Integer> map = new HashMap<>();
 		for(int i = 0; i < cpdomains.length; i++){
 			int num = Integer.parseInt(cpdomains[i].split(" ")[0]);
