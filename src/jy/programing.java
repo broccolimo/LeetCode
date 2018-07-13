@@ -1,12 +1,14 @@
 package jy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import org.junit.Test;
 
 /**
- * @target C_01
+ * @target C001
  * @date 2018-04-19
  */
 class work implements Comparable<work>{
@@ -25,7 +27,7 @@ public class programing {
 	 * @date 2018-04-19
 	 * @problem 网易2019年第1道编程题 牛牛找工作
 	 */
-	public void C_01(){
+	public void C001(){
 		Scanner sc = new Scanner(System.in);
 		int work_num = sc.nextInt();
 		int per_num = sc.nextInt();
@@ -100,7 +102,7 @@ public class programing {
 	//不要妄图把数字之和全加起来得到一个数字看能不能被3整除来解决问题
 	//时间上都不允许
 	//这道题就是找个规律。。。
-	public void C_02(){
+	public void C002(){
 		Scanner sc = new Scanner(System.in);
 		int l = sc.nextInt();
 		int r = sc.nextInt();
@@ -142,14 +144,14 @@ public class programing {
 	/**
 	 * @date 2018-04-20
 	 * @problem 网易2019年第3道编程题 安置路灯
-	 * @reference C_03_R
+	 * @reference C_003_R
 	 */
 	//这种题不用想，绝对要用递归，找个规律就行
 	//试出来纯属运气
 	//主体是递归函数
 	//其实就算有注释 也可能看不懂
 	@Test
-	public void C_03(){
+	public void C003(){
 		Scanner sc = new Scanner(System.in);
 		int num = Integer.parseInt(sc.nextLine());
 		String[] arr = new String[num];
@@ -159,11 +161,11 @@ public class programing {
 		}
 		sc.close();
 		for(int i = 0; i < num; i++){
-			C_03_R(arr[i], 1, 1, true);
+			C003_R(arr[i], 1, 1, true);
 		}
 	}
 	
-	public void C_03_R(String str, int flag, int count, boolean init){
+	public void C003_R(String str, int flag, int count, boolean init){
 		//递归的终结
 		//分情况
 		//如果一开始就终结 表明没有 输出0
@@ -180,24 +182,24 @@ public class programing {
 		}
 		//小于等于3 说明之前的灯还能照亮
 		if(index + flag <= 3){
-			C_03_R(str.substring(index + 1, str.length()), flag + index + 1, count, false);
+			C003_R(str.substring(index + 1, str.length()), flag + index + 1, count, false);
 		}
 		//大于3说明需要有新的灯 所以count要加1
 		//为什么flag是2 
 		//因为就应该是2
 		//只是刚开始时flag必须为1
 		else{
-			C_03_R(str.substring(index + 1, str.length()), 2, count + 1, false);
+			C003_R(str.substring(index + 1, str.length()), 2, count + 1, false);
 		}
 	}
 	
 	@Test
 	/**
 	 * @date 2018-04-20
-	 * @problem 网易2019年第4道编程题 牛牛找工作
+	 * @problem 网易2019年第4道编程题 
 	 */
 	//太简单了 不注释了
-	public void C_04(){
+	public void C004(){
 		Scanner sc = new Scanner(System.in);
 		sc.nextLine();
 		String str = sc.nextLine();
@@ -218,6 +220,87 @@ public class programing {
 		}
 		else{
 			System.out.println(des2[Math.abs(n) % 4]);
+		}
+	}
+	@Test
+	public void C005(){
+		Scanner sc = new Scanner(System.in);
+		String s = sc.nextLine();
+		sc.close();
+		int length = s.length();
+		boolean flag = true;
+		for(int i = 0; i < length / 2; i++){
+			if(s.charAt(i) != s.charAt(length - i - 1)){
+				flag = false;
+				System.out.println("N");
+				break;
+			}
+		}
+		if(flag){
+			System.out.println("Y");
+		}
+	}
+	
+	
+	@Test
+	public void C006(){
+		Scanner sc = new Scanner(System.in);
+		List<Integer> list = new ArrayList<Integer>();
+		int zero = -1;
+		while((zero = sc.nextInt()) != 0){
+			list.add(zero);
+		}
+		sc.close();
+		for(int i = 0; i < list.size(); i++){
+			int n = list.get(i);
+			if(n <= 3){
+				System.out.println(0);
+				continue;
+			}
+			else{
+				int count = 0;
+				for(int j = 2; j <= n / 2; j++){
+					if(zhi(j) && zhi(n - j)){
+						count++;
+					};
+				}
+				System.out.println(count);
+			}
+		}
+		System.out.println("end");
+	}
+	
+	public boolean zhi(int n){
+		if(n == 2) return true;
+		if(n < 2 || n % 2 == 0) return false;
+		for(int i = 3; i <= Math.sqrt(n); i += 2){
+			if(n % i == 0){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Test
+	public void zzz(){
+		int[] aaa = {15, -1, 2, -100, -4, 5, 6, -8, 66};
+		sort(aaa);
+	}
+	
+	
+	
+	public void sort(int[] arr){
+		int flag = 0;
+		for(int i = 0; i < arr.length; i++){
+			if(arr[i] < 0){
+				continue;
+			}
+			int temp = arr[flag];
+			arr[flag++] = arr[i];
+			arr[i] = temp;
+		}
+		for(int i = 0; i < arr.length; i++){
+			System.out.print(arr[i] + " ");
 		}
 	}
 }

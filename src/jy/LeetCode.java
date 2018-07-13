@@ -10,14 +10,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
-
 import org.hamcrest.DiagnosingMatcher;
 import org.junit.Test;
-
 import com.sun.accessibility.internal.resources.accessibility;
-import com.sun.javafx.image.impl.IntArgb;
 import com.sun.org.apache.bcel.internal.generic.ISTORE;
-
 import util.ListNode;
 import util.RandomListNode;
 import util.Utils;
@@ -2242,6 +2238,35 @@ public class LeetCode {
     	return half * half * x;
     }
     
+    
+    public List<List<String>> solveNQueens(int n) {
+        char[][] a = new char[n][n];
+        for(int i = 0; i < n; i++){
+        	for(int j = 0; j < n; j++){
+        		a[i][j] = '.';
+        	}
+        }
+        List<List<String>> res = new ArrayList<>();
+        r(a, 0, res);
+        return null;
+    }
+    
+    //所谓回溯
+    //就是循环里边加个递归
+    public void r(char[][] a, int current, List<List<String>> res){
+    	if(current == a.length){
+    		return;
+    	}
+    	for(int i = 0; i < a.length; i++){
+    		if(false){
+    			r(a, current, res);
+    		}
+    	}
+    }
+    
+   
+    
+    
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -2386,7 +2411,7 @@ public class LeetCode {
         return res;
     }
 	
-	
+
 	@Test
 	public void zzzz(){
 	}

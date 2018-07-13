@@ -28,6 +28,6 @@ public class Util {
 	
 	@Test
 	public void test() throws IOException{
-		//C_01("f:\\wall_1.jpg", "f:\\wall_3.jpg", 320, 160);
+		C_01("C:\\Users\\broccoli\\Desktop\\0000000000000000416\\pp3.jpg", "C:\\Users\\broccoli\\Desktop\\0000000000000000416\\p3.jpg", 320, 160);
 	}
 }
