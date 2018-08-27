@@ -2,6 +2,7 @@ package jy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,6 +12,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
+
 import org.hamcrest.DiagnosingMatcher;
 import org.junit.Test;
 import org.omg.CORBA.PUBLIC_MEMBER;
@@ -18,6 +21,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import com.sun.accessibility.internal.resources.accessibility;
 import com.sun.java.swing.plaf.windows.WindowsTreeUI.CollapsedIcon;
 import com.sun.org.apache.bcel.internal.generic.ISTORE;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import util.ListNode;
 import util.RandomListNode;
@@ -2246,6 +2250,9 @@ public class LeetCode {
     /**
      * @problem #51 N-Queens
      * @date 2018-08-27
+     * 后边的#52是求符合要求的情况的总个数
+     * 直接返回本程序res的大小即可
+     * 不花里胡哨再对count进行处理
      */
     //以下变量C051_DFS要用 但却为全局变量
     //同一列不能出现2个皇后
@@ -2309,9 +2316,163 @@ public class LeetCode {
     	}
     }
     
-   
+    /**
+     * @problem #53 Maximum Subarray
+     * @date 2018-08-27
+     * O(n)求一个数组的若干个子数组中元素和最大的数组的元素和
+     */
+    public int C053_maxSubArray(int[] nums) {
+    	//max为最终要返回的值
+    	int max = nums[0];
+    	//tolerate是试探性的值 做一次比较
+    	//区分可保留值和完全不需要保留值
+    	//如4, -6和4, -1
+    	//前者完全不用保留 后者需要 因为可能后边跟个比1大的数
+    	//所以判断方法是要处理的数和原值与该数相加的值作比较
+    	//当然对于4, -1 max是不可能因为-1变的
+    	//所以需要把新的tolerate值与当前max比较
+    	//max最终决定是否要变
+    	int tolerate = nums[0];
+    	for(int i = 1; i < nums.length; i++){
+    		tolerate = Math.max(nums[i], tolerate + nums[i]);
+    		max = Math.max(max, tolerate);
+    	}
+    	System.out.println(tolerate);
+    	System.out.println(max);
+        return max;
+    }
     
+    /**
+     * @problem #54 Spiral Matrix
+     * @date 2018-08-27
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+    	if(matrix.length == 0){
+    		return new ArrayList<>();
+    	}
+    	List<Integer> res = new ArrayList<>();
+    	int xmin = 1;
+    	int xmax = matrix.length - 1;
+    	int ymin = 0;
+    	int ymax = matrix[0].length - 1;
+    	int x = 0;
+    	int y = 0;
+    	while(xmin <= xmax || ymin <= ymax){
+    		if(!(y <= ymax && ymin <= ymax)) break;
+    		while(y <= ymax && ymin <= ymax){
+    			res.add(matrix[x][y++]);
+    			if(y > ymax){
+    				y--;
+    				ymax--;
+    				x++;
+    				break;
+    			}
+    		}
+    		if(!(x <= xmax && xmin <= xmax)) break;
+    		while(x <= xmax && xmin <= xmax){
+    			res.add(matrix[x++][y]);
+    			if(x > xmax){
+    				x--;
+    				xmax--;
+    				y--;
+    				break;
+    			}
+    		}
+    		if(!(y >= ymin && ymin <= ymax)) break;
+    		while(y >= ymin && ymin <= ymax){
+    			res.add(matrix[x][y--]);
+    			if(y < ymin){
+    				y++;
+    				ymin++;
+    				x--;
+    				break;
+    			}
+    		}
+    		if(!(x >= xmin && xmin <= xmax)) break;
+    		while(x >= xmin && xmin <= xmax){
+    			res.add(matrix[x--][y]);
+    			if(x < xmin){
+    				x++;
+    				xmin++;
+    				y++;
+    				break;
+    			}
+    		}	 		
+    	}
+        return res;
+    }
     
+    /**
+     * @problem #55 Jump Game
+     * @date 2018-08-27
+     */
+    //
+    /**
+     * 这个思维有点巧妙
+     * 因为每个数值代表的是最大步数
+     * 所以就可以认为
+     * 只要能到达从某个位置开始按最大步数走到的位置
+     * 之间的位置也都能走到
+     * 所以这部分不需要逻辑处理
+     * 如果处理了 就会超时
+     * 处理的情形应该是此次跳转的位置由上一次跳转决定
+     * 下边代码的逻辑处理是从一开始逐一循环的
+     * 相邻跳转之间无任何关系
+     * 只记录一个最远跳转位置
+     * i > max说明到达了不可到达的地方
+     * 余下的数组元素就不用处理了
+     * 至于max为什么要初始化为0
+     * 因为数组下标从0开始 不管怎样0这个位置都会到达的
+     */
+    public boolean canJump(int[] nums) {
+    	int max = 0;
+    	for(int i = 0; i < nums.length; i++){
+    		if(i > max) return false;
+    		max = Math.max(max, i + nums[i]);
+    	}
+    	return true;
+    }
+    
+    /**
+     * @problem 56 Merge Intervals
+     * @date 2018-08-27
+     */
+    /**
+     * 首先这个题没有说按某种顺序排列interval
+     * 其次原始list的顺序对此题有影响
+     * 所以必须先排序
+     * 复习一下比较器的编写
+     * 那之后就好判断了
+     * 因为start已经有序了
+     * 所以就可以按顺序一个一个插入了
+     */
+    class IntervalCompator implements Comparator<Interval>{
+
+		@Override
+		public int compare(Interval arg0, Interval arg1) {
+			return arg0.start < arg1.start ? -1 : arg0.start == arg1.start ? 0 : 1;
+		}
+    	
+    }
+    public List<Interval> merge(List<Interval> intervals) {
+    	LinkedList<Interval> res = new LinkedList<>();	
+    	java.util.Collections.sort(intervals, new IntervalCompator());
+    	for(Interval interval : intervals){
+    		if(res.isEmpty() || res.getLast().end < interval.start){
+    			res.add(interval);
+    		}
+    		else{
+    			res.getLast().end = Math.max(res.getLast().end, interval.end);
+    		}
+    	}
+        return res;
+    }
+    
+    @Test
+    public void c1(){
+    	int[] nums = {2, 3, 1, 1, 4};
+    	System.out.println(canJump(nums));
+    }
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -2459,6 +2620,12 @@ public class LeetCode {
 
 	@Test
 	public void zzzz(){
+	}
+	class Interval{
+		int start;
+		int end;
+		Interval() { start = 0; end = 0; }
+		Interval(int s, int e) { start = s; end = e; }
 	}
 	//----------------------------------底线------------------------------------------------
 	//----------------------------------底线------------------------------------------------
