@@ -10,10 +10,15 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
+
 import org.hamcrest.DiagnosingMatcher;
 import org.junit.Test;
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import com.sun.accessibility.internal.resources.accessibility;
+import com.sun.java.swing.plaf.windows.WindowsTreeUI.CollapsedIcon;
 import com.sun.org.apache.bcel.internal.generic.ISTORE;
+
 import util.ListNode;
 import util.RandomListNode;
 import util.Utils;
@@ -2238,29 +2243,69 @@ public class LeetCode {
     	return half * half * x;
     }
     
-    
-    public List<List<String>> solveNQueens(int n) {
-        char[][] a = new char[n][n];
-        for(int i = 0; i < n; i++){
-        	for(int j = 0; j < n; j++){
-        		a[i][j] = '.';
-        	}
-        }
-        List<List<String>> res = new ArrayList<>();
-        r(a, 0, res);
-        return null;
+    /**
+     * @problem #51 N-Queens
+     * @date 2018-08-27
+     */
+    //以下变量C051_DFS要用 但却为全局变量
+    //同一列不能出现2个皇后
+	public Set<Integer> C051_col = new HashSet<Integer>();
+	//k=1的斜线上不能出现2个皇后
+	public Set<Integer> C051_slash1 = new HashSet<Integer>();
+	//k=-1的斜线上不能出现2个皇后
+	public Set<Integer> C051_slash2 = new HashSet<Integer>();
+	
+    public List<List<String>> C051_solveNQueens(int n) {
+    	//所需要的结果
+    	List<List<String>> res = new ArrayList<>();
+    	//递归
+    	//总的列表  列表中的一个列表 第几个皇后 总共有几个皇后
+    	C051_DFS(res, new ArrayList<String>(), 0 , n);
+    	return res;
     }
     
-    //所谓回溯
-    //就是循环里边加个递归
-    public void r(char[][] a, int current, List<List<String>> res){
-    	if(current == a.length){
-    		return;
+    public void C051_DFS(List<List<String>> res, List<String> list, int who, int n){
+    	//递归一定要有截止
+    	if(who == n){
+    		//不能直接add list
+    		res.add(new ArrayList<>(list));
     	}
-    	for(int i = 0; i < a.length; i++){
-    		if(false){
-    			r(a, current, res);
+    	
+    	//皇后选位置
+    	//默认第n个皇后就坐在第n排 这里只是对列的位置进行循环
+    	for(int i = 0; i < n; i++){
+    		//以下都是结论的应用
+    		if(C051_col.contains(i) || C051_slash1.contains(i + who) || C051_slash2.contains(i - who)){
+    			//该皇后不能坐在这 换下一个位置
+    			continue; 
     		}
+    		
+    		//能坐下
+    		
+    		//更新判断值
+    		C051_col.add(i);
+    		C051_slash1.add(i + who);
+    		C051_slash2.add(i - who);
+    		
+    		//把这一行放进去
+    		char[] charArray = new char[n];
+    		Arrays.fill(charArray, '.');
+    		charArray[i] = 'Q';
+    		String rowString = new String(charArray);
+    		list.add(rowString);
+    		
+    		//接下来要递归 下一个皇后
+    		C051_DFS(res, list, who + 1, n);
+    		
+    		//无论怎样都要考虑不通过的情况
+    		//即使没有不通过 作为回溯 也要有还原的功能
+    		
+    		//set可以移除某个对象 但list只能按下标进行移除
+    		C051_col.remove(i);
+    		C051_slash1.remove(i + who);
+    		C051_slash2.remove(i - who);
+    		list.remove(list.size() - 1);
+    	
     	}
     }
     
