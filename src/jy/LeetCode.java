@@ -2454,7 +2454,7 @@ public class LeetCode {
 		}
     	
     }
-    public List<Interval> merge(List<Interval> intervals) {
+    public List<Interval> C056_MergeIntervals(List<Interval> intervals) {
     	LinkedList<Interval> res = new LinkedList<>();	
     	java.util.Collections.sort(intervals, new IntervalCompator());
     	for(Interval interval : intervals){
