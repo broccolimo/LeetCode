@@ -1,7 +1,14 @@
 package jy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
+import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 public class LeetCode_Tree {
 	/**
@@ -117,15 +124,113 @@ public class LeetCode_Tree {
 	 * 求一个二叉树的最大深度
 	 * 看别人的答案 有点厉害 多加理解吧 不解释了
 	 */
-	public int maxDepth(TreeNode root) {
+	public int C104_maxDepth(TreeNode root) {
         if(root == null) return 0;
-        int left = maxDepth(root.left);
-        int right = maxDepth(root.right);
+        int left = C104_maxDepth(root.left);
+        int right = C104_maxDepth(root.right);
         return Math.max(left, right) + 1;
     }
 	
+	/**
+	 * @problem #106 Construct Binary Tree from Inorder and Postorder Traversal
+	 * @date 2018-08-29
+	 */
+	//根据中序遍历和后序遍历 构造二叉树
+	public TreeNode C106_buildTree(int[] inorder, int[] postorder) {
+        if(inorder == null || postorder == null || inorder.length != postorder.length) return null;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < inorder.length; i++){
+        	map.put(inorder[i], i);
+        }
+        return C106_traversal(0, inorder.length - 1, 0, postorder.length - 1, inorder, postorder, map);
+    }
 	
+	//这种题肯定要用递归
+	//递归的作用就是求出当前范围内的根节点以及它的左右节点
+	//范围指的是inorder里边从is到ie postorder里边从ps到pe 二者指向的是同一颗(子)树
+	public TreeNode C106_traversal(int is, int ie, int ps, int pe, int[] inorder, int[] postorder, Map<Integer, Integer> map){
+		if(is > ie || ps > pe) return null;
+		//当前范围内的跟节点一定是后序遍历数组的最后一个元素
+		int root_val = postorder[pe];
+		TreeNode root = new TreeNode(root_val);
+		//找到它在中序遍历数组中的位置
+		//这里 题目要求有 You may assume that duplicates do not exist in the tree
+		//所以说i从0开始遍历  也没啥事 但理论上最好是is
+		//因为是从inorder当前范围的最左边开始找的
+		//至于index的值 随意 写成0看着舒服
+		int index = 0;
+		for(int i = is; i <= ie; i++){
+			if(inorder[i] == root_val){
+				index = i;
+				break;
+			}
+		}
+		//inorder里边 左子树和右子树是被index隔开的
+		//postorder里边 左子树和右子树是连着的 所以分割点 需要根据inorder里边算出左子树的长度 进行适当的公式计算
+		root.left = C106_traversal(is, index - 1, ps, ps + index - is - 1, inorder, postorder, map);
+		root.right = C106_traversal(index + 1, ie, ps + index - is, pe - 1, inorder, postorder, map);
+		return root;
+	}
 	
+	//延申以下 中后写过了 下来写中先 先后貌似不行
+	public TreeNode C106_Y1(int[] preorder, int[] inorder){
+		if(preorder == null || inorder == null || preorder.length != inorder.length) return null;
+		Map<Integer, Integer> map = new HashMap<>();
+		for(int i = 0; i < inorder.length; i++){
+			map.put(inorder[i], i);
+		}
+		return C106_Y1_traversal(0, preorder.length - 1, 0, inorder.length - 1, preorder, inorder, map);
+	}
+	
+	public TreeNode C106_Y1_traversal(int ps, int pe, int is, int ie, int[] preorder, int[] inorder, Map<Integer, Integer> map){
+		if(ps > pe || is > ie) return null;
+		int root_val = preorder[ps];
+		TreeNode root = new TreeNode(root_val);
+		int index = 0;
+		for(int i = is; i <= ie; i++){
+			if(inorder[i] == root_val){
+				index = i;
+				break;
+			}
+		}
+		root.left = C106_Y1_traversal(ps + 1, ps + index - is , is, index - 1, preorder, inorder, map);
+		root.right = C106_Y1_traversal(ps + index - is + 1, pe, index + 1, ie, preorder, inorder, map);
+		return root;
+	}
+	
+	//延申打印3种遍历
+	public void C106_Y2(){
+		int[] inorder = {7, 3, 9, 8, 2};
+		int[] postorder = {7, 9, 2, 8, 3};
+		TreeNode root = C106_buildTree(inorder, postorder);
+		System.out.println("先序遍历: ");
+		C106_Y2_traversal_printPreOrder(root);
+		System.out.println("中序遍历: ");
+		C106_Y2_traversal_printInOrder(root);
+		System.out.println("后序遍历: ");
+		C106_Y2_traversal_printPostOrder(root);
+	}
+	
+	public void C106_Y2_traversal_printPreOrder(TreeNode node){
+		if(node == null) return;
+		System.out.println(node.val);
+		C106_Y2_traversal_printPreOrder(node.left);
+		C106_Y2_traversal_printPreOrder(node.right);
+	}
+	
+	public void C106_Y2_traversal_printInOrder(TreeNode node){
+		if(node == null) return;
+		C106_Y2_traversal_printInOrder(node.left);
+		System.out.println(node.val);
+		C106_Y2_traversal_printInOrder(node.right);
+	}
+	
+	public void C106_Y2_traversal_printPostOrder(TreeNode node){
+		if(node == null) return;
+		C106_Y2_traversal_printPostOrder(node.left);
+		C106_Y2_traversal_printPostOrder(node.right);
+		System.out.println(node.val);
+	}
 	
 	
 	//-----------------------------分割线--------------------------------
