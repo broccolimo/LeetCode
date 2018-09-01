@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 public class LeetCode_Tree {
 	/**
@@ -232,7 +231,65 @@ public class LeetCode_Tree {
 		System.out.println(node.val);
 	}
 	
+	/**
+	 * @problem #109 Convert Sorted List to Binary Search Tree
+	 * @date 2018-08-30
+	 */
+	//不用考虑左旋右旋的问题
+	//因为已经是从小到大排序 那么该List必然是bst的inorder
+	//可以找到中间节点 节点左边的自然是左子树 右边自然是右子树
+	//递归函数的目的 返回当前root 并让root的左右子树赋予递归
+	public TreeNode C109_sortedListToBST(ListNode head) {
+		if(head == null) return null;
+		if(head.next == null) return new TreeNode(head.val);
+		ListNode slow = head;
+		ListNode fast = head;
+		ListNode prev = null;
+		while(fast != null && fast.next != null){
+			prev = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		prev.next = null;
+		TreeNode root = new TreeNode(slow.val);
+		root.left = C109_sortedListToBST(head);
+		root.right = C109_sortedListToBST(slow.next);
+		return root;
+    }
+
+	/**
+	 * @problem #110 Balanced Binary Tree
+	 * @date 2018-09-01
+	 */
+	public boolean C110_isBalanced(TreeNode root) {
+		//终止条件
+		//想想哪些是可以判断出的 哪些是要递归才知道的
+        if(root == null) return true;
+        if(Math.abs(C110_getDepth(root.left) - C110_getDepth(root.right)) > 1) return false;
+        return C110_isBalanced(root.left) && C110_isBalanced(root.right);
+    }
 	
+	//计算每个节点的深度
+	public int C110_getDepth(TreeNode root){
+		//空节点的深度为0
+		if(root == null) return 0;
+		int left = C110_getDepth(root.left);
+		int right = C110_getDepth(root.right);
+		//节点深度当然比左右节点最大深度大1
+		return Math.max(left, right) + 1;
+	}
+	
+	private TreeNode prev = null;
+	//为什么先flatten right?
+	//因为左的右节点是右。。。 所以要先求右节点
+	public void flatten(TreeNode root) {
+		if(root == null) return;
+		flatten(root.right);
+		flatten(root.left);
+		root.left = null;
+		root.right = prev;
+		prev = root;
+    }
 	//-----------------------------分割线--------------------------------
 	//内部类
 	class TreeNode {
@@ -240,5 +297,11 @@ public class LeetCode_Tree {
 		TreeNode left;
 		TreeNode right;
 		TreeNode(int x) { val = x; }
+	}
+	
+	class ListNode {
+		int val;
+		ListNode next;
+		ListNode(int x) { val = x; }
 	}
 }

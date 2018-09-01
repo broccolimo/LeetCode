@@ -1,8 +1,15 @@
 package jy;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+
+import org.junit.Test;
+
+import com.sun.corba.se.impl.orbutil.graph.Node;
 
 
 /**
@@ -57,19 +64,13 @@ public class Sword {
 	}
 	
 	/**
-	 * @date 2018-07-18
-	 * @author broccoli
-	 * @description 
-	 * 给定一个列行数字都从小到大排列的数组 和 一个数字
-	 * 判断这个数字是否在这个数组中
+	 * 在一个二维数组中（每个一维数组的长度相同）
+	 * 每一行都按照从左到右递增的顺序排
+	 * 每一列都按照从上到下递增的顺序排序
+	 * 请完成一个函数
+	 * 输入这样的一个二维数组和一个整数
+	 * 判断数组中是否含有该整数。
 	 */
-	/**
-	 * 技巧: 从角入手
-	 * 左上角最小 右下角最大 没啥卵用
-	 * 左下角是一列最大 一行最小 右上角是一行最大 一列最小
-	 * 用这两个角的数值去和给的数字作比较
-	 * 要么相等 直接得出答案 要么不相等 可以排除一列或者一行 缩小范围重复此步骤 足矣
-	*/
 	//以左下角为基准
 	public boolean C_04_1(int[][] arr, int val){
 		int rows = arr.length;
@@ -144,6 +145,158 @@ public class Sword {
 	}
 	
 	
+	/**
+	 * 请实现一个函数
+	 * 将一个字符串中的每个空格替换成“%20”
+	 * 例如
+	 * 当字符串为We Are Happy
+	 * 则经过替换之后的字符串为We%20Are%20Happy
+	 */
+	public String replaceSpace(StringBuffer str) {
+		int space_num = 0;
+		for(char c : str.toString().toCharArray()){
+			if(c == ' ') space_num++;
+		}
+		int old_index = str.length() - 1;
+		int new_length = str.length() + 2 * space_num;
+		str.setLength(new_length);
+		int new_index = str.length() - 1;
+		while(old_index >= 0){
+			if(str.charAt(old_index) == ' '){
+				str.setCharAt(new_index--, '0');
+				str.setCharAt(new_index--, '2');
+				str.setCharAt(new_index--, '%');
+			}
+			else{
+				str.setCharAt(new_index--, str.charAt(old_index));
+			}
+			old_index--;
+		}
+		return str.toString();
+    }
 	
+	
+	/**
+	 * 输入一个链表
+	 * 按链表值从尾到头的顺序返回一个ArrayList
+	 */
+	//借助栈 运行时间：23ms 占用内存：9252k
+	public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        Stack<Integer> stack = new Stack<>();
+        while(listNode != null){
+        	stack.push(listNode.val);
+        	listNode = listNode.next;
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        while(stack.size() != 0){
+        	list.add(stack.pop());
+        }
+        return list;
+    }
+	//递归 运行时间：14ms 占用内存：9424k
+	public ArrayList<Integer> printListFromTailToHead_2(ListNode listNode){
+		ArrayList<Integer> list = new ArrayList<>();
+		printListFromTailToHead_2_traversal(listNode, list);
+		return list;
+	}
+	
+	public void printListFromTailToHead_2_traversal(ListNode listNode, ArrayList<Integer> list){
+		if(listNode != null){
+			if(listNode.next != null){
+				printListFromTailToHead_2_traversal(listNode.next, list);
+			}
+			list.add(listNode.val);
+		}
+	}
+	
+	
+	/**
+	 * 输入某二叉树的前序遍历和中序遍历的结果
+	 * 请重建出该二叉树
+	 * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字
+	 * 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}
+	 * 则重建二叉树并返回
+	 */
+	//运行时间：296ms 占用内存：22912k
+	public TreeNode reConstructBinaryTree(int[] pre,int[] in) {
+		Map<Integer, Integer> map = new HashMap<>();
+		for(int i = 0; i < in.length; i++){
+			map.put(in[i], i);
+		}
+        return reConstructBinaryTree_traversal(pre, in, 0, pre.length - 1, 0, in.length - 1, map);
+    }
+	
+	public TreeNode reConstructBinaryTree_traversal(int[] pre, int[] in, int ps, int pe, int is, int ie, Map<Integer, Integer> map){
+		if(ps > pe || is > ie) return null;
+		TreeNode node = new TreeNode(pre[ps]);
+		int mid = map.get(pre[ps]);
+		node.left = reConstructBinaryTree_traversal(pre, in, ps + 1, ps + mid - is, is, mid - 1, map);
+		node.right = reConstructBinaryTree_traversal(pre, in, ps + mid - is + 1, pe, mid + 1, ie, map);
+		return node;
+	}
+	@Test
+	public void zz(){
+		int[] pre = {1,2,3,4,5,6,7};
+		int[] in = {3,2,4,1,6,5,7};
+		//TreeNode node = reConstructBinaryTree(pre, in);
+	}
+	
+	
+	/**
+	 * 大家都知道斐波那契数列
+	 * 现在要求输入一个整数n
+	 * 请你输出斐波那契数列的第n项（从0开始，第0项为0)
+	 * n<=39
+	 */
+	//运行时间：1490ms 占用内存：9272k
+	public int Fibonacci(int n) {
+		if(n == 0) return 0;
+		if(n == 1) return 1;
+		return Fibonacci(n - 2) + Fibonacci(n - 1);
+    }
+	
+	
+	/**
+	 * 用两个栈来实现一个队列
+	 * 完成队列的Push和Pop操作
+	 *  队列中的元素为int类型
+	 */
+	//运行时间：19ms 占用内存：9400k
+	//注意只有stack2为空时才会从stack1拉数据
+	public class Solution01 {
+	    Stack<Integer> stack1 = new Stack<Integer>();
+	    Stack<Integer> stack2 = new Stack<Integer>();
+	    
+	    public void push(int node) {
+	        stack1.push(node);
+	    }
+	    
+	    public int pop() {
+	        if(stack2.empty()){
+	            while(!stack1.empty()){
+	                stack2.push(stack1.pop());
+	            }
+	        }
+	        return stack2.pop();
+	    }
+	}
+	
+	
+	//----------------------------------------------------------
+	class ListNode {
+		int val;
+		ListNode next = null;
+		ListNode(int val) {
+			this.val = val;
+		}
+	}
+	
+	class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int x) { val = x; }
+	}
+
 	
 }

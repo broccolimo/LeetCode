@@ -2554,8 +2554,39 @@ public class LeetCode {
 		//指挥部指向的第一个节点 就是要返回的
 		return fr.next;
 	}
-
-
+	
+	
+	/**
+	 * @problem @209 Reverse Linked List
+	 * @date 2018-09-02
+	 */
+	//第一种做法 迭代（循环）
+	public ListNode C209_reverseList_1(ListNode head){
+		ListNode prev = null;
+		while(head != null){
+			ListNode next = head.next;
+			head.next = prev;
+			prev = head;
+			head = next;
+		}
+		return prev;
+	}
+	
+	//第二种做法 递归
+	public ListNode C209_reverseListNode_2(ListNode head){
+		ListNode prev = null;
+		return C209_reverseListNode_2_reversal(head, prev);
+	}
+	
+	public ListNode C209_reverseListNode_2_reversal(ListNode now, ListNode prev){
+		if(now == null) return prev;
+		ListNode next = now.next;
+		now.next = prev;
+		prev = now;
+		return C209_reverseListNode_2_reversal(next, prev);
+	}
+	
+	
 	/**
 	 * @problem #237 Delete Node in a Linked List
 	 * @date 2017-11-24
