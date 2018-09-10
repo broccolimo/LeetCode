@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jdk.nashorn.internal.parser.JSONParser;
+
 import org.junit.Test;
 
 public class Interview {
@@ -89,6 +91,25 @@ public class Interview {
             }
         }
         return sum;
+    }
+    
+    //运行时间：256ms 占用内存：28600k
+    public int minNumberInRotateArray(int [] array) {
+        int length = array.length;
+        if(length == 0) return 0;
+        if(array[0] < array[length - 1]) return array[0];
+        int i = 0;
+        int j = length - 1;
+        while(i < j){
+        	int mid = (i + j) / 2;
+        	if(array[mid] > array[mid + 1]) return array[mid + 1];
+        	if(array[mid] > array[i]){
+        		i++;
+        		continue;
+        	}
+        	j--;
+        }
+        return 0;
     }
 
 }

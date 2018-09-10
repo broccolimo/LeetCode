@@ -1,13 +1,16 @@
 package jy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
-import javax.swing.tree.TreeNode;
 
 import org.junit.Test;
+
 
 public class LeetCode_Tree {
 	/**
@@ -279,17 +282,131 @@ public class LeetCode_Tree {
 		return Math.max(left, right) + 1;
 	}
 	
-	private TreeNode prev = null;
+	/**
+	 * @problem #114 Flatten Binary Tree to Linked List
+	 * @date 2018-09-01
+	 */
+	//有点难理解 多看看吧
+	private TreeNode C114_prev = null;
 	//为什么先flatten right?
 	//因为左的右节点是右。。。 所以要先求右节点
-	public void flatten(TreeNode root) {
+	public void C114_flatten(TreeNode root) {
 		if(root == null) return;
-		flatten(root.right);
-		flatten(root.left);
+		C114_flatten(root.right);
+		C114_flatten(root.left);
 		root.left = null;
-		root.right = prev;
-		prev = root;
+		root.right = C114_prev;
+		C114_prev = root;
     }
+	
+	
+	/**
+	 * @problem #144 Binary Tree Preorder Traversal
+	 * @date 2018-09-02
+	 */
+	//求先序遍历
+	public List<Integer> C144_preorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        C144_traversal(root, list);
+        return list;
+    }
+	
+	public void C144_traversal(TreeNode node, List<Integer> list){
+		if(node == null) return;
+		list.add(node.val);
+		C144_traversal(node.left, list);
+		C144_traversal(node.right, list);
+	}
+	
+	
+	/**
+	 * @problem #145 Binary Tree Postorder Traversal
+	 * @date 2018-09-02
+	 */
+	//求后序遍历
+	public List<Integer> C145_postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        C145_traversal(root, list);
+        return list;
+    }
+	
+	public void C145_traversal(TreeNode node, List<Integer> list){
+		if(node == null) return;
+		C145_traversal(node.left, list);
+		C145_traversal(node.right, list);
+		list.add(node.val);
+	}
+	
+	
+	/**
+	 * @problem #199 Binary Tree Right Side View
+	 * @date 2018-09-02
+	 * Input: [1,2,3,null,5,null,4
+	 * Output: [1, 3, 4]
+	 * Explanation:
+	 *    1            <---
+	 *  /   \
+	 * 2     3         <---
+	 *  \      \
+	 *   5      4       <---
+	 */
+	//自己做的 用map的覆盖性
+	public List<Integer> C199_rightSideView_1(TreeNode root) {
+		List<Integer> list = new ArrayList<>();
+		Map<Integer, Integer> map = new HashMap<>();
+		C199_rightSideView_1_traversal(root, map, 0);
+		for(int i : map.keySet()){
+			list.add(map.get(i));
+		}
+		return list;
+    }
+	
+	public void C199_rightSideView_1_traversal(TreeNode node, Map<Integer, Integer> map, int depth){
+		if(node == null) return;
+		map.put(depth, node.val);
+		C199_rightSideView_1_traversal(node.left, map, depth + 1);
+		C199_rightSideView_1_traversal(node.right, map, depth + 1);	
+	}
+	
+	
+	//借鉴之后 不用map了 用listのset
+	public List<Integer> C199_rightSideView_2(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        C199_rightSideView_2_traversal(root, list, 0);
+        return list;
+    }
+	
+	public void C199_rightSideView_2_traversal(TreeNode node, List<Integer> list, int level){
+		if(node == null) return;
+		if(list.size() == level){
+			list.add(node.val);
+		}
+		else{
+			list.set(level, node.val);
+		}
+		C199_rightSideView_2_traversal(node.left, list, level + 1);
+		C199_rightSideView_2_traversal(node.right, list, level + 1);
+	}
+	
+	
+	/**
+	 * @problem #226 Invert Binary Tree
+	 * @date 2018-09-02
+	 */
+	//不明觉厉 跟标准答案一模一样
+	public TreeNode C226_invertTree(TreeNode root) {
+        if(root == null) return null;
+        TreeNode left = C226_invertTree(root.left);
+        TreeNode right = C226_invertTree(root.right);
+        root.left = right;
+        root.right = left;
+        return root;
+    }
+	@Test
+	public void zz(){
+
+	}
+	
 	//-----------------------------分割线--------------------------------
 	//内部类
 	class TreeNode {

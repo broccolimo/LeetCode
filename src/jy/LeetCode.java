@@ -2587,6 +2587,28 @@ public class LeetCode {
 	}
 	
 	
+	public String C214_shortestPalindrome(String s) {
+        if(s.length() < 2) return s;
+        int[] arr = new int[2];
+        for(int i = 0; i < s.length() - 1; i++){
+        	r(s, i, i, arr);
+        	r(s, i, i + 1, arr);
+        }
+        if(arr[0] + arr[1] == s.length()){
+        	StringBuffer sb = new StringBuffer();
+        	for(int i = arr[0] - 1; i >= 0; i--){
+        		sb.append(s.charAt(i));
+        	}
+        	return s.substring(arr[0], arr[0] + arr[1]) + sb.toString();
+        }
+       return "";
+    }
+	
+	public void r(String s, int start, int end, int[] arr){
+		
+	}
+	
+	
 	/**
 	 * @problem #237 Delete Node in a Linked List
 	 * @date 2017-11-24
@@ -2651,6 +2673,7 @@ public class LeetCode {
 
 	@Test
 	public void zzzz(){
+		System.out.println(91 & 128);
 	}
 	class Interval{
 		int start;

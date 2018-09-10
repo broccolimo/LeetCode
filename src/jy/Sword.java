@@ -3,13 +3,14 @@ package jy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
 import org.junit.Test;
 
-import com.sun.corba.se.impl.orbutil.graph.Node;
 
 
 /**
@@ -234,14 +235,6 @@ public class Sword {
 		node.right = reConstructBinaryTree_traversal(pre, in, ps + mid - is + 1, pe, mid + 1, ie, map);
 		return node;
 	}
-	@Test
-	public void zz(){
-		int[] pre = {1,2,3,4,5,6,7};
-		int[] in = {3,2,4,1,6,5,7};
-		//TreeNode node = reConstructBinaryTree(pre, in);
-	}
-	
-	
 	/**
 	 * 大家都知道斐波那契数列
 	 * 现在要求输入一个整数n
@@ -280,8 +273,388 @@ public class Sword {
 	        return stack2.pop();
 	    }
 	}
-	
-	
+	/**
+	 * 一只青蛙一次可以跳上1级台阶
+	 * 也可以跳上2级
+	 * 它也可以跳上n级
+	 * 求该青蛙跳上一个n级的台阶总共有多少种跳法
+	 */
+	//运行时间：18m 占用内存：9424k
+    public int JumpFloorII(int target) {
+        if(target == 1) return 1;
+        if(target == 2) return 2;
+        int sum = 0;
+        while(target > 1){
+        	sum += JumpFloorII(--target);
+        }
+        return sum + 1;
+    }
+    
+    
+    /**
+     * 输入一个整数
+     * 输出该数二进制表示中1的个数
+     * 其中负数用补码表示
+     */
+    //运行时间：11ms 占用内存：9432k
+    //java里边的负数默认就是用补码进行操作的
+    //所以没有必要进行把负数转正, 头部为1其余取反最后加1的操作
+    public int NumberOf1(int n) {
+    	int count = 0;
+    	int flag = 1;
+    	while(flag != 0){
+    		if((n & flag) != 0){
+    			count++;
+    		}
+    		flag = flag << 1;
+    	}
+    	return count;
+    }
+    
+    /**
+     * 输入一个链表
+     * 输出该链表中倒数第k个结点
+     */
+    //就是先求总共有几个节点 别想着反向输出
+    //运行时间：16ms 占用内存：9656k
+    public ListNode FindKthToTail(ListNode head,int k) {
+    	int node_num = 0;
+    	ListNode head1 = head;
+    	while(head1 != null){
+    		node_num++;
+    		head1 = head1.next;
+    	}
+    	if(k > node_num) return null;
+    	int _k = node_num - k + 1;
+    	ListNode head2 = head;
+    	int i = 2;
+    	while((i++) <= _k){
+    		head2 = head2.next;
+    	}
+    	return head2;
+    }
+    
+    
+    /**
+     * 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形
+     * 请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形
+     * 总共有多少种方法
+     */
+    //运行时间：591ms 占用内存：9428k
+    public int RectCover(int target) {
+    	if(target < 1) return 0;
+        if(target == 1 || target == 2) return target;
+    	return RectCover(target - 1) + RectCover(target - 2);
+    }
+    
+    /**
+     * 输入一个整数数组
+     * 实现一个函数来调整该数组中数字的顺序
+     * 使得所有的奇数位于数组的前半部分
+     * 所有的偶数位于数组的后半部分
+     * 并保证奇数和奇数
+     * 偶数和偶数之间的相对位置不变。
+     */
+    //运行时间：22ms 占用内存：9372k
+    public void reOrderArray(int [] array) {
+        if(array.length <= 1) return;
+        int index = -1;
+        for(int i = 0; i < array.length; i++){
+        	if(array[i] % 2 == 1){
+        		int val = array[i];
+        		int temp = i;
+        		while(temp > index + 1){
+        			array[temp] = array[temp - 1];
+        			temp--;
+        		}
+        		array[++index] = val;
+        	}
+        }
+    }
+    
+   
+    /**
+     * 输入一个链表
+     * 反转链表后
+     * 输出新链表的表头
+     */
+    //运行时间：17ms 占用内存：9564k
+    public ListNode ReverseList(ListNode head) {
+    	ListNode prev = null;
+    	while(head != null){
+    		ListNode next = head.next;
+    		head.next = prev;
+    		prev = head;
+    		head = next;
+    	}
+    	return prev;
+    }
+    
+  
+    /**
+     * 输入两个单调递增的链表
+     * 输出两个链表合成后的链表
+     * 当然我们需要合成后的链表满足单调不减规则
+     */
+    //非递归
+    //运行时间：20ms 占用内存：9660k
+    public ListNode Merge(ListNode list1,ListNode list2) {
+    	if(list1 == null) return list2;
+    	if(list2 == null) return list1;
+        ListNode root = null;
+        if(list1.val <= list2.val){
+        	root = list1;
+        	list1 = list1.next;
+        }
+        else{
+        	root = list2;
+        	list1 = list2.next;
+        }
+        ListNode temp = root;
+        while(list1 != null && list2 != null){
+        	if(list1.val <= list2.val){
+        		temp.next = list1;
+        		temp = list1;
+        		list1 = list1.next;
+        	}
+        	else{
+        		temp.next = list2;
+        		temp = list2;
+        		list2 = list2.next;
+        	}
+        }
+        if(list1 != null){
+        	temp.next = list1;
+        }
+        if(list2 != null){
+        	temp.next = list2;
+        }
+        return root;
+    }
+    
+    //递归
+    //运行时间：21ms 占用内存：9432k
+    public ListNode Merge2(ListNode list1,ListNode list2) {
+    	if(list1 == null) return list2;
+    	if(list2 == null) return list1;
+    	if(list1.val <= list2.val){
+    		list1.next = Merge2(list1.next, list2);
+    		return list1;
+    	}
+    	else{
+    		list2.next = Merge2(list1, list2.next);
+    		return list2;
+    	}
+    }
+    
+    
+    
+    /**
+     * 操作给定的二叉树
+     * 将其变换为源二叉树的镜像。
+     * @param root
+     */
+    //运行时间：22ms 占用内存：9560k
+	//蠢
+    public void Mirror(TreeNode root) {
+        if(root == null) return;
+        TreeNode right= root.right;
+        root.right = root.left;
+        root.left = right;
+        Mirror(root.left);
+        Mirror(root.right);
+    }
+    
+    
+    /**
+     * 输入两棵二叉树A，B
+     * 判断B是不是A的子结构
+     * 我们约定空树不是任意一个树的子结构
+     */
+    //运行时间：16ms 占用内存：9536k
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        boolean flag = false;
+        //root2从来就没变过 只要root2是空 则直接返回flag的初始值false
+        if(root1 != null && root2 != null){
+        	//若相等 则看余下的结构是否也一样或包含
+        	if(root1.val == root2.val){
+        		flag = HasSubtree_reserval(root1, root2);
+        	}
+        	
+        	//root1当前这个点和root2的跟不一样 则试试root1的left
+        	if(!flag){
+        		flag = HasSubtree(root1.left, root2);
+        	}
+        	
+        	//root1当前这个点和left和root2的跟不一样 则试试root1的right
+        	if(!flag){
+        		flag = HasSubtree(root1.right, root2);
+        	}
+        }
+        return flag;
+    }
+    
+    public boolean HasSubtree_reserval(TreeNode root1,TreeNode root2){
+    	//root1有 而root2空 则root2是root1的子树
+    	if(root2 == null) return true;
+    	//到这一步root2必定不为空 若root1空了 则root2不是root1的子树
+    	if(root1 == null) return false;
+    	if(root1.val != root2.val) return false;
+    	return HasSubtree_reserval(root1.left, root2.left) && HasSubtree_reserval(root1.right, root2.right);
+    }
+    
+    
+    /**
+     * 从上往下打印出二叉树的每个节点
+     * 同层节点从左至右打印
+     */
+    //自己做的 递归还map 不太妥
+    //运行时间：14m 占用内存：9432k
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+        PrintFromTopToBottom_rec(root, map ,0);
+        for(int i = 0; i < map.size(); i++){
+        	ArrayList<Integer> temp = map.get(i);
+        	for(int val : temp){
+        		list.add(val);
+        	}
+        }
+        return list;
+    }
+    
+    public void PrintFromTopToBottom_rec(TreeNode node, Map<Integer, ArrayList<Integer>> map, int level){
+    	if(node == null) return;
+    	if(!map.keySet().contains(level)){
+    		ArrayList<Integer> temp = new ArrayList<>();
+    		temp.add(node.val);
+    		map.put(level, temp);
+    	}
+    	else{
+    		map.get(level).add(node.val);
+    	}
+    	PrintFromTopToBottom_rec(node.left, map, level + 1);
+    	PrintFromTopToBottom_rec(node.right, map, level + 1);
+    }
+    
+    //借鉴了大牛的写法
+    //运行时间：14m 占用内存：9276k
+    public ArrayList<Integer> PrintFromTopToBottom_2(TreeNode root) {
+        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<TreeNode> queue = new ArrayList<>();
+        if(root == null) return list;
+        queue.add(root);
+        while(!queue.isEmpty()){
+        	TreeNode temp = queue.remove(0);
+        	if(temp.left != null) queue.add(temp.left);
+        	if(temp.right != null) queue.add(temp.right);
+        	list.add(temp.val);
+        }
+        return list;
+    }
+    
+    /**
+     * 输入两个整数序列
+     * 第一个序列表示栈的压入顺序
+     * 请判断第二个序列是否可能为该栈的弹出顺序
+     * 假设压入栈的所有数字均不相等
+     * 例如序列1,2,3,4,5是某栈的压入顺序
+     * 序列4,5,3,2,1是该压栈序列对应的一个弹出序列
+     * 但4,3,5,1,2就不可能是该压栈序列的弹出序列
+     * 注意：这两个序列的长度是相等的
+     */
+    //运行时间：19ms 占用内存：9436k
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+    	if(pushA.length == 0) return false;
+    	int len = pushA.length;
+    	Stack<Integer> stack = new Stack<Integer>();
+    	int i = 0;
+    	int j = 0;
+    	//只能保证push完了
+    	while(i < len && j < len){
+    		if(stack.isEmpty() || stack.peek() != popA[j]){
+    			stack.push(pushA[i++]);
+    		}
+    		else{
+    			stack.pop();
+    			j++;
+    		}
+    	}
+    	while(!stack.isEmpty()){
+    		if(stack.peek() == popA[j]){
+    			stack.pop();
+    			j++;
+    			continue;
+    		}
+    		return false;
+    	}
+        return true;
+    }
+    
+    
+    /**
+     * 定义栈的数据结构
+     * 请在该类型中实现一个能够得到栈中所含最小元素的min函数
+     * 时间复杂度应为O（1）
+     *
+     */
+    //运行时间：13ms 占用内存：9308k
+    class ImplMinInStack{
+    	Stack<Integer> stack = new Stack<>();
+    	Stack<Integer> sup = new Stack<>();
+    	public void push(int node) {
+            if(sup.empty() || sup.peek() > node){
+            	sup.push(node);
+            }
+            stack.push(node);
+        }
+        
+        public void pop() {
+        	if(stack.empty()){
+        		throw new RuntimeException("栈是空的");
+        	}
+        	if(stack.peek() == sup.peek()){
+        		sup.pop();
+        	}
+            stack.pop();
+        }
+        
+        public int top() {
+        	if(stack.empty()){
+        		throw new RuntimeException("栈是空的");
+        	}
+            return stack.peek();
+        }
+        
+        public int min() {
+        	if(stack.empty()){
+        		throw new RuntimeException("栈是空的");
+        	}
+            return sup.peek();
+        }
+    }
+    
+    
+    /**
+     * 计算字符串最后一个单词的长度
+     * 单词以空格隔开
+     */
+    //运行时间：45ms 占用内存：10572k
+    static class CptLenhOfLastWordInString{
+        public static void main(String[] args){
+            Scanner sc = new Scanner(System.in);
+            String str = sc.nextLine();
+            sc.close();
+            System.out.println(str.length() - str.lastIndexOf(" ") - 1);
+        }
+    }
+    
+    @Test
+    public void zz(){
+    	//System.out.println(t("hell3123123o world31231"));
+    }
+    
+    
 	//----------------------------------------------------------
 	class ListNode {
 		int val;
