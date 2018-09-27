@@ -39,8 +39,19 @@ public class A {
 			arr[0] = start + 1;
 		} 
 	}
+	
+	public int C03_求最长子序列和(int[] arr){
+		int current = arr[0];
+		int max = arr[0];
+		for(int i = 1; i < arr.length; i++){
+			current = Math.max(arr[i], arr[i] + current);
+			max = Math.max(current, max);
+		}
+		return max;
+	}
 	@Test
 	public void zz(){
+		
 		
 	}
 }

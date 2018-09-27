@@ -1,15 +1,27 @@
 package jy;
 
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
+
+
+
+
 
 import org.junit.Test;
+
+import sun.print.resources.serviceui;
+
 
 
 
@@ -649,10 +661,448 @@ public class Sword {
         }
     }
     
-    @Test
-    public void zz(){
-    	//System.out.println(t("hell3123123o world31231"));
+    
+    /**
+     * 输入一个矩阵
+     * 按照从外向里以顺时针的顺序依次打印出每一个数字
+     * 例如
+     * 如果输入如下4 X 4矩阵
+     * 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+     * 则依次打印出数字
+     * 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10
+     */
+    //运行时间：19ms 占用内存：9544k
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int xmax = rows - 1;
+        int ymax = cols - 1;
+        int xmin = 1;
+        int ymin = 0;
+        int i = 0;
+        int j = 0;
+        ArrayList<Integer> list = new ArrayList<>();
+        while(true){
+        	//step1
+        	while(j <= ymax){
+        		list.add(matrix[i][j++]);
+        	}
+        	j--;
+        	ymax--;
+        	i++;
+        	if(i > xmax) break;
+        	//step2
+        	while(i <= xmax){
+        		list.add(matrix[i++][j]);
+        	}
+        	i--;
+        	xmax--;
+        	j--;
+        	if(j < ymin) break;
+        	//step3
+        	while(j >= ymin){
+        		list.add(matrix[i][j--]);
+        	}
+        	j++;
+        	ymin++;
+        	i--;
+        	if(i < xmin) break;;
+        	//step4
+        	while(i >= xmin){
+        		list.add(matrix[i--][j]);
+        	}
+        	i++;
+        	xmin++;
+        	j++;
+        	if(j > ymax) break;
+        }
+        return list;
     }
+    
+    
+    
+    //运行时间：17ms 占用内存：9380k
+    public boolean VerifySquenceOfBST(int [] sequence) {
+    	if(sequence.length == 0) return false;
+        return VerifySquenceOfBST_R(sequence, 0, sequence.length - 1);
+    }
+    
+    public boolean VerifySquenceOfBST_R(int[] a, int start, int end){
+    	if(start >= end) return true;
+    	//mid指右子树的起始index 
+    	//由于不排除没有左子树的可能
+    	//所以mid初始化为start
+    	int mid = start;
+    	//存在左子树
+    	if(a[start] < a[end]){
+    		mid++;
+    		//mid == end时说明没有右子树
+    		while(mid < end && a[mid] < a[end]){
+    			mid++;
+    		}
+    	}
+    	//不排除 所谓右子树里边有节点值小于根节点值的情况
+    	int temp = mid;
+    	while(temp < end){
+    		if(a[temp++] < a[end]) return false;
+    	}
+    	return VerifySquenceOfBST_R(a, start, mid - 1) && VerifySquenceOfBST_R(a, mid, end - 1);
+    }
+    
+    
+    //运行时间：18ms 占用内存：9296k
+    public int MoreThanHalfNum_Solution(int [] array) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < array.length; i++){
+        	if(!map.keySet().contains(array[i])){
+        		map.put(array[i], 1);
+        		if(map.get(array[i]) > array.length / 2){
+        			return array[i];
+        		}
+        	}
+        	else{
+        		map.put(array[i], map.get(array[i]) + 1);
+        		if(map.get(array[i]) > array.length / 2){
+        			return array[i];
+        		}
+        	}
+        }
+        return 0;
+    }
+    
+    
+    /**
+     * 输入n个整数
+     * 找出其中最小的K个数
+     * 例如输入4,5,1,6,2,7,3,8这8个数字
+     * 则最小的4个数字是1,2,3,4
+     */
+    //运行时间：20ms 占用内存：9584k
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+    	ArrayList<Integer> list = new ArrayList<>();
+    	int length = input.length;
+    	if(k > length || length == 0 || k == 0) return list;
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer arg0, Integer arg1) {
+				if(arg0 > arg1) return -1;
+				if(arg0 == arg1) return 0;
+				return 1;
+			}
+    		
+    	});
+    	for(int i = 0; i < length; i++){
+    		if(i < k){
+    			maxHeap.add(input[i]);
+    		}
+    		else{
+    			if(maxHeap.peek() > input[i]){
+    				maxHeap.poll();
+    				maxHeap.add(input[i]);
+    			}
+    		}
+    	}
+    	for(int i : maxHeap){
+    		list.add(i);
+    	}
+    	return list;
+    }
+    
+    /**
+     * 找连续子数组的最大和
+     */
+    //运行时间：17ms 占用内存：9368k
+    public int FindGreatestSumOfSubArray(int[] array) {
+    	if(array.length == 0) return 0;
+        int max = array[0];
+        int cur = array[0];
+        for(int i = 1; i < array.length; i++){
+        	cur = Math.max(array[i], cur + array[i]);
+        	max = Math.max(cur, max);
+        }
+        return max;
+    }
+    
+    //运行时间：15ms 占用内存：9664k
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        r(res, root, target, new ArrayList<Integer>());
+        return res;
+    }
+    
+    public void r(ArrayList<ArrayList<Integer>> res, TreeNode root, int target, ArrayList<Integer> temp){
+    	if(root == null) return;
+    	if(root.val == target){
+    		if(root.left == null && root.right == null){
+    			temp.add(root.val);
+        		res.add(temp);
+    		}
+    		return;
+    	}
+    	if(root.val > target) return;
+    	temp.add(root.val);
+    	ArrayList<Integer> r1 = new ArrayList<>(temp);
+    	ArrayList<Integer> r2 = new ArrayList<>(temp);
+    	r(res, root.left, target - root.val, r1);
+    	r(res, root.right, target - root.val, r2);
+    }
+    
+    
+    /**
+     * 输入一棵二叉树
+     * 求该树的深度
+     * 从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径
+     * 最长路径的长度为树的深度
+     */
+    //运行时间：17ms 占用内存：9152k
+    public int TreeDepth(TreeNode root) {
+        if(root == null) return 0;
+        int left = TreeDepth(root.left);
+        int right = TreeDepth(root.right);
+        return Math.max(left, right) + 1;
+    }
+    
+
+    /**
+     * 在一个字符串(0<=字符串长度<=10000，全部由字母组成)中
+     * 找到第一个只出现一次的字符
+     * 并返回它的位置
+     * 如果没有则返回 -1(需要区分大小写)
+     */
+    //运行时间：45ms 占用内存：9952k
+    public int FirstNotRepeatingChar(String str) {
+    	Map<Character, Integer> map = new HashMap<>();
+    	for(int i = 0; i < str.length(); i++){
+    		if(map.get(str.charAt(i)) == null){
+    			map.put(str.charAt(i), 1);
+    		}
+    		else{
+    			map.put(str.charAt(i), map.get(str.charAt(i)) + 1);
+    		}
+    	}
+    	for(int i = 0; i < str.length(); i++){
+    		if(map.get(str.charAt(i)) == 1){
+    			return i;
+    		}
+    	}
+        return -1;
+    }
+    
+    //旋转数组找最大值
+    public int CC01(int[] a){
+    	int left = 0;
+    	int right = a.length - 1;
+    	if(a[left] < a[right]) return a[right];
+    	while(left < right){
+    		int mid = (left + right) / 2;
+    		if(a[mid] > a[mid + 1]) return a[mid];
+    		if(a[mid] < a[left]) right--;
+    		else left++;
+    	}
+    	return a[left];
+    }
+    
+    //旋转求最大值
+    public int CC02(int[] a){
+    	int left = 0;
+    	int right = a.length - 1;
+    	if(a[left] < a[right]) return a[left];
+    	while(left < right){
+    		int mid = (left + right) / 2;
+    		if(a[mid] < a[mid - 1]) return a[mid];
+    		if(a[mid] < a[left]) right--;
+    		else left++;
+    	}
+    	return a[left];
+    }
+    
+    
+    /**
+     * 输入一个字符串
+     * 按字典序打印出该字符串中字符的所有排列
+     * 例如输入字符串abc
+     * 则打印出由字符a,b,c所能排列出来的所有字符串
+     * abc,acb,bac,bca,cab和cba。
+     */
+    //使用回溯法 注意循环里回溯方法的第一个参数是i+1不是j+1
+    //最后要用Collections.sort()进行自然排序
+    //运行时间：165ms 占用内存：12224k
+    public ArrayList<String> Permutation(String str) {
+    	ArrayList<String> res = new ArrayList<>();
+    	if(str == null || str.length() == 0) return res;
+    	Permutation_r(0, str.toCharArray(), res);
+    	Collections.sort(res);
+    	return res;
+    }
+    
+    public void Permutation_r(int index, char[] c, ArrayList<String> res){
+    	if(index == c.length - 1){
+    		String s = String.valueOf(c);
+    		if(!res.contains(s)){
+    			res.add(s);
+    		} 
+            return;
+    	}
+    	for(int i = index; i < c.length; i++){
+    		for(int j = i; j < c.length; j++){
+    			char t1 = c[i];
+    			c[i] = c[j];
+    			c[j] = t1;
+    			Permutation_r(i + 1, c, res);
+    			t1 = c[i];
+    			c[i] = c[j];
+    			c[j] = t1;
+    		}
+    	}
+    }
+    
+    
+    /**
+     * 求1+2+3+...+n
+     * 要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）
+     */
+    //既然不能用循环 那就只能用递归
+    //递归得有if终止条件 
+    //但if不让用
+    //就用短路操作代替if
+    //无奈java还必须给这个操作的结果赋个值
+    //运行时间：19ms 占用内存：9180k
+    public int Sum_Solution(int n) {
+        int res = n;
+        boolean flag = (res != 0) && ((res += Sum_Solution(n - 1)) > 0);
+        return res;
+    }
+    
+    
+    
+    /**
+     * 写出一个程序
+     * 接受一个十六进制的数值字符串
+     * 输出该数值的十进制字符串（多组同时输入 ）
+     * 输入描述:
+     * 输入一个十六进制的数值字符串。
+     * 输出描述:
+     * 输出该数值的十进制字符串。
+     */
+    //如果自测没问题 但就是AC不了
+    //可以换一下scanner的写法
+    //运行时间：51ms 占用内存：10536k
+    @Test
+    public void C_十六进制转十进制(){
+    	Scanner scanner = new Scanner(System.in);
+    	while(scanner.hasNext()){
+    		String s = scanner.nextLine();
+        	StringBuffer sb = new StringBuffer();
+        	System.out.println(s.substring(2).toLowerCase());
+        	sb.append(s.substring(2).toLowerCase());
+        	char[] c = sb.reverse().toString().toCharArray();
+        	int sum = 0;
+        	for(int i = 0; i < c.length; i++){
+        		int val = c[i] - '0';
+        		if(val >= 49){
+        			sum += (val - 39) * Math.pow(16, i);
+        		}
+        		else{
+        			sum += val * Math.pow(16, i);
+        		}
+        	}
+        	System.out.println(sum);
+    	}
+    	scanner.close();
+    }
+    
+    
+    /**
+     * 输入两个链表，找出它们的第一个公共结点。
+     */
+    //首先要理解这个题目的含义
+    //这其实是个Y型链表
+    //就是说两个链表的尾巴是一样的
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+    	if(pHead1 == null || pHead2 == null) return null;
+    	int len1 = 0;
+    	int len2 = 0;
+    	ListNode temp1 = pHead1;
+    	ListNode temp2 = pHead2;
+    	while(temp1 != null){
+    		len1++;
+    		temp1 = temp1.next;
+    	}
+    	while(temp2 != null){
+    		len2++;
+    		temp2 = temp2.next;
+    	}
+    	temp1 = pHead1;
+    	temp2 = pHead2;
+    	int diff = 0;
+    	if(len1 < len2){
+    		diff = len2 - len1;
+    		while(diff != 0){
+    			temp2 = temp2.next;
+    			diff--;
+    		}
+    	}
+    	else{
+    		diff = len1 - len2;
+    		while(diff != 0){
+    			temp1 = temp1.next;
+    			diff--;
+    		}
+    	}
+    	while(temp1.val != temp2.val){
+    		temp1 = temp1.next;
+    		temp2 = temp2.next;
+    	}
+    	return temp1 == null ? null : temp1;
+    }
+    
+    
+    /**
+     * 复制一个复杂链表(leetcode138)
+     * 2018-09-26
+     */
+    /**
+     * 这应该是较唯一的写法了
+     * 因为如果想独立于链表再造一个平行链表时
+     * 会发现random无法处理(造是肯定要造的 但不知道在何处造)
+     * 先在原链表每个节点后复制自身
+     * 就能很好解决这个问题了
+     */
+    public RandomListNode Clone(RandomListNode pHead){
+    	RandomListNode cur = pHead;
+    	RandomListNode next;
+    	while(cur != null){
+    		next = cur.next;
+    		RandomListNode temp = new RandomListNode(cur.label);
+    		cur.next = temp;
+    		temp.next = next;
+    		cur = next;
+    	}
+    	cur = pHead;
+    	while(cur != null){
+    		if(cur.random != null){
+    			cur.next.random = cur.random.next;
+    		}
+    		cur = cur.next.next;
+    	}
+    	cur = pHead;
+    	RandomListNode res = new RandomListNode(0);
+    	RandomListNode r1;
+    	RandomListNode r2 = res;
+    	while(cur != null){
+    		next = cur.next.next;
+    		r1 = cur.next;
+    		r2.next = r1;
+    		r2 = r1;
+    		cur.next = next;
+    		cur = next;
+    	}
+    	return res.next;
+    }
+    
+    
+    
     
     
 	//----------------------------------------------------------
@@ -671,5 +1121,14 @@ public class Sword {
 		TreeNode(int x) { val = x; }
 	}
 
+	class RandomListNode {
+		int label;
+		RandomListNode next = null;
+		RandomListNode random = null;
+
+		RandomListNode(int label) {
+			this.label = label;
+		}
+	}
 	
 }

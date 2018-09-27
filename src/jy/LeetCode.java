@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import jdk.internal.dynalink.beans.StaticClass;
 import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
 
 import org.hamcrest.DiagnosingMatcher;
@@ -324,33 +325,33 @@ public class LeetCode {
 	 * 具体要求看leetcode
 	 */
 	public String C006_Convert(String s, int numRows) {
-    	if(numRows == 1) return s;
-    	//一组有几个元素
-    	int m = numRows * 2 - 2;
-    	//一组占几行
-    	int line = numRows - 1;
-    	//余数
-    	int yushu = s.length() % m;
-    	//商
-    	int shang = s.length() / m;
-    	//有几组
-    	int n = yushu == 0 ? shang : shang + 1;
-    	//额外要加的数
-    	int extra = yushu == 0 ? (numRows - 2) : (yushu <= numRows ? 0 : (yushu - numRows));
-    	//总共需要几列
-    	int count = line * (n - 1) + 1 + extra;
-    	char[][] arr = new char[numRows][count];
-    	C006_r(0, 0, 0, s, arr, numRows);
-    	StringBuffer sb = new StringBuffer();
-    	for(int i = 0; i < numRows; i++){
-    		for(int j = 0; j < count; j++){
-    			if(arr[i][j] == 0) continue;
-    			sb.append(arr[i][j]);
-    		}
-    	}
-    	return sb.toString();
-    }
-	
+		if(numRows == 1) return s;
+		//一组有几个元素
+		int m = numRows * 2 - 2;
+		//一组占几行
+		int line = numRows - 1;
+		//余数
+		int yushu = s.length() % m;
+		//商
+		int shang = s.length() / m;
+		//有几组
+		int n = yushu == 0 ? shang : shang + 1;
+		//额外要加的数
+		int extra = yushu == 0 ? (numRows - 2) : (yushu <= numRows ? 0 : (yushu - numRows));
+		//总共需要几列
+		int count = line * (n - 1) + 1 + extra;
+		char[][] arr = new char[numRows][count];
+		C006_r(0, 0, 0, s, arr, numRows);
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < numRows; i++){
+			for(int j = 0; j < count; j++){
+				if(arr[i][j] == 0) continue;
+				sb.append(arr[i][j]);
+			}
+		}
+		return sb.toString();
+	}
+
 	public void C006_r(int x, int y, int index, String s, char[][] arr, int row){
 		if(index == s.length()) return;
 		else if(y % (row - 1) == 0 && x != (row - 1)){
@@ -1863,7 +1864,7 @@ public class LeetCode {
 			}
 		}
 	}
-	
+
 	/**
 	 * @problem #40 Combination Sum II
 	 * @date 2017-12-11
@@ -1920,559 +1921,559 @@ public class LeetCode {
 			temp.remove(temp.size() - 1);
 		}
 	}
-	
+
 	/**
 	 * @problem #41 First Missing Positive
 	 * @date 2017-12-14
 	 */
-    public int C041_FirstMissingPositive(int[] nums) {
-    	Arrays.sort(nums);
-    	int l = nums.length;
-    	int count = 1;
-    	for(int i = 0; i < l; i++){
-    		if(i > 0 && nums[i] == nums[i - 1]) continue;
-    		if(nums[i] > 0){
-    			if(nums[i] != count) return count;
-    			count++;
-    		}
-    	}
-    	return count;
-    }
-    
-    /**
-     * @problem #42 Trapping Rain Water
-     * @date 2017-12-14
-     * 
-     * Given n non-negative integers representing an elevation map 
-     * where the width of each bar is 1, 
-     * compute how much water it is able to trap after raining.
-     * For example,
-     * Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
-     * 
-     * 不要横着加这样思考
-     * 最终思路是竖着加
-     */
-    public int C042_TrappingRainWater(int[] height) {
-    	int res = 0;
-    	int left = 0;
-    	int right = height.length - 1;
-    	int left_max = 0;
-    	int right_max = 0;
-    	while(left < right){
-    		//这个条件确保了 
-    		//只要左边符合了条件就只管去加
-    		//大不了右边来收尾
-    		if(height[left] <= height[right]){
-    			if(height[left] >= left_max){
-    				left_max = height[left];
-    			}
-    			else{
-    				res += (left_max - height[left]);
-    			}
-    			left++;
-    		}
-    		else{
-    			if(height[right] >= right_max){
-    				right_max = height[right];
-    			}
-    			else{
-    				res += (right_max - height[right]);
-    			}
-    			right--;
-    		}
-    	}
-    	return res;
-    }
-    
-    /**
-     * @problem #43 Multiply Strings
-     * @date 2018-02-05
-     * 
-     * Given two non-negative integers num1 and num2 represented as strings, 
-     * return the product of num1 and num2.
-     * Note:
-     * The length of both num1 and num2 is < 110.
-     * Both num1 and num2 contains only digits 0-9.
-     * Both num1 and num2 does not contain any leading zero.
-     * You must not use any built-in BigInteger library or convert the inputs to integer directly.
-     */
-    public String C043_MultiplyStrings(String num1, String num2) {
-    	int m = num1.length();
-    	int n = num2.length();
-    	int[] arr = new int[m + n];
-    	int sum = 0;
-    	for(int i = n - 1; i >= 0; i--){
-    		for(int j = m - 1; j >= 0; j--){
-    			int pos1 = i + j;
-    			int pos2 = i + j + 1;
-    			sum = (num1.charAt(j) - '0') * (num2.charAt(i) - '0') + arr[pos2];
-    			arr[pos1] += sum / 10;
-    			arr[pos2] = sum % 10;
-    		}
-    	}
-    	StringBuffer sb = new StringBuffer();
-    	for(int p : arr){
-    		if(!(sb.length() == 0 && p == 0)){
-    			sb.append(p);
-    		}
-    	}
-    	return sb.length() == 0 ? "0" : sb.toString();
-    }
-    
-    
-    /**
-     * @problem #44 Wildcard Matching
-     * @date 2018-02-24
-     * 
-     * Implement wildcard pattern matching with support for '?' and '*'.
-     * '?' Matches any single character.
-     * '*' Matches any sequence of characters (including the empty sequence).
-     * The matching should cover the entire input string (not partial).
-     */
-    public boolean C044_WildcardMatching(String s, String p) {
-    	//s是字符串 p是通配符
-    	int i = 0;
-    	int j = 0;
-    	int sl = s.length();
-    	int pl = p.length();
-    	int match = 0;
-    	int ps = -1;
-    	while(i < sl){
-    		if(j < pl && (p.charAt(j) == '?' || p.charAt(j) == s.charAt(i))){
-    			i++;
-    			j++;
-    		}
-    		else if(j < pl && p.charAt(j) == '*'){
-    			//记录出现*号 二者的位置
-    			match = i;
-    			ps = j;
-    			//字符串不动 匹配段继续
-    			j++;
-    		}
-    		//这个匹配有问题
-    		else if(ps != -1){
-    			//始终把*后边一位作为基准
-    			j = ps + 1;
-    			//i 是 随着 match 变得
-    			match++;
-    			i = match;
-    		}
-    		else{
-    			return false;
-    		}
-    	}
-    	//单单用一个*匹配一个空字符串 666
-    	while(j < pl && p.charAt(j) == '*'){
-    		j++;
-    	}
-    	return j == pl ? true : false;
-    }
-    
-    /**
-     * @problem #45 Jump Game II
-     * @date 2018-02-27
-     * 
-     * Given an array of non-negative integers, 
-     * you are initially positioned at the first index of the array.
-     * Each element in the array represents your maximum jump length at that position.
-     * Your goal is to reach the last index in the minimum number of jumps.
-     * For example:
-     * Given array A = [2,3,1,1,4]
-     * The minimum number of jumps to reach the last index is 2. 
-     * (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
-     */
-    public int C045_JumpGameII(int[] nums) {
-    	//看了思路 但没看具体实现
-    	//莫名其妙就AC了
-    	//跳的时候 肯定要计算count
-    	//不管跳不跳都要计算t 在跳的时候赋予max 因为max决定跳不跳
-    	//需要注意的是在跳的点 仍然要计算t 故有i--
-        int max = nums[0];
-        int count = nums.length <= 1 ? 0 : 1;
-        int t = 0;
-        for(int i = 1; i < nums.length; i++){
-        	if(i <= max){
-        		t = nums[i] + i > t ? nums[i] + i : t;
-        	}
-        	else{
-        		max = t;
-        		i--;
-        		count++;
-        	}
-        }
-        return count;
-    }
-    
-    /**
-     * @problem #46 Permutations
-     * @date 2018-02-28
-     * 
-     * Given a collection of distinct numbers, return all possible permutations.
-     */
-    public List<List<Integer>> C046_Permutations(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> temp = new ArrayList<>();
-        C046_backtracking(res, temp, nums);
-        return res;
-    }
-    
-    public void C046_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums){
-    	if(temp.size() == nums.length){
-    		//temp的值是动态的 如果new一个 其实加的时候有数据 最后经过remove里边都是空元素
-    		//new的含义是创建一个新对象来保存当前状态
-    		res.add(new ArrayList<>(temp));
-    	}
-    	else{
-    		for(int i = 0; i < nums.length; i++){
-    			//省去了一些麻烦
-    			//统一用这种方式来辨别
-    			if(temp.contains(nums[i])) continue;
-    			temp.add(nums[i]);
-    			C046_backtracking(res, temp, nums);
-    			//前边add的是多少 这里remove的就是多少
-    			//即使中间有回溯操作 但回溯还是这个 不矛盾
-    			//这个过程理解起来有点难受 多弄弄就好了
-    			temp.remove(temp.size() - 1);
-    		}
-    	}
-    }
-    
-    /**
-     * @problem #47 Permutations II
-     * @date 2018-02-28
-     * 
-     * Given a collection of numbers that might contain duplicates, 
-     * return all possible unique permutations.
-     */
-    public List<List<Integer>> C047_PermutationsII(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> temp = new ArrayList<>();
-        boolean[] used = new boolean[nums.length];
-        Arrays.sort(nums);
-        C047_backtracking(res, temp, nums, used);
-        return res;
-    }
-    
-    public void C047_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums, boolean[] used){
-    	if(temp.size() == nums.length){
-    		res.add(new ArrayList<>(temp));
-    	}
-    	else{
-    		for(int i = 0; i < nums.length; i++){
-    			if(used[i] == true) continue;
-    			if(i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
-    			temp.add(nums[i]);
-    			used[i] = true;
-    			C047_backtracking(res, temp, nums, used);
-    			temp.remove(temp.size() - 1);
-    			used[i] = false;
-    		}
-    	}
-    }
-    
-    /**
-     * @problem #48 Rotate Image
-     * @date 2018-03-01
-     * 
-     * you are given an n x n 2D matrix representing an image.
-     * Rotate the image by 90 degrees (clockwise).
-     */
-    public void C048_RotateImage(int[][] matrix) {
-        int l = matrix.length;
-        for(int i = 0; i < l - 1; i++){
-        	for(int j = i + 1; j < l; j++){
-        		int temp = matrix[i][j];
-        		matrix[i][j] = matrix[j][i];
-        		matrix[j][i] = temp;
-        	}
-        }
-        for(int i = 0; i < l; i++){
-        	for(int j = 0; j < l / 2; j++){
-        		int temp = matrix[i][j];
-        		matrix[i][j] = matrix[i][l - j - 1];
-        		matrix[i][l - j - 1] = temp;
-        	}
-        }
-    }
-    
-    /**
-     * @problem #49 Group Anagrams
-     * @date 2018-03-02
-     * 
-     * Given an array of strings, group anagrams together.
-     * For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"], 
-     * Return:
-     * [
-     * 	["ate", "eat","tea"],
-     * 	["nat","tan"],
-     *  ["bat"]
-     * ]
-     * Note: All inputs will be in lower-case.
-     */
-    public List<List<String>> C049_GroupAnagrams(String[] strs) {
-        if(strs.length == 0) return new ArrayList<>();
-        Map<String, List<String>> res = new HashMap<>();
-        for(String s : strs){
-        	char[] c = s.toCharArray();
-        	Arrays.sort(c);
-        	String key = String.valueOf(c);
-        	if(!res.containsKey(key)){
-        		res.put(key, new ArrayList<String>());
-        	}
-        	res.get(key).add(s);
-        }
-        return new ArrayList<>(res.values());
-    }
-    
-    
-    /**
-     * @problem #50 Pow(x, n)
-     * @date 2018-03-09
-     * 
-     * 求幂运算
-     * 直接循环着乘是不行的 肯定要用递归的思想
-     * 另外还要用折半
-     * 分成2个函数是为了处理n的正负
-     * 当然也能在一个递归里用 以后有时间再优化
-     */
-    public double C050_Powxn(double x, int n) {
-        if(n < 0) return 1 / C050_pow(x, -n);
-        return C050_pow(x, n);
-    }
-    
-    public double C050_pow(double x, int n){
-    	if(n == 0) return 1;
-    	double half = C050_pow(x, n / 2);
-    	if(n % 2 == 0) return half * half;
-    	return half * half * x;
-    }
-    
-    /**
-     * @problem #51 N-Queens
-     * @date 2018-08-27
-     * 后边的#52是求符合要求的情况的总个数
-     * 直接返回本程序res的大小即可
-     * 不花里胡哨再对count进行处理
-     */
-    //以下变量C051_DFS要用 但却为全局变量
-    //同一列不能出现2个皇后
+	public int C041_FirstMissingPositive(int[] nums) {
+		Arrays.sort(nums);
+		int l = nums.length;
+		int count = 1;
+		for(int i = 0; i < l; i++){
+			if(i > 0 && nums[i] == nums[i - 1]) continue;
+			if(nums[i] > 0){
+				if(nums[i] != count) return count;
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * @problem #42 Trapping Rain Water
+	 * @date 2017-12-14
+	 * 
+	 * Given n non-negative integers representing an elevation map 
+	 * where the width of each bar is 1, 
+	 * compute how much water it is able to trap after raining.
+	 * For example,
+	 * Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+	 * 
+	 * 不要横着加这样思考
+	 * 最终思路是竖着加
+	 */
+	public int C042_TrappingRainWater(int[] height) {
+		int res = 0;
+		int left = 0;
+		int right = height.length - 1;
+		int left_max = 0;
+		int right_max = 0;
+		while(left < right){
+			//这个条件确保了 
+			//只要左边符合了条件就只管去加
+			//大不了右边来收尾
+			if(height[left] <= height[right]){
+				if(height[left] >= left_max){
+					left_max = height[left];
+				}
+				else{
+					res += (left_max - height[left]);
+				}
+				left++;
+			}
+			else{
+				if(height[right] >= right_max){
+					right_max = height[right];
+				}
+				else{
+					res += (right_max - height[right]);
+				}
+				right--;
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @problem #43 Multiply Strings
+	 * @date 2018-02-05
+	 * 
+	 * Given two non-negative integers num1 and num2 represented as strings, 
+	 * return the product of num1 and num2.
+	 * Note:
+	 * The length of both num1 and num2 is < 110.
+	 * Both num1 and num2 contains only digits 0-9.
+	 * Both num1 and num2 does not contain any leading zero.
+	 * You must not use any built-in BigInteger library or convert the inputs to integer directly.
+	 */
+	public String C043_MultiplyStrings(String num1, String num2) {
+		int m = num1.length();
+		int n = num2.length();
+		int[] arr = new int[m + n];
+		int sum = 0;
+		for(int i = n - 1; i >= 0; i--){
+			for(int j = m - 1; j >= 0; j--){
+				int pos1 = i + j;
+				int pos2 = i + j + 1;
+				sum = (num1.charAt(j) - '0') * (num2.charAt(i) - '0') + arr[pos2];
+				arr[pos1] += sum / 10;
+				arr[pos2] = sum % 10;
+			}
+		}
+		StringBuffer sb = new StringBuffer();
+		for(int p : arr){
+			if(!(sb.length() == 0 && p == 0)){
+				sb.append(p);
+			}
+		}
+		return sb.length() == 0 ? "0" : sb.toString();
+	}
+
+
+	/**
+	 * @problem #44 Wildcard Matching
+	 * @date 2018-02-24
+	 * 
+	 * Implement wildcard pattern matching with support for '?' and '*'.
+	 * '?' Matches any single character.
+	 * '*' Matches any sequence of characters (including the empty sequence).
+	 * The matching should cover the entire input string (not partial).
+	 */
+	public boolean C044_WildcardMatching(String s, String p) {
+		//s是字符串 p是通配符
+		int i = 0;
+		int j = 0;
+		int sl = s.length();
+		int pl = p.length();
+		int match = 0;
+		int ps = -1;
+		while(i < sl){
+			if(j < pl && (p.charAt(j) == '?' || p.charAt(j) == s.charAt(i))){
+				i++;
+				j++;
+			}
+			else if(j < pl && p.charAt(j) == '*'){
+				//记录出现*号 二者的位置
+				match = i;
+				ps = j;
+				//字符串不动 匹配段继续
+				j++;
+			}
+			//这个匹配有问题
+			else if(ps != -1){
+				//始终把*后边一位作为基准
+				j = ps + 1;
+				//i 是 随着 match 变得
+				match++;
+				i = match;
+			}
+			else{
+				return false;
+			}
+		}
+		//单单用一个*匹配一个空字符串 666
+		while(j < pl && p.charAt(j) == '*'){
+			j++;
+		}
+		return j == pl ? true : false;
+	}
+
+	/**
+	 * @problem #45 Jump Game II
+	 * @date 2018-02-27
+	 * 
+	 * Given an array of non-negative integers, 
+	 * you are initially positioned at the first index of the array.
+	 * Each element in the array represents your maximum jump length at that position.
+	 * Your goal is to reach the last index in the minimum number of jumps.
+	 * For example:
+	 * Given array A = [2,3,1,1,4]
+	 * The minimum number of jumps to reach the last index is 2. 
+	 * (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
+	 */
+	public int C045_JumpGameII(int[] nums) {
+		//看了思路 但没看具体实现
+		//莫名其妙就AC了
+		//跳的时候 肯定要计算count
+		//不管跳不跳都要计算t 在跳的时候赋予max 因为max决定跳不跳
+		//需要注意的是在跳的点 仍然要计算t 故有i--
+		int max = nums[0];
+		int count = nums.length <= 1 ? 0 : 1;
+		int t = 0;
+		for(int i = 1; i < nums.length; i++){
+			if(i <= max){
+				t = nums[i] + i > t ? nums[i] + i : t;
+			}
+			else{
+				max = t;
+				i--;
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * @problem #46 Permutations
+	 * @date 2018-02-28
+	 * 
+	 * Given a collection of distinct numbers, return all possible permutations.
+	 */
+	public List<List<Integer>> C046_Permutations(int[] nums) {
+		List<List<Integer>> res = new ArrayList<>();
+		List<Integer> temp = new ArrayList<>();
+		C046_backtracking(res, temp, nums);
+		return res;
+	}
+
+	public void C046_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums){
+		if(temp.size() == nums.length){
+			//temp的值是动态的 如果new一个 其实加的时候有数据 最后经过remove里边都是空元素
+			//new的含义是创建一个新对象来保存当前状态
+			res.add(new ArrayList<>(temp));
+		}
+		else{
+			for(int i = 0; i < nums.length; i++){
+				//省去了一些麻烦
+				//统一用这种方式来辨别
+				if(temp.contains(nums[i])) continue;
+				temp.add(nums[i]);
+				C046_backtracking(res, temp, nums);
+				//前边add的是多少 这里remove的就是多少
+				//即使中间有回溯操作 但回溯还是这个 不矛盾
+				//这个过程理解起来有点难受 多弄弄就好了
+				temp.remove(temp.size() - 1);
+			}
+		}
+	}
+
+	/**
+	 * @problem #47 Permutations II
+	 * @date 2018-02-28
+	 * 
+	 * Given a collection of numbers that might contain duplicates, 
+	 * return all possible unique permutations.
+	 */
+	public List<List<Integer>> C047_PermutationsII(int[] nums) {
+		List<List<Integer>> res = new ArrayList<>();
+		List<Integer> temp = new ArrayList<>();
+		boolean[] used = new boolean[nums.length];
+		Arrays.sort(nums);
+		C047_backtracking(res, temp, nums, used);
+		return res;
+	}
+
+	public void C047_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums, boolean[] used){
+		if(temp.size() == nums.length){
+			res.add(new ArrayList<>(temp));
+		}
+		else{
+			for(int i = 0; i < nums.length; i++){
+				if(used[i] == true) continue;
+				if(i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
+				temp.add(nums[i]);
+				used[i] = true;
+				C047_backtracking(res, temp, nums, used);
+				temp.remove(temp.size() - 1);
+				used[i] = false;
+			}
+		}
+	}
+
+	/**
+	 * @problem #48 Rotate Image
+	 * @date 2018-03-01
+	 * 
+	 * you are given an n x n 2D matrix representing an image.
+	 * Rotate the image by 90 degrees (clockwise).
+	 */
+	public void C048_RotateImage(int[][] matrix) {
+		int l = matrix.length;
+		for(int i = 0; i < l - 1; i++){
+			for(int j = i + 1; j < l; j++){
+				int temp = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = temp;
+			}
+		}
+		for(int i = 0; i < l; i++){
+			for(int j = 0; j < l / 2; j++){
+				int temp = matrix[i][j];
+				matrix[i][j] = matrix[i][l - j - 1];
+				matrix[i][l - j - 1] = temp;
+			}
+		}
+	}
+
+	/**
+	 * @problem #49 Group Anagrams
+	 * @date 2018-03-02
+	 * 
+	 * Given an array of strings, group anagrams together.
+	 * For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"], 
+	 * Return:
+	 * [
+	 * 	["ate", "eat","tea"],
+	 * 	["nat","tan"],
+	 *  ["bat"]
+	 * ]
+	 * Note: All inputs will be in lower-case.
+	 */
+	public List<List<String>> C049_GroupAnagrams(String[] strs) {
+		if(strs.length == 0) return new ArrayList<>();
+		Map<String, List<String>> res = new HashMap<>();
+		for(String s : strs){
+			char[] c = s.toCharArray();
+			Arrays.sort(c);
+			String key = String.valueOf(c);
+			if(!res.containsKey(key)){
+				res.put(key, new ArrayList<String>());
+			}
+			res.get(key).add(s);
+		}
+		return new ArrayList<>(res.values());
+	}
+
+
+	/**
+	 * @problem #50 Pow(x, n)
+	 * @date 2018-03-09
+	 * 
+	 * 求幂运算
+	 * 直接循环着乘是不行的 肯定要用递归的思想
+	 * 另外还要用折半
+	 * 分成2个函数是为了处理n的正负
+	 * 当然也能在一个递归里用 以后有时间再优化
+	 */
+	public double C050_Powxn(double x, int n) {
+		if(n < 0) return 1 / C050_pow(x, -n);
+		return C050_pow(x, n);
+	}
+
+	public double C050_pow(double x, int n){
+		if(n == 0) return 1;
+		double half = C050_pow(x, n / 2);
+		if(n % 2 == 0) return half * half;
+		return half * half * x;
+	}
+
+	/**
+	 * @problem #51 N-Queens
+	 * @date 2018-08-27
+	 * 后边的#52是求符合要求的情况的总个数
+	 * 直接返回本程序res的大小即可
+	 * 不花里胡哨再对count进行处理
+	 */
+	//以下变量C051_DFS要用 但却为全局变量
+	//同一列不能出现2个皇后
 	public Set<Integer> C051_col = new HashSet<Integer>();
 	//k=1的斜线上不能出现2个皇后
 	public Set<Integer> C051_slash1 = new HashSet<Integer>();
 	//k=-1的斜线上不能出现2个皇后
 	public Set<Integer> C051_slash2 = new HashSet<Integer>();
-	
-    public List<List<String>> C051_solveNQueens(int n) {
-    	//所需要的结果
-    	List<List<String>> res = new ArrayList<>();
-    	//递归
-    	//总的列表  列表中的一个列表 第几个皇后 总共有几个皇后
-    	C051_DFS(res, new ArrayList<String>(), 0 , n);
-    	return res;
-    }
-    
-    public void C051_DFS(List<List<String>> res, List<String> list, int who, int n){
-    	//递归一定要有截止
-    	if(who == n){
-    		//不能直接add list
-    		res.add(new ArrayList<>(list));
-    	}
-    	
-    	//皇后选位置
-    	//默认第n个皇后就坐在第n排 这里只是对列的位置进行循环
-    	for(int i = 0; i < n; i++){
-    		//以下都是结论的应用
-    		if(C051_col.contains(i) || C051_slash1.contains(i + who) || C051_slash2.contains(i - who)){
-    			//该皇后不能坐在这 换下一个位置
-    			continue; 
-    		}
-    		
-    		//能坐下
-    		
-    		//更新判断值
-    		C051_col.add(i);
-    		C051_slash1.add(i + who);
-    		C051_slash2.add(i - who);
-    		
-    		//把这一行放进去
-    		char[] charArray = new char[n];
-    		Arrays.fill(charArray, '.');
-    		charArray[i] = 'Q';
-    		String rowString = new String(charArray);
-    		list.add(rowString);
-    		
-    		//接下来要递归 下一个皇后
-    		C051_DFS(res, list, who + 1, n);
-    		
-    		//无论怎样都要考虑不通过的情况
-    		//即使没有不通过 作为回溯 也要有还原的功能
-    		
-    		//set可以移除某个对象 但list只能按下标进行移除
-    		C051_col.remove(i);
-    		C051_slash1.remove(i + who);
-    		C051_slash2.remove(i - who);
-    		list.remove(list.size() - 1);
-    	
-    	}
-    }
-    
-    /**
-     * @problem #53 Maximum Subarray
-     * @date 2018-08-27
-     * O(n)求一个数组的若干个子数组中元素和最大的数组的元素和
-     */
-    public int C053_maxSubArray(int[] nums) {
-    	//max为最终要返回的值
-    	int max = nums[0];
-    	//tolerate是试探性的值 做一次比较
-    	//区分可保留值和完全不需要保留值
-    	//如4, -6和4, -1
-    	//前者完全不用保留 后者需要 因为可能后边跟个比1大的数
-    	//所以判断方法是要处理的数和原值与该数相加的值作比较
-    	//当然对于4, -1 max是不可能因为-1变的
-    	//所以需要把新的tolerate值与当前max比较
-    	//max最终决定是否要变
-    	int tolerate = nums[0];
-    	for(int i = 1; i < nums.length; i++){
-    		tolerate = Math.max(nums[i], tolerate + nums[i]);
-    		max = Math.max(max, tolerate);
-    	}
-    	System.out.println(tolerate);
-    	System.out.println(max);
-        return max;
-    }
-    
-    /**
-     * @problem #54 Spiral Matrix
-     * @date 2018-08-27
-     */
-    public List<Integer> spiralOrder(int[][] matrix) {
-    	if(matrix.length == 0){
-    		return new ArrayList<>();
-    	}
-    	List<Integer> res = new ArrayList<>();
-    	int xmin = 1;
-    	int xmax = matrix.length - 1;
-    	int ymin = 0;
-    	int ymax = matrix[0].length - 1;
-    	int x = 0;
-    	int y = 0;
-    	while(xmin <= xmax || ymin <= ymax){
-    		if(!(y <= ymax && ymin <= ymax)) break;
-    		while(y <= ymax && ymin <= ymax){
-    			res.add(matrix[x][y++]);
-    			if(y > ymax){
-    				y--;
-    				ymax--;
-    				x++;
-    				break;
-    			}
-    		}
-    		if(!(x <= xmax && xmin <= xmax)) break;
-    		while(x <= xmax && xmin <= xmax){
-    			res.add(matrix[x++][y]);
-    			if(x > xmax){
-    				x--;
-    				xmax--;
-    				y--;
-    				break;
-    			}
-    		}
-    		if(!(y >= ymin && ymin <= ymax)) break;
-    		while(y >= ymin && ymin <= ymax){
-    			res.add(matrix[x][y--]);
-    			if(y < ymin){
-    				y++;
-    				ymin++;
-    				x--;
-    				break;
-    			}
-    		}
-    		if(!(x >= xmin && xmin <= xmax)) break;
-    		while(x >= xmin && xmin <= xmax){
-    			res.add(matrix[x--][y]);
-    			if(x < xmin){
-    				x++;
-    				xmin++;
-    				y++;
-    				break;
-    			}
-    		}	 		
-    	}
-        return res;
-    }
-    
-    /**
-     * @problem #55 Jump Game
-     * @date 2018-08-27
-     */
-    //
-    /**
-     * 这个思维有点巧妙
-     * 因为每个数值代表的是最大步数
-     * 所以就可以认为
-     * 只要能到达从某个位置开始按最大步数走到的位置
-     * 之间的位置也都能走到
-     * 所以这部分不需要逻辑处理
-     * 如果处理了 就会超时
-     * 处理的情形应该是此次跳转的位置由上一次跳转决定
-     * 下边代码的逻辑处理是从一开始逐一循环的
-     * 相邻跳转之间无任何关系
-     * 只记录一个最远跳转位置
-     * i > max说明到达了不可到达的地方
-     * 余下的数组元素就不用处理了
-     * 至于max为什么要初始化为0
-     * 因为数组下标从0开始 不管怎样0这个位置都会到达的
-     */
-    public boolean canJump(int[] nums) {
-    	int max = 0;
-    	for(int i = 0; i < nums.length; i++){
-    		if(i > max) return false;
-    		max = Math.max(max, i + nums[i]);
-    	}
-    	return true;
-    }
-    
-    /**
-     * @problem 56 Merge Intervals
-     * @date 2018-08-27
-     */
-    /**
-     * 首先这个题没有说按某种顺序排列interval
-     * 其次原始list的顺序对此题有影响
-     * 所以必须先排序
-     * 复习一下比较器的编写
-     * 那之后就好判断了
-     * 因为start已经有序了
-     * 所以就可以按顺序一个一个插入了
-     */
-    class IntervalCompator implements Comparator<Interval>{
+
+	public List<List<String>> C051_solveNQueens(int n) {
+		//所需要的结果
+		List<List<String>> res = new ArrayList<>();
+		//递归
+		//总的列表  列表中的一个列表 第几个皇后 总共有几个皇后
+		C051_DFS(res, new ArrayList<String>(), 0 , n);
+		return res;
+	}
+
+	public void C051_DFS(List<List<String>> res, List<String> list, int who, int n){
+		//递归一定要有截止
+		if(who == n){
+			//不能直接add list
+			res.add(new ArrayList<>(list));
+		}
+
+		//皇后选位置
+		//默认第n个皇后就坐在第n排 这里只是对列的位置进行循环
+		for(int i = 0; i < n; i++){
+			//以下都是结论的应用
+			if(C051_col.contains(i) || C051_slash1.contains(i + who) || C051_slash2.contains(i - who)){
+				//该皇后不能坐在这 换下一个位置
+				continue; 
+			}
+
+			//能坐下
+
+			//更新判断值
+			C051_col.add(i);
+			C051_slash1.add(i + who);
+			C051_slash2.add(i - who);
+
+			//把这一行放进去
+			char[] charArray = new char[n];
+			Arrays.fill(charArray, '.');
+			charArray[i] = 'Q';
+			String rowString = new String(charArray);
+			list.add(rowString);
+
+			//接下来要递归 下一个皇后
+			C051_DFS(res, list, who + 1, n);
+
+			//无论怎样都要考虑不通过的情况
+			//即使没有不通过 作为回溯 也要有还原的功能
+
+			//set可以移除某个对象 但list只能按下标进行移除
+			C051_col.remove(i);
+			C051_slash1.remove(i + who);
+			C051_slash2.remove(i - who);
+			list.remove(list.size() - 1);
+
+		}
+	}
+
+	/**
+	 * @problem #53 Maximum Subarray
+	 * @date 2018-08-27
+	 * O(n)求一个数组的若干个子数组中元素和最大的数组的元素和
+	 */
+	public int C053_maxSubArray(int[] nums) {
+		//max为最终要返回的值
+		int max = nums[0];
+		//tolerate是试探性的值 做一次比较
+		//区分可保留值和完全不需要保留值
+		//如4, -6和4, -1
+		//前者完全不用保留 后者需要 因为可能后边跟个比1大的数
+		//所以判断方法是要处理的数和原值与该数相加的值作比较
+		//当然对于4, -1 max是不可能因为-1变的
+		//所以需要把新的tolerate值与当前max比较
+		//max最终决定是否要变
+		int tolerate = nums[0];
+		for(int i = 1; i < nums.length; i++){
+			tolerate = Math.max(nums[i], tolerate + nums[i]);
+			max = Math.max(max, tolerate);
+		}
+		System.out.println(tolerate);
+		System.out.println(max);
+		return max;
+	}
+
+	/**
+	 * @problem #54 Spiral Matrix
+	 * @date 2018-08-27
+	 */
+	public List<Integer> spiralOrder(int[][] matrix) {
+		if(matrix.length == 0){
+			return new ArrayList<>();
+		}
+		List<Integer> res = new ArrayList<>();
+		int xmin = 1;
+		int xmax = matrix.length - 1;
+		int ymin = 0;
+		int ymax = matrix[0].length - 1;
+		int x = 0;
+		int y = 0;
+		while(xmin <= xmax || ymin <= ymax){
+			if(!(y <= ymax && ymin <= ymax)) break;
+			while(y <= ymax && ymin <= ymax){
+				res.add(matrix[x][y++]);
+				if(y > ymax){
+					y--;
+					ymax--;
+					x++;
+					break;
+				}
+			}
+			if(!(x <= xmax && xmin <= xmax)) break;
+			while(x <= xmax && xmin <= xmax){
+				res.add(matrix[x++][y]);
+				if(x > xmax){
+					x--;
+					xmax--;
+					y--;
+					break;
+				}
+			}
+			if(!(y >= ymin && ymin <= ymax)) break;
+			while(y >= ymin && ymin <= ymax){
+				res.add(matrix[x][y--]);
+				if(y < ymin){
+					y++;
+					ymin++;
+					x--;
+					break;
+				}
+			}
+			if(!(x >= xmin && xmin <= xmax)) break;
+			while(x >= xmin && xmin <= xmax){
+				res.add(matrix[x--][y]);
+				if(x < xmin){
+					x++;
+					xmin++;
+					y++;
+					break;
+				}
+			}	 		
+		}
+		return res;
+	}
+
+	/**
+	 * @problem #55 Jump Game
+	 * @date 2018-08-27
+	 */
+	//
+	/**
+	 * 这个思维有点巧妙
+	 * 因为每个数值代表的是最大步数
+	 * 所以就可以认为
+	 * 只要能到达从某个位置开始按最大步数走到的位置
+	 * 之间的位置也都能走到
+	 * 所以这部分不需要逻辑处理
+	 * 如果处理了 就会超时
+	 * 处理的情形应该是此次跳转的位置由上一次跳转决定
+	 * 下边代码的逻辑处理是从一开始逐一循环的
+	 * 相邻跳转之间无任何关系
+	 * 只记录一个最远跳转位置
+	 * i > max说明到达了不可到达的地方
+	 * 余下的数组元素就不用处理了
+	 * 至于max为什么要初始化为0
+	 * 因为数组下标从0开始 不管怎样0这个位置都会到达的
+	 */
+	public boolean canJump(int[] nums) {
+		int max = 0;
+		for(int i = 0; i < nums.length; i++){
+			if(i > max) return false;
+			max = Math.max(max, i + nums[i]);
+		}
+		return true;
+	}
+
+	/**
+	 * @problem 56 Merge Intervals
+	 * @date 2018-08-27
+	 */
+	/**
+	 * 首先这个题没有说按某种顺序排列interval
+	 * 其次原始list的顺序对此题有影响
+	 * 所以必须先排序
+	 * 复习一下比较器的编写
+	 * 那之后就好判断了
+	 * 因为start已经有序了
+	 * 所以就可以按顺序一个一个插入了
+	 */
+	class IntervalCompator implements Comparator<Interval>{
 
 		@Override
 		public int compare(Interval arg0, Interval arg1) {
 			return arg0.start < arg1.start ? -1 : arg0.start == arg1.start ? 0 : 1;
 		}
-    	
-    }
-    public List<Interval> C056_MergeIntervals(List<Interval> intervals) {
-    	LinkedList<Interval> res = new LinkedList<>();	
-    	java.util.Collections.sort(intervals, new IntervalCompator());
-    	for(Interval interval : intervals){
-    		if(res.isEmpty() || res.getLast().end < interval.start){
-    			res.add(interval);
-    		}
-    		else{
-    			res.getLast().end = Math.max(res.getLast().end, interval.end);
-    		}
-    	}
-        return res;
-    }
-    
-    @Test
-    public void c1(){
-    	int[] nums = {2, 3, 1, 1, 4};
-    	System.out.println(canJump(nums));
-    }
+
+	}
+	public List<Interval> C056_MergeIntervals(List<Interval> intervals) {
+		LinkedList<Interval> res = new LinkedList<>();	
+		java.util.Collections.sort(intervals, new IntervalCompator());
+		for(Interval interval : intervals){
+			if(res.isEmpty() || res.getLast().end < interval.start){
+				res.add(interval);
+			}
+			else{
+				res.getLast().end = Math.max(res.getLast().end, interval.end);
+			}
+		}
+		return res;
+	}
+
+	@Test
+	public void c1(){
+		int[] nums = {2, 3, 1, 1, 4};
+		System.out.println(canJump(nums));
+	}
 	/**
 	 * @problem #138 Copy List with Random Pointer
 	 * @date 2017-11-23
@@ -2554,8 +2555,8 @@ public class LeetCode {
 		//指挥部指向的第一个节点 就是要返回的
 		return fr.next;
 	}
-	
-	
+
+
 	/**
 	 * @problem @209 Reverse Linked List
 	 * @date 2018-09-02
@@ -2571,13 +2572,13 @@ public class LeetCode {
 		}
 		return prev;
 	}
-	
+
 	//第二种做法 递归
 	public ListNode C209_reverseListNode_2(ListNode head){
 		ListNode prev = null;
 		return C209_reverseListNode_2_reversal(head, prev);
 	}
-	
+
 	public ListNode C209_reverseListNode_2_reversal(ListNode now, ListNode prev){
 		if(now == null) return prev;
 		ListNode next = now.next;
@@ -2585,30 +2586,30 @@ public class LeetCode {
 		prev = now;
 		return C209_reverseListNode_2_reversal(next, prev);
 	}
-	
-	
+
+
 	public String C214_shortestPalindrome(String s) {
-        if(s.length() < 2) return s;
-        int[] arr = new int[2];
-        for(int i = 0; i < s.length() - 1; i++){
-        	r(s, i, i, arr);
-        	r(s, i, i + 1, arr);
-        }
-        if(arr[0] + arr[1] == s.length()){
-        	StringBuffer sb = new StringBuffer();
-        	for(int i = arr[0] - 1; i >= 0; i--){
-        		sb.append(s.charAt(i));
-        	}
-        	return s.substring(arr[0], arr[0] + arr[1]) + sb.toString();
-        }
-       return "";
-    }
-	
-	public void r(String s, int start, int end, int[] arr){
-		
+		if(s.length() < 2) return s;
+		int[] arr = new int[2];
+		for(int i = 0; i < s.length() - 1; i++){
+			r(s, i, i, arr);
+			r(s, i, i + 1, arr);
+		}
+		if(arr[0] + arr[1] == s.length()){
+			StringBuffer sb = new StringBuffer();
+			for(int i = arr[0] - 1; i >= 0; i--){
+				sb.append(s.charAt(i));
+			}
+			return s.substring(arr[0], arr[0] + arr[1]) + sb.toString();
+		}
+		return "";
 	}
-	
-	
+
+	public void r(String s, int start, int end, int[] arr){
+
+	}
+
+
 	/**
 	 * @problem #237 Delete Node in a Linked List
 	 * @date 2017-11-24
@@ -2626,7 +2627,7 @@ public class LeetCode {
 		node.val = next.val;
 		next.next = null;
 	}
-	
+
 	/**
 	 * @problem Subdomain Visit Count
 	 * @date 2018-04-29
@@ -2667,19 +2668,272 @@ public class LeetCode {
 			String s = map.get(key) + " " + key;
 			res.add(s);
 		}
-        return res;
+		return res;
+	}
+
+
+	/**
+	 * non-overlapping
+	 * intervals were initially sorted according to their start times
+	 * 
+	 * Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+	 * Output: [[1,5],[6,9]]
+	 */
+	/**
+	 * 1.不要试图用一个循环做出来
+	 * 2.由于数据本身数据是有序的 所以写多个循环更清晰简单
+	 * 3.可以根据插入的项把原来的链表分成3部分 仅对中间的部分进行特殊处理
+	 * 4.注意判断的标准
+	 */
+	public List<Interval> C057_insert(List<Interval> intervals, Interval newInterval) {
+		List<Interval> res = new ArrayList<>();
+		int i = 0;
+		while(i < intervals.size() && intervals.get(i).end < newInterval.start){
+			res.add(intervals.get(i++));
+		}
+		int start = newInterval.start;
+		int end = newInterval.end;
+		while(i < intervals.size() && intervals.get(i).start <= newInterval.end){
+			start = Math.min(intervals.get(i).start, start);
+			end = Math.max(intervals.get(i).end, end);
+			i++;
+		}
+		res.add(new Interval(start, end));
+		while(i < intervals.size()){
+			res.add(intervals.get(i++));
+		}
+		return res;
+	}
+
+
+
+
+	/**
+	 * Given a string s consists of upper/lower-case alphabets and empty space characters ' '
+	 * return the length of last word in the string.
+	 * If the last word does not exist, return 0.
+	 * 
+	 * Input: "Hello World"
+	 * Output: 5
+	 */
+	/**
+	 * 1.不建议用split 因为不是考点
+	 * 2.用trim()是可以的
+	 */
+	public int C058_lengthOfLastWord(String s) {
+		int count = 0;
+		s = s.trim();
+		int x = s.length() - 1;
+		while(x >= 0 && s.charAt(x) != ' '){
+			x--;
+			count++;
+		}
+		return count;
+		/*String[] str = s.split(" ");
+		return str.length == 0 ? 0 : str[str.length - 1].length();*/
+	}
+
+
+	/**
+	 * Given a positive integer n
+	 * generate a square matrix filled with elements from 1 to n2 in spiral order.
+	 * 
+	 * Input: 3
+	 * Output:
+	 * [
+	 * 	[ 1, 2, 3 ],
+	 * 	[ 8, 9, 4 ],
+	 * 	[ 7, 6, 5 ]
+	 * ]
+	 */
+	//自创 不接受其他解决方案
+	public int[][] C059_generateMatrix(int n) {
+		int[][] res = new int[n][n];
+		int val = 1;
+		int x = 0;
+		int y = 0;
+		int xmax = n - 1;
+		int ymax = n - 1;
+		int xmin = 1;
+		int ymin = 0;
+		while(true){
+			while(y <= ymax){
+				res[x][y++] = val;
+				val++;
+			}
+			y--;
+			x++;
+			ymax--;
+			if(x > xmax) break;
+
+			while(x <= xmax){
+				res[x++][y] = val;
+				val++;
+			}
+			x--;
+			y--;
+			xmax--;
+			if(y < ymin) break;
+
+			while(y >= ymin){
+				res[x][y--] = val;
+				val++;
+			}
+			y++;
+			x--;
+			ymin++;
+			if(x < xmin) break;
+
+			while(x >= xmin){
+				res[x--][y] = val;
+				val++;
+			}
+			x++;
+			y++;
+			xmin++;
+			if(y > ymax) break;
+		}
+		return res;
+	}
+
+
+	/**
+	 * Given n and k, return the kth permutation sequence.
+	 * Input: n = 3, k = 3
+	 * Output: "213"
+	 * 
+	 * Input: n = 4, k = 9
+	 * Output: "2314"
+	 */
+	//自创 
+	public String C060_getPermutation(int n, int k) {
+		StringBuffer sb = new StringBuffer();
+		List<Integer> list = new LinkedList<>();
+		for(int i = 1; i <= n; i++){
+			list.add(i);
+		}
+		int x = n - 1;
+		while(x >= 1){
+			int c = 1;
+			int temp = x;
+			for(int i = 1; i <= x; i++){
+				c *= (temp--);
+			}
+			int index = (k - 1) / c;
+			k = k % c != 0 ? k % c : c;
+			sb.append(String.valueOf(list.get(index)));
+			list.remove(index);
+			x--;
+		}
+		sb.append(String.valueOf(list.get(0)));
+		return sb.toString();
+	}
+
+	
+	/**
+	 * Given a linked list
+	 * rotate the list to the right by k places
+	 * where k is non-negative.
+	 * 
+	 * Input: 0->1->2->NULL, k = 4
+	 * Output: 2->0->1->NULL
+	 * Explanation:
+	 * rotate 1 steps to the right: 2->0->1->NULL
+	 * rotate 2 steps to the right: 1->2->0->NULL
+	 * rotate 3 steps to the right: 0->1->2->NULL
+	 * rotate 4 steps to the right: 2->0->1->NULL
+	 */
+	/**
+	 * 2018-09-27
+	 * self-created
+	 */
+	public ListNode C061_rotateRight(ListNode head, int k) {
+		int count = 0;
+		ListNode cur = head;
+		while(cur != null){
+			count++;
+			cur = cur.next;
+		}
+		if(count == 0) return null;
+		int index = k % count;
+		if(index == 0) return head;
+		int x = 1;
+		cur = head;
+		ListNode tail;
+		while(x != count - index){
+			cur = cur.next;
+			x++;
+		}
+		tail = cur;
+		cur = cur.next;
+		tail.next = null;
+		ListNode res = cur;
+		while(cur.next != null){
+			cur = cur.next;
+		}
+		cur.next = head;
+		return res;
+	}
+
+	
+	/**
+	 * A robot is located at the top-left corner of a m x n grid 
+	 * The robot can only move either down or right at any point in time.
+	 * The robot is trying to reach the bottom-right corner of the grid 
+	 * How many possible unique paths are there?
+	 * 
+	 * Input: m = 3, n = 2
+	 * Output: 3
+	 * Explanation:
+	 * From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+	 * 1. Right -> Right -> Down
+	 * 2.Right -> Down -> Right
+	 * 3. Down -> Right -> Right
+	 */
+	/**
+	 * 2018-09-27
+	 * 如果用递归解决还出现TL
+	 * 说明用递归是不行的 但这不意味着用数学就是可以的了
+	 * 这个问题需要用DP解决
+	 * 但DP的思路和递归是一样的
+	 * 只是在解决形式上大有不同
+	 * DP一般是找个数组这样的载体来实现
+	 * 当确定某个问题需要用DP解决 却又无从下手时
+	 * 不妨思考下 所求目标的上个状态是什么
+	 * 以及上个状态跟所求目标之间又有什么联系
+	 * 一般都能用数据来解决
+	 */
+	public int C062_uniquePaths(int m, int n) {
+		int[][] a = new int[m][n];
+		for(int i = 0; i < m; i++){
+			a[i][0] = 1;
+		}
+		for(int i = 0; i < n; i++){
+			a[0][i] = 1;
+		}
+		for(int i = 1; i < m; i++){
+			for(int j = 1; j < n; j++){
+				a[i][j] = a[i - 1][j] + a[i][j - 1];
+			}
+		}
+		return a[m -1][n - 1];
     }
 	
-
+	
 	@Test
 	public void zzzz(){
-		System.out.println(91 & 128);
 	}
 	class Interval{
 		int start;
 		int end;
 		Interval() { start = 0; end = 0; }
 		Interval(int s, int e) { start = s; end = e; }
+	}
+
+	class ListNode {
+		int val;
+		ListNode next;
+		ListNode(int x) { val = x; }
 	}
 	//----------------------------------底线------------------------------------------------
 	//----------------------------------底线------------------------------------------------

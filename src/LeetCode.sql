@@ -110,15 +110,16 @@ where
 	
 
 #185 Department Top Three Salaries
+#1.使用内连接 否则会出现null的情况
+#2.必须加distinct 因为不是按人数排的 而是按薪水排的
 select 
-    d.Name Department, e.Name Employee, e.Salary
-from
-    Employee e join Department d on e.DepartmentId = d.Id 
-where
-    (select count(distinct Salary) from Employee where Salary > e.Salary and DepartmentId = e.DepartmentId) < 3
-order by
-    e.DepartmentId asc,
-    e.Salary desc;
+	d.Name as Department, e.Name as Employee, e.Salary 
+from 
+	Department d join Employee e on d.Id = e.DepartmentId 
+where 
+	(select count(distinct Salary) from Employee where Salary > e.Salary and DepartmentId = e.DepartmentId)  < 3 
+order 
+	by d.Id, e.Salary desc;
 	
 #196 Delete Duplicate Emails
 #You can't specify target table for update in FROM clause
