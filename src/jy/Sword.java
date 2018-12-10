@@ -28,446 +28,446 @@ import sun.print.resources.serviceui;
 /**
  * @date 2018-07-13
  * @author broccoli
- * @description ¡¶½£Ö¸Offer¡·ÃæÊÔÌâ javaÊµÏÖ
+ * @description ã€Šå‰‘æŒ‡Offerã€‹é¢è¯•é¢˜ javaå®ç°
  */
 public class Sword {
-	
-	/**
-	 * @date 2018-07-16
-	 * @author broccoli
-	 * @description 
-	 * Êı×éÖĞÖØ¸´µÄÊı×ÖÊäÈëÈÎÒâÒ»¸ö
-	 * ³¤¶ÈÎªnµÄÊı×éÀïµÄËùÓĞÊı×Ö¶¼ÔÚ0~n-1µÄ·¶Î§ÄÚ 
-	 */
-	//µÚÒ»ÖÖË¼Â· ÓÃHashSet Ê±¼ä¸´ÔÓ¶ÈO(n) ¿Õ¼ä¸´ÔÓ¶ÈO(n)
-	//ÕâÖÖ·½·¨¶ÔÊäÈëµÄÊı×éÃ»ÓĞÏŞÖÆ
-	public int C01_1(int arr[]){
-		Set<Integer> set = new HashSet<>();
-		for(int i = 0; i < arr.length; i++){
-			if(set.contains(arr[i])){
-				return arr[i];
-			}
-			set.add(arr[i]);
-		}
-		return -1;
-	}
-	
-	//µÚ¶şÖÖË¼Â· Ê±¼ä¸´ÔÓ¶ÈºÍ¿Õ¼ä¸´ÔÓ¶È¶¼ÊÇO(n)
-	//ÕâÖÖ·½·¨±ØĞë±£Ö¤ÊäÈëÊı×éÀï±ßµÄÊı×ÖÖµ²»³¬¹ı³¤¶Èn
-	public int C01_2(int arr[]){
-		for(int i = 0; i < arr.length; i++){
-			//µ±Ç°ÊıÖµÓëË÷ÒıÖµÏàÍ¬,²»ĞèÒª±ä¶¯
-			if(i == arr[i]){
-				continue;
-			}
-			int index = arr[i];
-			//Ö±½ÓÕÒµ½ÁËÖØ¸´µÄÊı×Ö
-			if(index == arr[index]){
-				return index;
-			}
-			//Èô²»ÏàµÈ,Ôò½»»»Î»ÖÃ
-			arr[i] = arr[index];
-			arr[index] = index;
-			//½»»»Î»ÖÃºóµ±Ç°ÊıÖµÈÔÈ»ÓëË÷ÒıÖµ²»Í¬
-			if(i != arr[i]){
-				i--;
-			}
-		}
-		return -1;
-	}
-	
-	/**
-	 * ÔÚÒ»¸ö¶şÎ¬Êı×éÖĞ£¨Ã¿¸öÒ»Î¬Êı×éµÄ³¤¶ÈÏàÍ¬£©
-	 * Ã¿Ò»ĞĞ¶¼°´ÕÕ´Ó×óµ½ÓÒµİÔöµÄË³ĞòÅÅ
-	 * Ã¿Ò»ÁĞ¶¼°´ÕÕ´ÓÉÏµ½ÏÂµİÔöµÄË³ĞòÅÅĞò
-	 * ÇëÍê³ÉÒ»¸öº¯Êı
-	 * ÊäÈëÕâÑùµÄÒ»¸ö¶şÎ¬Êı×éºÍÒ»¸öÕûÊı
-	 * ÅĞ¶ÏÊı×éÖĞÊÇ·ñº¬ÓĞ¸ÃÕûÊı¡£
-	 */
-	//ÒÔ×óÏÂ½ÇÎª»ù×¼
-	public boolean C_04_1(int[][] arr, int val){
-		int rows = arr.length;
-		int cols = arr[0].length;
-		int i = rows - 1;
-		int j = 0;
-		while(i >= 0 && j <= cols - 1){
-			if(arr[i][j] == val){
-				return true;
-			}
-			else if(arr[i][j] < val){
-				j++;
-			}
-			else{
-				i--;
-			}
-		}
-		return false;
-	}
-	//ÒÔÓÒÉÏ½ÇÎª»ù×¼
-	public boolean C_04_2(int[][] arr, int val){
-		int rows = arr.length;
-		int cols = arr[0].length;
-		int i = 0;
-		int j = cols - 1;
-		while(i <= rows - 1 && j >= 0){
-			if(arr[i][j] == val){
-				return true;
-			}
-			else if(arr[i][j] < val){
-				i++;
-			}
-			else{
-				j--;
-			}
-		}
-		return false;
-	}
-	
-	
-	/** 
-	 * @date 2018-07-13
-	 * @author broccoli
-	 * @description #09 ÓÃÁ½¸öÕ»ÊµÏÖ¶ÓÁĞ
-	 * @mind 
-	 * ½ø¶ÓÁĞÊ± °ÑÔªËØ²åµ½µÚÒ»¸öÕ»ÖĞ 
-	 * ³ö¶ÓÁĞÊ± ¼ì³öµÚ¶ş¸öÕ»µÄÕ»Î²ÔªËØ
-	 * Èç¹ûµÚ¶ş¸öÕ»Îª¿Õ ËµÃ÷Ö®Ç°Ò»Ö±ÔÚ½ø¶ÓÁĞ
-	 * ´ËÊ±°ÑµÚÒ»¸öÕ»ÖĞµÄÔªËØ µ¼ÈëµÚ¶ş¸öÕ»ÖĞ
-	 * ¾Í»á°Ñºó½ø¶ÓÁĞµÄÔªËØ·ÅÈëµÚ¶ş¸öÕ»µÄÕ»¶¥
-	 * °ÑÏÈ½ø¶ÓÁĞµÄÔªËØ·ÅÈëµÚ¶ş¸öÕ»µÄÕ»Î²
-	 * ÄÇÃ´¾Í»á¼ì³öµÚ¶ş¸öÕ»µÄÕ»Î²ÔªËØ Ò²¾ÍÊÇÕû¸ö¶ÓÁĞµÚÒ»¸ö½øÀ´µÄÔªËØ
-	 * ¾ÍÊµÏÖÁË¶ÓÁĞÏÈ½øÏÈ³öµÄ¹¦ÄÜ
-	 */
-	public class C09{
-		private Stack<Integer> stack1 = new Stack<>();
-		private Stack<Integer> stack2 = new Stack<>();
-		public void push(int i){
-			stack1.push(i);
-		}
-		public int pop(){
-			if(stack1.empty() && stack2.empty()){
-				throw new RuntimeException("¶ÓÁĞÖĞÃ»ÓĞÔªËØ");
-			}
-			if(stack2.empty()){
-				while(!stack1.empty()){
-					stack2.push(stack1.pop());
-				}
-			}
-			return stack2.pop();
-		}
-	}
-	
-	
-	/**
-	 * ÇëÊµÏÖÒ»¸öº¯Êı
-	 * ½«Ò»¸ö×Ö·û´®ÖĞµÄÃ¿¸ö¿Õ¸ñÌæ»»³É¡°%20¡±
-	 * ÀıÈç
-	 * µ±×Ö·û´®ÎªWe Are Happy
-	 * Ôò¾­¹ıÌæ»»Ö®ºóµÄ×Ö·û´®ÎªWe%20Are%20Happy
-	 */
-	public String replaceSpace(StringBuffer str) {
-		int space_num = 0;
-		for(char c : str.toString().toCharArray()){
-			if(c == ' ') space_num++;
-		}
-		int old_index = str.length() - 1;
-		int new_length = str.length() + 2 * space_num;
-		str.setLength(new_length);
-		int new_index = str.length() - 1;
-		while(old_index >= 0){
-			if(str.charAt(old_index) == ' '){
-				str.setCharAt(new_index--, '0');
-				str.setCharAt(new_index--, '2');
-				str.setCharAt(new_index--, '%');
-			}
-			else{
-				str.setCharAt(new_index--, str.charAt(old_index));
-			}
-			old_index--;
-		}
-		return str.toString();
+
+    /**
+     * @date 2018-07-16
+     * @author broccoli
+     * @description
+     * æ•°ç»„ä¸­é‡å¤çš„æ•°å­—è¾“å…¥ä»»æ„ä¸€ä¸ª
+     * é•¿åº¦ä¸ºnçš„æ•°ç»„é‡Œçš„æ‰€æœ‰æ•°å­—éƒ½åœ¨0~n-1çš„èŒƒå›´å†…
+     */
+    //ç¬¬ä¸€ç§æ€è·¯ ç”¨HashSet æ—¶é—´å¤æ‚åº¦O(n) ç©ºé—´å¤æ‚åº¦O(n)
+    //è¿™ç§æ–¹æ³•å¯¹è¾“å…¥çš„æ•°ç»„æ²¡æœ‰é™åˆ¶
+    public int C01_1(int arr[]){
+        Set<Integer> set = new HashSet<>();
+        for(int i = 0; i < arr.length; i++){
+            if(set.contains(arr[i])){
+                return arr[i];
+            }
+            set.add(arr[i]);
+        }
+        return -1;
     }
-	
-	
-	/**
-	 * ÊäÈëÒ»¸öÁ´±í
-	 * °´Á´±íÖµ´ÓÎ²µ½Í·µÄË³Ğò·µ»ØÒ»¸öArrayList
-	 */
-	//½èÖúÕ» ÔËĞĞÊ±¼ä£º23ms Õ¼ÓÃÄÚ´æ£º9252k
-	public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+
+    //ç¬¬äºŒç§æ€è·¯ æ—¶é—´å¤æ‚åº¦å’Œç©ºé—´å¤æ‚åº¦éƒ½æ˜¯O(n)
+    //è¿™ç§æ–¹æ³•å¿…é¡»ä¿è¯è¾“å…¥æ•°ç»„é‡Œè¾¹çš„æ•°å­—å€¼ä¸è¶…è¿‡é•¿åº¦n
+    public int C01_2(int arr[]){
+        for(int i = 0; i < arr.length; i++){
+            //å½“å‰æ•°å€¼ä¸ç´¢å¼•å€¼ç›¸åŒ,ä¸éœ€è¦å˜åŠ¨
+            if(i == arr[i]){
+                continue;
+            }
+            int index = arr[i];
+            //ç›´æ¥æ‰¾åˆ°äº†é‡å¤çš„æ•°å­—
+            if(index == arr[index]){
+                return index;
+            }
+            //è‹¥ä¸ç›¸ç­‰,åˆ™äº¤æ¢ä½ç½®
+            arr[i] = arr[index];
+            arr[index] = index;
+            //äº¤æ¢ä½ç½®åå½“å‰æ•°å€¼ä»ç„¶ä¸ç´¢å¼•å€¼ä¸åŒ
+            if(i != arr[i]){
+                i--;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * åœ¨ä¸€ä¸ªäºŒç»´æ•°ç»„ä¸­ï¼ˆæ¯ä¸ªä¸€ç»´æ•°ç»„çš„é•¿åº¦ç›¸åŒï¼‰
+     * æ¯ä¸€è¡Œéƒ½æŒ‰ç…§ä»å·¦åˆ°å³é€’å¢çš„é¡ºåºæ’
+     * æ¯ä¸€åˆ—éƒ½æŒ‰ç…§ä»ä¸Šåˆ°ä¸‹é€’å¢çš„é¡ºåºæ’åº
+     * è¯·å®Œæˆä¸€ä¸ªå‡½æ•°
+     * è¾“å…¥è¿™æ ·çš„ä¸€ä¸ªäºŒç»´æ•°ç»„å’Œä¸€ä¸ªæ•´æ•°
+     * åˆ¤æ–­æ•°ç»„ä¸­æ˜¯å¦å«æœ‰è¯¥æ•´æ•°ã€‚
+     */
+    //ä»¥å·¦ä¸‹è§’ä¸ºåŸºå‡†
+    public boolean C_04_1(int[][] arr, int val){
+        int rows = arr.length;
+        int cols = arr[0].length;
+        int i = rows - 1;
+        int j = 0;
+        while(i >= 0 && j <= cols - 1){
+            if(arr[i][j] == val){
+                return true;
+            }
+            else if(arr[i][j] < val){
+                j++;
+            }
+            else{
+                i--;
+            }
+        }
+        return false;
+    }
+    //ä»¥å³ä¸Šè§’ä¸ºåŸºå‡†
+    public boolean C_04_2(int[][] arr, int val){
+        int rows = arr.length;
+        int cols = arr[0].length;
+        int i = 0;
+        int j = cols - 1;
+        while(i <= rows - 1 && j >= 0){
+            if(arr[i][j] == val){
+                return true;
+            }
+            else if(arr[i][j] < val){
+                i++;
+            }
+            else{
+                j--;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * @date 2018-07-13
+     * @author broccoli
+     * @description #09 ç”¨ä¸¤ä¸ªæ ˆå®ç°é˜Ÿåˆ—
+     * @mind
+     * è¿›é˜Ÿåˆ—æ—¶ æŠŠå…ƒç´ æ’åˆ°ç¬¬ä¸€ä¸ªæ ˆä¸­
+     * å‡ºé˜Ÿåˆ—æ—¶ æ£€å‡ºç¬¬äºŒä¸ªæ ˆçš„æ ˆå°¾å…ƒç´ 
+     * å¦‚æœç¬¬äºŒä¸ªæ ˆä¸ºç©º è¯´æ˜ä¹‹å‰ä¸€ç›´åœ¨è¿›é˜Ÿåˆ—
+     * æ­¤æ—¶æŠŠç¬¬ä¸€ä¸ªæ ˆä¸­çš„å…ƒç´  å¯¼å…¥ç¬¬äºŒä¸ªæ ˆä¸­
+     * å°±ä¼šæŠŠåè¿›é˜Ÿåˆ—çš„å…ƒç´ æ”¾å…¥ç¬¬äºŒä¸ªæ ˆçš„æ ˆé¡¶
+     * æŠŠå…ˆè¿›é˜Ÿåˆ—çš„å…ƒç´ æ”¾å…¥ç¬¬äºŒä¸ªæ ˆçš„æ ˆå°¾
+     * é‚£ä¹ˆå°±ä¼šæ£€å‡ºç¬¬äºŒä¸ªæ ˆçš„æ ˆå°¾å…ƒç´  ä¹Ÿå°±æ˜¯æ•´ä¸ªé˜Ÿåˆ—ç¬¬ä¸€ä¸ªè¿›æ¥çš„å…ƒç´ 
+     * å°±å®ç°äº†é˜Ÿåˆ—å…ˆè¿›å…ˆå‡ºçš„åŠŸèƒ½
+     */
+    public class C09{
+        private Stack<Integer> stack1 = new Stack<>();
+        private Stack<Integer> stack2 = new Stack<>();
+        public void push(int i){
+            stack1.push(i);
+        }
+        public int pop(){
+            if(stack1.empty() && stack2.empty()){
+                throw new RuntimeException("é˜Ÿåˆ—ä¸­æ²¡æœ‰å…ƒç´ ");
+            }
+            if(stack2.empty()){
+                while(!stack1.empty()){
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.pop();
+        }
+    }
+
+
+    /**
+     * è¯·å®ç°ä¸€ä¸ªå‡½æ•°
+     * å°†ä¸€ä¸ªå­—ç¬¦ä¸²ä¸­çš„æ¯ä¸ªç©ºæ ¼æ›¿æ¢æˆâ€œ%20â€
+     * ä¾‹å¦‚
+     * å½“å­—ç¬¦ä¸²ä¸ºWe Are Happy
+     * åˆ™ç»è¿‡æ›¿æ¢ä¹‹åçš„å­—ç¬¦ä¸²ä¸ºWe%20Are%20Happy
+     */
+    public String replaceSpace(StringBuffer str) {
+        int space_num = 0;
+        for(char c : str.toString().toCharArray()){
+            if(c == ' ') space_num++;
+        }
+        int old_index = str.length() - 1;
+        int new_length = str.length() + 2 * space_num;
+        str.setLength(new_length);
+        int new_index = str.length() - 1;
+        while(old_index >= 0){
+            if(str.charAt(old_index) == ' '){
+                str.setCharAt(new_index--, '0');
+                str.setCharAt(new_index--, '2');
+                str.setCharAt(new_index--, '%');
+            }
+            else{
+                str.setCharAt(new_index--, str.charAt(old_index));
+            }
+            old_index--;
+        }
+        return str.toString();
+    }
+
+
+    /**
+     * è¾“å…¥ä¸€ä¸ªé“¾è¡¨
+     * æŒ‰é“¾è¡¨å€¼ä»å°¾åˆ°å¤´çš„é¡ºåºè¿”å›ä¸€ä¸ªArrayList
+     */
+    //å€ŸåŠ©æ ˆ è¿è¡Œæ—¶é—´ï¼š23ms å ç”¨å†…å­˜ï¼š9252k
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
         Stack<Integer> stack = new Stack<>();
         while(listNode != null){
-        	stack.push(listNode.val);
-        	listNode = listNode.next;
+            stack.push(listNode.val);
+            listNode = listNode.next;
         }
         ArrayList<Integer> list = new ArrayList<>();
         while(stack.size() != 0){
-        	list.add(stack.pop());
+            list.add(stack.pop());
         }
         return list;
     }
-	//µİ¹é ÔËĞĞÊ±¼ä£º14ms Õ¼ÓÃÄÚ´æ£º9424k
-	public ArrayList<Integer> printListFromTailToHead_2(ListNode listNode){
-		ArrayList<Integer> list = new ArrayList<>();
-		printListFromTailToHead_2_traversal(listNode, list);
-		return list;
-	}
-	
-	public void printListFromTailToHead_2_traversal(ListNode listNode, ArrayList<Integer> list){
-		if(listNode != null){
-			if(listNode.next != null){
-				printListFromTailToHead_2_traversal(listNode.next, list);
-			}
-			list.add(listNode.val);
-		}
-	}
-	
-	
-	/**
-	 * ÊäÈëÄ³¶ş²æÊ÷µÄÇ°Ğò±éÀúºÍÖĞĞò±éÀúµÄ½á¹û
-	 * ÇëÖØ½¨³ö¸Ã¶ş²æÊ÷
-	 * ¼ÙÉèÊäÈëµÄÇ°Ğò±éÀúºÍÖĞĞò±éÀúµÄ½á¹ûÖĞ¶¼²»º¬ÖØ¸´µÄÊı×Ö
-	 * ÀıÈçÊäÈëÇ°Ğò±éÀúĞòÁĞ{1,2,4,7,3,5,6,8}ºÍÖĞĞò±éÀúĞòÁĞ{4,7,2,1,5,3,8,6}
-	 * ÔòÖØ½¨¶ş²æÊ÷²¢·µ»Ø
-	 */
-	//ÔËĞĞÊ±¼ä£º296ms Õ¼ÓÃÄÚ´æ£º22912k
-	public TreeNode reConstructBinaryTree(int[] pre,int[] in) {
-		Map<Integer, Integer> map = new HashMap<>();
-		for(int i = 0; i < in.length; i++){
-			map.put(in[i], i);
-		}
+    //é€’å½’ è¿è¡Œæ—¶é—´ï¼š14ms å ç”¨å†…å­˜ï¼š9424k
+    public ArrayList<Integer> printListFromTailToHead_2(ListNode listNode){
+        ArrayList<Integer> list = new ArrayList<>();
+        printListFromTailToHead_2_traversal(listNode, list);
+        return list;
+    }
+
+    public void printListFromTailToHead_2_traversal(ListNode listNode, ArrayList<Integer> list){
+        if(listNode != null){
+            if(listNode.next != null){
+                printListFromTailToHead_2_traversal(listNode.next, list);
+            }
+            list.add(listNode.val);
+        }
+    }
+
+
+    /**
+     * è¾“å…¥æŸäºŒå‰æ ‘çš„å‰åºéå†å’Œä¸­åºéå†çš„ç»“æœ
+     * è¯·é‡å»ºå‡ºè¯¥äºŒå‰æ ‘
+     * å‡è®¾è¾“å…¥çš„å‰åºéå†å’Œä¸­åºéå†çš„ç»“æœä¸­éƒ½ä¸å«é‡å¤çš„æ•°å­—
+     * ä¾‹å¦‚è¾“å…¥å‰åºéå†åºåˆ—{1,2,4,7,3,5,6,8}å’Œä¸­åºéå†åºåˆ—{4,7,2,1,5,3,8,6}
+     * åˆ™é‡å»ºäºŒå‰æ ‘å¹¶è¿”å›
+     */
+    //è¿è¡Œæ—¶é—´ï¼š296ms å ç”¨å†…å­˜ï¼š22912k
+    public TreeNode reConstructBinaryTree(int[] pre,int[] in) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < in.length; i++){
+            map.put(in[i], i);
+        }
         return reConstructBinaryTree_traversal(pre, in, 0, pre.length - 1, 0, in.length - 1, map);
     }
-	
-	public TreeNode reConstructBinaryTree_traversal(int[] pre, int[] in, int ps, int pe, int is, int ie, Map<Integer, Integer> map){
-		if(ps > pe || is > ie) return null;
-		TreeNode node = new TreeNode(pre[ps]);
-		int mid = map.get(pre[ps]);
-		node.left = reConstructBinaryTree_traversal(pre, in, ps + 1, ps + mid - is, is, mid - 1, map);
-		node.right = reConstructBinaryTree_traversal(pre, in, ps + mid - is + 1, pe, mid + 1, ie, map);
-		return node;
-	}
-	/**
-	 * ´ó¼Ò¶¼ÖªµÀì³²¨ÄÇÆõÊıÁĞ
-	 * ÏÖÔÚÒªÇóÊäÈëÒ»¸öÕûÊın
-	 * ÇëÄãÊä³öì³²¨ÄÇÆõÊıÁĞµÄµÚnÏî£¨´Ó0¿ªÊ¼£¬µÚ0ÏîÎª0)
-	 * n<=39
-	 */
-	//ÔËĞĞÊ±¼ä£º1490ms Õ¼ÓÃÄÚ´æ£º9272k
-	public int Fibonacci(int n) {
-		if(n == 0) return 0;
-		if(n == 1) return 1;
-		return Fibonacci(n - 2) + Fibonacci(n - 1);
+
+    public TreeNode reConstructBinaryTree_traversal(int[] pre, int[] in, int ps, int pe, int is, int ie, Map<Integer, Integer> map){
+        if(ps > pe || is > ie) return null;
+        TreeNode node = new TreeNode(pre[ps]);
+        int mid = map.get(pre[ps]);
+        node.left = reConstructBinaryTree_traversal(pre, in, ps + 1, ps + mid - is, is, mid - 1, map);
+        node.right = reConstructBinaryTree_traversal(pre, in, ps + mid - is + 1, pe, mid + 1, ie, map);
+        return node;
     }
-	
-	
-	/**
-	 * ÓÃÁ½¸öÕ»À´ÊµÏÖÒ»¸ö¶ÓÁĞ
-	 * Íê³É¶ÓÁĞµÄPushºÍPop²Ù×÷
-	 *  ¶ÓÁĞÖĞµÄÔªËØÎªintÀàĞÍ
-	 */
-	//ÔËĞĞÊ±¼ä£º19ms Õ¼ÓÃÄÚ´æ£º9400k
-	//×¢ÒâÖ»ÓĞstack2Îª¿ÕÊ±²Å»á´Óstack1À­Êı¾İ
-	public class Solution01 {
-	    Stack<Integer> stack1 = new Stack<Integer>();
-	    Stack<Integer> stack2 = new Stack<Integer>();
-	    
-	    public void push(int node) {
-	        stack1.push(node);
-	    }
-	    
-	    public int pop() {
-	        if(stack2.empty()){
-	            while(!stack1.empty()){
-	                stack2.push(stack1.pop());
-	            }
-	        }
-	        return stack2.pop();
-	    }
-	}
-	/**
-	 * Ò»Ö»ÇàÍÜÒ»´Î¿ÉÒÔÌøÉÏ1¼¶Ì¨½×
-	 * Ò²¿ÉÒÔÌøÉÏ2¼¶
-	 * ËüÒ²¿ÉÒÔÌøÉÏn¼¶
-	 * Çó¸ÃÇàÍÜÌøÉÏÒ»¸ön¼¶µÄÌ¨½××Ü¹²ÓĞ¶àÉÙÖÖÌø·¨
-	 */
-	//ÔËĞĞÊ±¼ä£º18m Õ¼ÓÃÄÚ´æ£º9424k
+    /**
+     * å¤§å®¶éƒ½çŸ¥é“æ–æ³¢é‚£å¥‘æ•°åˆ—
+     * ç°åœ¨è¦æ±‚è¾“å…¥ä¸€ä¸ªæ•´æ•°n
+     * è¯·ä½ è¾“å‡ºæ–æ³¢é‚£å¥‘æ•°åˆ—çš„ç¬¬né¡¹ï¼ˆä»0å¼€å§‹ï¼Œç¬¬0é¡¹ä¸º0)
+     * n<=39
+     */
+    //è¿è¡Œæ—¶é—´ï¼š1490ms å ç”¨å†…å­˜ï¼š9272k
+    public int Fibonacci(int n) {
+        if(n == 0) return 0;
+        if(n == 1) return 1;
+        return Fibonacci(n - 2) + Fibonacci(n - 1);
+    }
+
+
+    /**
+     * ç”¨ä¸¤ä¸ªæ ˆæ¥å®ç°ä¸€ä¸ªé˜Ÿåˆ—
+     * å®Œæˆé˜Ÿåˆ—çš„Pushå’ŒPopæ“ä½œ
+     *  é˜Ÿåˆ—ä¸­çš„å…ƒç´ ä¸ºintç±»å‹
+     */
+    //è¿è¡Œæ—¶é—´ï¼š19ms å ç”¨å†…å­˜ï¼š9400k
+    //æ³¨æ„åªæœ‰stack2ä¸ºç©ºæ—¶æ‰ä¼šä»stack1æ‹‰æ•°æ®
+    public class Solution01 {
+        Stack<Integer> stack1 = new Stack<Integer>();
+        Stack<Integer> stack2 = new Stack<Integer>();
+
+        public void push(int node) {
+            stack1.push(node);
+        }
+
+        public int pop() {
+            if(stack2.empty()){
+                while(!stack1.empty()){
+                    stack2.push(stack1.pop());
+                }
+            }
+            return stack2.pop();
+        }
+    }
+    /**
+     * ä¸€åªé’è›™ä¸€æ¬¡å¯ä»¥è·³ä¸Š1çº§å°é˜¶
+     * ä¹Ÿå¯ä»¥è·³ä¸Š2çº§
+     * å®ƒä¹Ÿå¯ä»¥è·³ä¸Šnçº§
+     * æ±‚è¯¥é’è›™è·³ä¸Šä¸€ä¸ªnçº§çš„å°é˜¶æ€»å…±æœ‰å¤šå°‘ç§è·³æ³•
+     */
+    //è¿è¡Œæ—¶é—´ï¼š18m å ç”¨å†…å­˜ï¼š9424k
     public int JumpFloorII(int target) {
         if(target == 1) return 1;
         if(target == 2) return 2;
         int sum = 0;
         while(target > 1){
-        	sum += JumpFloorII(--target);
+            sum += JumpFloorII(--target);
         }
         return sum + 1;
     }
-    
-    
+
+
     /**
-     * ÊäÈëÒ»¸öÕûÊı
-     * Êä³ö¸ÃÊı¶ş½øÖÆ±íÊ¾ÖĞ1µÄ¸öÊı
-     * ÆäÖĞ¸ºÊıÓÃ²¹Âë±íÊ¾
+     * è¾“å…¥ä¸€ä¸ªæ•´æ•°
+     * è¾“å‡ºè¯¥æ•°äºŒè¿›åˆ¶è¡¨ç¤ºä¸­1çš„ä¸ªæ•°
+     * å…¶ä¸­è´Ÿæ•°ç”¨è¡¥ç è¡¨ç¤º
      */
-    //ÔËĞĞÊ±¼ä£º11ms Õ¼ÓÃÄÚ´æ£º9432k
-    //javaÀï±ßµÄ¸ºÊıÄ¬ÈÏ¾ÍÊÇÓÃ²¹Âë½øĞĞ²Ù×÷µÄ
-    //ËùÒÔÃ»ÓĞ±ØÒª½øĞĞ°Ñ¸ºÊı×ªÕı, Í·²¿Îª1ÆäÓàÈ¡·´×îºó¼Ó1µÄ²Ù×÷
+    //è¿è¡Œæ—¶é—´ï¼š11ms å ç”¨å†…å­˜ï¼š9432k
+    //javaé‡Œè¾¹çš„è´Ÿæ•°é»˜è®¤å°±æ˜¯ç”¨è¡¥ç è¿›è¡Œæ“ä½œçš„
+    //æ‰€ä»¥æ²¡æœ‰å¿…è¦è¿›è¡ŒæŠŠè´Ÿæ•°è½¬æ­£, å¤´éƒ¨ä¸º1å…¶ä½™å–åæœ€ååŠ 1çš„æ“ä½œ
     public int NumberOf1(int n) {
-    	int count = 0;
-    	int flag = 1;
-    	while(flag != 0){
-    		if((n & flag) != 0){
-    			count++;
-    		}
-    		flag = flag << 1;
-    	}
-    	return count;
+        int count = 0;
+        int flag = 1;
+        while(flag != 0){
+            if((n & flag) != 0){
+                count++;
+            }
+            flag = flag << 1;
+        }
+        return count;
     }
-    
+
     /**
-     * ÊäÈëÒ»¸öÁ´±í
-     * Êä³ö¸ÃÁ´±íÖĞµ¹ÊıµÚk¸ö½áµã
+     * è¾“å…¥ä¸€ä¸ªé“¾è¡¨
+     * è¾“å‡ºè¯¥é“¾è¡¨ä¸­å€’æ•°ç¬¬kä¸ªç»“ç‚¹
      */
-    //¾ÍÊÇÏÈÇó×Ü¹²ÓĞ¼¸¸ö½Úµã ±ğÏë×Å·´ÏòÊä³ö
-    //ÔËĞĞÊ±¼ä£º16ms Õ¼ÓÃÄÚ´æ£º9656k
+    //å°±æ˜¯å…ˆæ±‚æ€»å…±æœ‰å‡ ä¸ªèŠ‚ç‚¹ åˆ«æƒ³ç€åå‘è¾“å‡º
+    //è¿è¡Œæ—¶é—´ï¼š16ms å ç”¨å†…å­˜ï¼š9656k
     public ListNode FindKthToTail(ListNode head,int k) {
-    	int node_num = 0;
-    	ListNode head1 = head;
-    	while(head1 != null){
-    		node_num++;
-    		head1 = head1.next;
-    	}
-    	if(k > node_num) return null;
-    	int _k = node_num - k + 1;
-    	ListNode head2 = head;
-    	int i = 2;
-    	while((i++) <= _k){
-    		head2 = head2.next;
-    	}
-    	return head2;
+        int node_num = 0;
+        ListNode head1 = head;
+        while(head1 != null){
+            node_num++;
+            head1 = head1.next;
+        }
+        if(k > node_num) return null;
+        int _k = node_num - k + 1;
+        ListNode head2 = head;
+        int i = 2;
+        while((i++) <= _k){
+            head2 = head2.next;
+        }
+        return head2;
     }
-    
-    
+
+
     /**
-     * ÎÒÃÇ¿ÉÒÔÓÃ2*1µÄĞ¡¾ØĞÎºá×Å»òÕßÊú×ÅÈ¥¸²¸Ç¸ü´óµÄ¾ØĞÎ
-     * ÇëÎÊÓÃn¸ö2*1µÄĞ¡¾ØĞÎÎŞÖØµşµØ¸²¸ÇÒ»¸ö2*nµÄ´ó¾ØĞÎ
-     * ×Ü¹²ÓĞ¶àÉÙÖÖ·½·¨
+     * æˆ‘ä»¬å¯ä»¥ç”¨2*1çš„å°çŸ©å½¢æ¨ªç€æˆ–è€…ç«–ç€å»è¦†ç›–æ›´å¤§çš„çŸ©å½¢
+     * è¯·é—®ç”¨nä¸ª2*1çš„å°çŸ©å½¢æ— é‡å åœ°è¦†ç›–ä¸€ä¸ª2*nçš„å¤§çŸ©å½¢
+     * æ€»å…±æœ‰å¤šå°‘ç§æ–¹æ³•
      */
-    //ÔËĞĞÊ±¼ä£º591ms Õ¼ÓÃÄÚ´æ£º9428k
+    //è¿è¡Œæ—¶é—´ï¼š591ms å ç”¨å†…å­˜ï¼š9428k
     public int RectCover(int target) {
-    	if(target < 1) return 0;
+        if(target < 1) return 0;
         if(target == 1 || target == 2) return target;
-    	return RectCover(target - 1) + RectCover(target - 2);
+        return RectCover(target - 1) + RectCover(target - 2);
     }
-    
+
     /**
-     * ÊäÈëÒ»¸öÕûÊıÊı×é
-     * ÊµÏÖÒ»¸öº¯ÊıÀ´µ÷Õû¸ÃÊı×éÖĞÊı×ÖµÄË³Ğò
-     * Ê¹µÃËùÓĞµÄÆæÊıÎ»ÓÚÊı×éµÄÇ°°ë²¿·Ö
-     * ËùÓĞµÄÅ¼ÊıÎ»ÓÚÊı×éµÄºó°ë²¿·Ö
-     * ²¢±£Ö¤ÆæÊıºÍÆæÊı
-     * Å¼ÊıºÍÅ¼ÊıÖ®¼äµÄÏà¶ÔÎ»ÖÃ²»±ä¡£
+     * è¾“å…¥ä¸€ä¸ªæ•´æ•°æ•°ç»„
+     * å®ç°ä¸€ä¸ªå‡½æ•°æ¥è°ƒæ•´è¯¥æ•°ç»„ä¸­æ•°å­—çš„é¡ºåº
+     * ä½¿å¾—æ‰€æœ‰çš„å¥‡æ•°ä½äºæ•°ç»„çš„å‰åŠéƒ¨åˆ†
+     * æ‰€æœ‰çš„å¶æ•°ä½äºæ•°ç»„çš„ååŠéƒ¨åˆ†
+     * å¹¶ä¿è¯å¥‡æ•°å’Œå¥‡æ•°
+     * å¶æ•°å’Œå¶æ•°ä¹‹é—´çš„ç›¸å¯¹ä½ç½®ä¸å˜ã€‚
      */
-    //ÔËĞĞÊ±¼ä£º22ms Õ¼ÓÃÄÚ´æ£º9372k
+    //è¿è¡Œæ—¶é—´ï¼š22ms å ç”¨å†…å­˜ï¼š9372k
     public void reOrderArray(int [] array) {
         if(array.length <= 1) return;
         int index = -1;
         for(int i = 0; i < array.length; i++){
-        	if(array[i] % 2 == 1){
-        		int val = array[i];
-        		int temp = i;
-        		while(temp > index + 1){
-        			array[temp] = array[temp - 1];
-        			temp--;
-        		}
-        		array[++index] = val;
-        	}
+            if(array[i] % 2 == 1){
+                int val = array[i];
+                int temp = i;
+                while(temp > index + 1){
+                    array[temp] = array[temp - 1];
+                    temp--;
+                }
+                array[++index] = val;
+            }
         }
     }
-    
-   
+
+
     /**
-     * ÊäÈëÒ»¸öÁ´±í
-     * ·´×ªÁ´±íºó
-     * Êä³öĞÂÁ´±íµÄ±íÍ·
+     * è¾“å…¥ä¸€ä¸ªé“¾è¡¨
+     * åè½¬é“¾è¡¨å
+     * è¾“å‡ºæ–°é“¾è¡¨çš„è¡¨å¤´
      */
-    //ÔËĞĞÊ±¼ä£º17ms Õ¼ÓÃÄÚ´æ£º9564k
+    //è¿è¡Œæ—¶é—´ï¼š17ms å ç”¨å†…å­˜ï¼š9564k
     public ListNode ReverseList(ListNode head) {
-    	ListNode prev = null;
-    	while(head != null){
-    		ListNode next = head.next;
-    		head.next = prev;
-    		prev = head;
-    		head = next;
-    	}
-    	return prev;
+        ListNode prev = null;
+        while(head != null){
+            ListNode next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
     }
-    
-  
+
+
     /**
-     * ÊäÈëÁ½¸öµ¥µ÷µİÔöµÄÁ´±í
-     * Êä³öÁ½¸öÁ´±íºÏ³ÉºóµÄÁ´±í
-     * µ±È»ÎÒÃÇĞèÒªºÏ³ÉºóµÄÁ´±íÂú×ãµ¥µ÷²»¼õ¹æÔò
+     * è¾“å…¥ä¸¤ä¸ªå•è°ƒé€’å¢çš„é“¾è¡¨
+     * è¾“å‡ºä¸¤ä¸ªé“¾è¡¨åˆæˆåçš„é“¾è¡¨
+     * å½“ç„¶æˆ‘ä»¬éœ€è¦åˆæˆåçš„é“¾è¡¨æ»¡è¶³å•è°ƒä¸å‡è§„åˆ™
      */
-    //·Çµİ¹é
-    //ÔËĞĞÊ±¼ä£º20ms Õ¼ÓÃÄÚ´æ£º9660k
+    //éé€’å½’
+    //è¿è¡Œæ—¶é—´ï¼š20ms å ç”¨å†…å­˜ï¼š9660k
     public ListNode Merge(ListNode list1,ListNode list2) {
-    	if(list1 == null) return list2;
-    	if(list2 == null) return list1;
+        if(list1 == null) return list2;
+        if(list2 == null) return list1;
         ListNode root = null;
         if(list1.val <= list2.val){
-        	root = list1;
-        	list1 = list1.next;
+            root = list1;
+            list1 = list1.next;
         }
         else{
-        	root = list2;
-        	list1 = list2.next;
+            root = list2;
+            list1 = list2.next;
         }
         ListNode temp = root;
         while(list1 != null && list2 != null){
-        	if(list1.val <= list2.val){
-        		temp.next = list1;
-        		temp = list1;
-        		list1 = list1.next;
-        	}
-        	else{
-        		temp.next = list2;
-        		temp = list2;
-        		list2 = list2.next;
-        	}
+            if(list1.val <= list2.val){
+                temp.next = list1;
+                temp = list1;
+                list1 = list1.next;
+            }
+            else{
+                temp.next = list2;
+                temp = list2;
+                list2 = list2.next;
+            }
         }
         if(list1 != null){
-        	temp.next = list1;
+            temp.next = list1;
         }
         if(list2 != null){
-        	temp.next = list2;
+            temp.next = list2;
         }
         return root;
     }
-    
-    //µİ¹é
-    //ÔËĞĞÊ±¼ä£º21ms Õ¼ÓÃÄÚ´æ£º9432k
+
+    //é€’å½’
+    //è¿è¡Œæ—¶é—´ï¼š21ms å ç”¨å†…å­˜ï¼š9432k
     public ListNode Merge2(ListNode list1,ListNode list2) {
-    	if(list1 == null) return list2;
-    	if(list2 == null) return list1;
-    	if(list1.val <= list2.val){
-    		list1.next = Merge2(list1.next, list2);
-    		return list1;
-    	}
-    	else{
-    		list2.next = Merge2(list1, list2.next);
-    		return list2;
-    	}
+        if(list1 == null) return list2;
+        if(list2 == null) return list1;
+        if(list1.val <= list2.val){
+            list1.next = Merge2(list1.next, list2);
+            return list1;
+        }
+        else{
+            list2.next = Merge2(list1, list2.next);
+            return list2;
+        }
     }
-    
-    
-    
+
+
+
     /**
-     * ²Ù×÷¸ø¶¨µÄ¶ş²æÊ÷
-     * ½«Æä±ä»»ÎªÔ´¶ş²æÊ÷µÄ¾µÏñ¡£
+     * æ“ä½œç»™å®šçš„äºŒå‰æ ‘
+     * å°†å…¶å˜æ¢ä¸ºæºäºŒå‰æ ‘çš„é•œåƒã€‚
      * @param root
      */
-    //ÔËĞĞÊ±¼ä£º22ms Õ¼ÓÃÄÚ´æ£º9560k
-	//´À
+    //è¿è¡Œæ—¶é—´ï¼š22ms å ç”¨å†…å­˜ï¼š9560k
+    //è ¢
     public void Mirror(TreeNode root) {
         if(root == null) return;
         TreeNode right= root.right;
@@ -476,182 +476,182 @@ public class Sword {
         Mirror(root.left);
         Mirror(root.right);
     }
-    
-    
+
+
     /**
-     * ÊäÈëÁ½¿Ã¶ş²æÊ÷A£¬B
-     * ÅĞ¶ÏBÊÇ²»ÊÇAµÄ×Ó½á¹¹
-     * ÎÒÃÇÔ¼¶¨¿ÕÊ÷²»ÊÇÈÎÒâÒ»¸öÊ÷µÄ×Ó½á¹¹
+     * è¾“å…¥ä¸¤æ£µäºŒå‰æ ‘Aï¼ŒB
+     * åˆ¤æ–­Bæ˜¯ä¸æ˜¯Açš„å­ç»“æ„
+     * æˆ‘ä»¬çº¦å®šç©ºæ ‘ä¸æ˜¯ä»»æ„ä¸€ä¸ªæ ‘çš„å­ç»“æ„
      */
-    //ÔËĞĞÊ±¼ä£º16ms Õ¼ÓÃÄÚ´æ£º9536k
+    //è¿è¡Œæ—¶é—´ï¼š16ms å ç”¨å†…å­˜ï¼š9536k
     public boolean HasSubtree(TreeNode root1,TreeNode root2) {
         boolean flag = false;
-        //root2´ÓÀ´¾ÍÃ»±ä¹ı Ö»Òªroot2ÊÇ¿Õ ÔòÖ±½Ó·µ»ØflagµÄ³õÊ¼Öµfalse
+        //root2ä»æ¥å°±æ²¡å˜è¿‡ åªè¦root2æ˜¯ç©º åˆ™ç›´æ¥è¿”å›flagçš„åˆå§‹å€¼false
         if(root1 != null && root2 != null){
-        	//ÈôÏàµÈ Ôò¿´ÓàÏÂµÄ½á¹¹ÊÇ·ñÒ²Ò»Ñù»ò°üº¬
-        	if(root1.val == root2.val){
-        		flag = HasSubtree_reserval(root1, root2);
-        	}
-        	
-        	//root1µ±Ç°Õâ¸öµãºÍroot2µÄ¸ú²»Ò»Ñù ÔòÊÔÊÔroot1µÄleft
-        	if(!flag){
-        		flag = HasSubtree(root1.left, root2);
-        	}
-        	
-        	//root1µ±Ç°Õâ¸öµãºÍleftºÍroot2µÄ¸ú²»Ò»Ñù ÔòÊÔÊÔroot1µÄright
-        	if(!flag){
-        		flag = HasSubtree(root1.right, root2);
-        	}
+            //è‹¥ç›¸ç­‰ åˆ™çœ‹ä½™ä¸‹çš„ç»“æ„æ˜¯å¦ä¹Ÿä¸€æ ·æˆ–åŒ…å«
+            if(root1.val == root2.val){
+                flag = HasSubtree_reserval(root1, root2);
+            }
+
+            //root1å½“å‰è¿™ä¸ªç‚¹å’Œroot2çš„è·Ÿä¸ä¸€æ · åˆ™è¯•è¯•root1çš„left
+            if(!flag){
+                flag = HasSubtree(root1.left, root2);
+            }
+
+            //root1å½“å‰è¿™ä¸ªç‚¹å’Œleftå’Œroot2çš„è·Ÿä¸ä¸€æ · åˆ™è¯•è¯•root1çš„right
+            if(!flag){
+                flag = HasSubtree(root1.right, root2);
+            }
         }
         return flag;
     }
-    
+
     public boolean HasSubtree_reserval(TreeNode root1,TreeNode root2){
-    	//root1ÓĞ ¶øroot2¿Õ Ôòroot2ÊÇroot1µÄ×ÓÊ÷
-    	if(root2 == null) return true;
-    	//µ½ÕâÒ»²½root2±Ø¶¨²»Îª¿Õ Èôroot1¿ÕÁË Ôòroot2²»ÊÇroot1µÄ×ÓÊ÷
-    	if(root1 == null) return false;
-    	if(root1.val != root2.val) return false;
-    	return HasSubtree_reserval(root1.left, root2.left) && HasSubtree_reserval(root1.right, root2.right);
+        //root1æœ‰ è€Œroot2ç©º åˆ™root2æ˜¯root1çš„å­æ ‘
+        if(root2 == null) return true;
+        //åˆ°è¿™ä¸€æ­¥root2å¿…å®šä¸ä¸ºç©º è‹¥root1ç©ºäº† åˆ™root2ä¸æ˜¯root1çš„å­æ ‘
+        if(root1 == null) return false;
+        if(root1.val != root2.val) return false;
+        return HasSubtree_reserval(root1.left, root2.left) && HasSubtree_reserval(root1.right, root2.right);
     }
-    
-    
+
+
     /**
-     * ´ÓÉÏÍùÏÂ´òÓ¡³ö¶ş²æÊ÷µÄÃ¿¸ö½Úµã
-     * Í¬²ã½Úµã´Ó×óÖÁÓÒ´òÓ¡
+     * ä»ä¸Šå¾€ä¸‹æ‰“å°å‡ºäºŒå‰æ ‘çš„æ¯ä¸ªèŠ‚ç‚¹
+     * åŒå±‚èŠ‚ç‚¹ä»å·¦è‡³å³æ‰“å°
      */
-    //×Ô¼º×öµÄ µİ¹é»¹map ²»Ì«Í×
-    //ÔËĞĞÊ±¼ä£º14m Õ¼ÓÃÄÚ´æ£º9432k
+    //è‡ªå·±åšçš„ é€’å½’è¿˜map ä¸å¤ªå¦¥
+    //è¿è¡Œæ—¶é—´ï¼š14m å ç”¨å†…å­˜ï¼š9432k
     public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
         ArrayList<Integer> list = new ArrayList<>();
         Map<Integer, ArrayList<Integer>> map = new HashMap<>();
         PrintFromTopToBottom_rec(root, map ,0);
         for(int i = 0; i < map.size(); i++){
-        	ArrayList<Integer> temp = map.get(i);
-        	for(int val : temp){
-        		list.add(val);
-        	}
+            ArrayList<Integer> temp = map.get(i);
+            for(int val : temp){
+                list.add(val);
+            }
         }
         return list;
     }
-    
+
     public void PrintFromTopToBottom_rec(TreeNode node, Map<Integer, ArrayList<Integer>> map, int level){
-    	if(node == null) return;
-    	if(!map.keySet().contains(level)){
-    		ArrayList<Integer> temp = new ArrayList<>();
-    		temp.add(node.val);
-    		map.put(level, temp);
-    	}
-    	else{
-    		map.get(level).add(node.val);
-    	}
-    	PrintFromTopToBottom_rec(node.left, map, level + 1);
-    	PrintFromTopToBottom_rec(node.right, map, level + 1);
+        if(node == null) return;
+        if(!map.keySet().contains(level)){
+            ArrayList<Integer> temp = new ArrayList<>();
+            temp.add(node.val);
+            map.put(level, temp);
+        }
+        else{
+            map.get(level).add(node.val);
+        }
+        PrintFromTopToBottom_rec(node.left, map, level + 1);
+        PrintFromTopToBottom_rec(node.right, map, level + 1);
     }
-    
-    //½è¼øÁË´óÅ£µÄĞ´·¨
-    //ÔËĞĞÊ±¼ä£º14m Õ¼ÓÃÄÚ´æ£º9276k
+
+    //å€Ÿé‰´äº†å¤§ç‰›çš„å†™æ³•
+    //è¿è¡Œæ—¶é—´ï¼š14m å ç”¨å†…å­˜ï¼š9276k
     public ArrayList<Integer> PrintFromTopToBottom_2(TreeNode root) {
         ArrayList<Integer> list = new ArrayList<>();
         ArrayList<TreeNode> queue = new ArrayList<>();
         if(root == null) return list;
         queue.add(root);
         while(!queue.isEmpty()){
-        	TreeNode temp = queue.remove(0);
-        	if(temp.left != null) queue.add(temp.left);
-        	if(temp.right != null) queue.add(temp.right);
-        	list.add(temp.val);
+            TreeNode temp = queue.remove(0);
+            if(temp.left != null) queue.add(temp.left);
+            if(temp.right != null) queue.add(temp.right);
+            list.add(temp.val);
         }
         return list;
     }
-    
+
     /**
-     * ÊäÈëÁ½¸öÕûÊıĞòÁĞ
-     * µÚÒ»¸öĞòÁĞ±íÊ¾Õ»µÄÑ¹ÈëË³Ğò
-     * ÇëÅĞ¶ÏµÚ¶ş¸öĞòÁĞÊÇ·ñ¿ÉÄÜÎª¸ÃÕ»µÄµ¯³öË³Ğò
-     * ¼ÙÉèÑ¹ÈëÕ»µÄËùÓĞÊı×Ö¾ù²»ÏàµÈ
-     * ÀıÈçĞòÁĞ1,2,3,4,5ÊÇÄ³Õ»µÄÑ¹ÈëË³Ğò
-     * ĞòÁĞ4,5,3,2,1ÊÇ¸ÃÑ¹Õ»ĞòÁĞ¶ÔÓ¦µÄÒ»¸öµ¯³öĞòÁĞ
-     * µ«4,3,5,1,2¾Í²»¿ÉÄÜÊÇ¸ÃÑ¹Õ»ĞòÁĞµÄµ¯³öĞòÁĞ
-     * ×¢Òâ£ºÕâÁ½¸öĞòÁĞµÄ³¤¶ÈÊÇÏàµÈµÄ
+     * è¾“å…¥ä¸¤ä¸ªæ•´æ•°åºåˆ—
+     * ç¬¬ä¸€ä¸ªåºåˆ—è¡¨ç¤ºæ ˆçš„å‹å…¥é¡ºåº
+     * è¯·åˆ¤æ–­ç¬¬äºŒä¸ªåºåˆ—æ˜¯å¦å¯èƒ½ä¸ºè¯¥æ ˆçš„å¼¹å‡ºé¡ºåº
+     * å‡è®¾å‹å…¥æ ˆçš„æ‰€æœ‰æ•°å­—å‡ä¸ç›¸ç­‰
+     * ä¾‹å¦‚åºåˆ—1,2,3,4,5æ˜¯æŸæ ˆçš„å‹å…¥é¡ºåº
+     * åºåˆ—4,5,3,2,1æ˜¯è¯¥å‹æ ˆåºåˆ—å¯¹åº”çš„ä¸€ä¸ªå¼¹å‡ºåºåˆ—
+     * ä½†4,3,5,1,2å°±ä¸å¯èƒ½æ˜¯è¯¥å‹æ ˆåºåˆ—çš„å¼¹å‡ºåºåˆ—
+     * æ³¨æ„ï¼šè¿™ä¸¤ä¸ªåºåˆ—çš„é•¿åº¦æ˜¯ç›¸ç­‰çš„
      */
-    //ÔËĞĞÊ±¼ä£º19ms Õ¼ÓÃÄÚ´æ£º9436k
+    //è¿è¡Œæ—¶é—´ï¼š19ms å ç”¨å†…å­˜ï¼š9436k
     public boolean IsPopOrder(int [] pushA,int [] popA) {
-    	if(pushA.length == 0) return false;
-    	int len = pushA.length;
-    	Stack<Integer> stack = new Stack<Integer>();
-    	int i = 0;
-    	int j = 0;
-    	//Ö»ÄÜ±£Ö¤pushÍêÁË
-    	while(i < len && j < len){
-    		if(stack.isEmpty() || stack.peek() != popA[j]){
-    			stack.push(pushA[i++]);
-    		}
-    		else{
-    			stack.pop();
-    			j++;
-    		}
-    	}
-    	while(!stack.isEmpty()){
-    		if(stack.peek() == popA[j]){
-    			stack.pop();
-    			j++;
-    			continue;
-    		}
-    		return false;
-    	}
+        if(pushA.length == 0) return false;
+        int len = pushA.length;
+        Stack<Integer> stack = new Stack<Integer>();
+        int i = 0;
+        int j = 0;
+        //åªèƒ½ä¿è¯pushå®Œäº†
+        while(i < len && j < len){
+            if(stack.isEmpty() || stack.peek() != popA[j]){
+                stack.push(pushA[i++]);
+            }
+            else{
+                stack.pop();
+                j++;
+            }
+        }
+        while(!stack.isEmpty()){
+            if(stack.peek() == popA[j]){
+                stack.pop();
+                j++;
+                continue;
+            }
+            return false;
+        }
         return true;
     }
-    
-    
+
+
     /**
-     * ¶¨ÒåÕ»µÄÊı¾İ½á¹¹
-     * ÇëÔÚ¸ÃÀàĞÍÖĞÊµÏÖÒ»¸öÄÜ¹»µÃµ½Õ»ÖĞËùº¬×îĞ¡ÔªËØµÄminº¯Êı
-     * Ê±¼ä¸´ÔÓ¶ÈÓ¦ÎªO£¨1£©
+     * å®šä¹‰æ ˆçš„æ•°æ®ç»“æ„
+     * è¯·åœ¨è¯¥ç±»å‹ä¸­å®ç°ä¸€ä¸ªèƒ½å¤Ÿå¾—åˆ°æ ˆä¸­æ‰€å«æœ€å°å…ƒç´ çš„minå‡½æ•°
+     * æ—¶é—´å¤æ‚åº¦åº”ä¸ºOï¼ˆ1ï¼‰
      *
      */
-    //ÔËĞĞÊ±¼ä£º13ms Õ¼ÓÃÄÚ´æ£º9308k
+    //è¿è¡Œæ—¶é—´ï¼š13ms å ç”¨å†…å­˜ï¼š9308k
     class ImplMinInStack{
-    	Stack<Integer> stack = new Stack<>();
-    	Stack<Integer> sup = new Stack<>();
-    	public void push(int node) {
+        Stack<Integer> stack = new Stack<>();
+        Stack<Integer> sup = new Stack<>();
+        public void push(int node) {
             if(sup.empty() || sup.peek() > node){
-            	sup.push(node);
+                sup.push(node);
             }
             stack.push(node);
         }
-        
+
         public void pop() {
-        	if(stack.empty()){
-        		throw new RuntimeException("Õ»ÊÇ¿ÕµÄ");
-        	}
-        	if(stack.peek() == sup.peek()){
-        		sup.pop();
-        	}
+            if(stack.empty()){
+                throw new RuntimeException("æ ˆæ˜¯ç©ºçš„");
+            }
+            if(stack.peek() == sup.peek()){
+                sup.pop();
+            }
             stack.pop();
         }
-        
+
         public int top() {
-        	if(stack.empty()){
-        		throw new RuntimeException("Õ»ÊÇ¿ÕµÄ");
-        	}
+            if(stack.empty()){
+                throw new RuntimeException("æ ˆæ˜¯ç©ºçš„");
+            }
             return stack.peek();
         }
-        
+
         public int min() {
-        	if(stack.empty()){
-        		throw new RuntimeException("Õ»ÊÇ¿ÕµÄ");
-        	}
+            if(stack.empty()){
+                throw new RuntimeException("æ ˆæ˜¯ç©ºçš„");
+            }
             return sup.peek();
         }
     }
-    
-    
+
+
     /**
-     * ¼ÆËã×Ö·û´®×îºóÒ»¸öµ¥´ÊµÄ³¤¶È
-     * µ¥´ÊÒÔ¿Õ¸ñ¸ô¿ª
+     * è®¡ç®—å­—ç¬¦ä¸²æœ€åä¸€ä¸ªå•è¯çš„é•¿åº¦
+     * å•è¯ä»¥ç©ºæ ¼éš”å¼€
      */
-    //ÔËĞĞÊ±¼ä£º45ms Õ¼ÓÃÄÚ´æ£º10572k
+    //è¿è¡Œæ—¶é—´ï¼š45ms å ç”¨å†…å­˜ï¼š10572k
     static class CptLenhOfLastWordInString{
         public static void main(String[] args){
             Scanner sc = new Scanner(System.in);
@@ -660,18 +660,18 @@ public class Sword {
             System.out.println(str.length() - str.lastIndexOf(" ") - 1);
         }
     }
-    
-    
+
+
     /**
-     * ÊäÈëÒ»¸ö¾ØÕó
-     * °´ÕÕ´ÓÍâÏòÀïÒÔË³Ê±ÕëµÄË³ĞòÒÀ´Î´òÓ¡³öÃ¿Ò»¸öÊı×Ö
-     * ÀıÈç
-     * Èç¹ûÊäÈëÈçÏÂ4 X 4¾ØÕó
+     * è¾“å…¥ä¸€ä¸ªçŸ©é˜µ
+     * æŒ‰ç…§ä»å¤–å‘é‡Œä»¥é¡ºæ—¶é’ˆçš„é¡ºåºä¾æ¬¡æ‰“å°å‡ºæ¯ä¸€ä¸ªæ•°å­—
+     * ä¾‹å¦‚
+     * å¦‚æœè¾“å…¥å¦‚ä¸‹4 X 4çŸ©é˜µ
      * 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-     * ÔòÒÀ´Î´òÓ¡³öÊı×Ö
+     * åˆ™ä¾æ¬¡æ‰“å°å‡ºæ•°å­—
      * 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10
      */
-    //ÔËĞĞÊ±¼ä£º19ms Õ¼ÓÃÄÚ´æ£º9544k
+    //è¿è¡Œæ—¶é—´ï¼š19ms å ç”¨å†…å­˜ï¼š9544k
     public ArrayList<Integer> printMatrix(int [][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
@@ -683,452 +683,452 @@ public class Sword {
         int j = 0;
         ArrayList<Integer> list = new ArrayList<>();
         while(true){
-        	//step1
-        	while(j <= ymax){
-        		list.add(matrix[i][j++]);
-        	}
-        	j--;
-        	ymax--;
-        	i++;
-        	if(i > xmax) break;
-        	//step2
-        	while(i <= xmax){
-        		list.add(matrix[i++][j]);
-        	}
-        	i--;
-        	xmax--;
-        	j--;
-        	if(j < ymin) break;
-        	//step3
-        	while(j >= ymin){
-        		list.add(matrix[i][j--]);
-        	}
-        	j++;
-        	ymin++;
-        	i--;
-        	if(i < xmin) break;;
-        	//step4
-        	while(i >= xmin){
-        		list.add(matrix[i--][j]);
-        	}
-        	i++;
-        	xmin++;
-        	j++;
-        	if(j > ymax) break;
+            //step1
+            while(j <= ymax){
+                list.add(matrix[i][j++]);
+            }
+            j--;
+            ymax--;
+            i++;
+            if(i > xmax) break;
+            //step2
+            while(i <= xmax){
+                list.add(matrix[i++][j]);
+            }
+            i--;
+            xmax--;
+            j--;
+            if(j < ymin) break;
+            //step3
+            while(j >= ymin){
+                list.add(matrix[i][j--]);
+            }
+            j++;
+            ymin++;
+            i--;
+            if(i < xmin) break;;
+            //step4
+            while(i >= xmin){
+                list.add(matrix[i--][j]);
+            }
+            i++;
+            xmin++;
+            j++;
+            if(j > ymax) break;
         }
         return list;
     }
-    
-    
-    
-    //ÔËĞĞÊ±¼ä£º17ms Õ¼ÓÃÄÚ´æ£º9380k
+
+
+
+    //è¿è¡Œæ—¶é—´ï¼š17ms å ç”¨å†…å­˜ï¼š9380k
     public boolean VerifySquenceOfBST(int [] sequence) {
-    	if(sequence.length == 0) return false;
+        if(sequence.length == 0) return false;
         return VerifySquenceOfBST_R(sequence, 0, sequence.length - 1);
     }
-    
+
     public boolean VerifySquenceOfBST_R(int[] a, int start, int end){
-    	if(start >= end) return true;
-    	//midÖ¸ÓÒ×ÓÊ÷µÄÆğÊ¼index 
-    	//ÓÉÓÚ²»ÅÅ³ıÃ»ÓĞ×ó×ÓÊ÷µÄ¿ÉÄÜ
-    	//ËùÒÔmid³õÊ¼»¯Îªstart
-    	int mid = start;
-    	//´æÔÚ×ó×ÓÊ÷
-    	if(a[start] < a[end]){
-    		mid++;
-    		//mid == endÊ±ËµÃ÷Ã»ÓĞÓÒ×ÓÊ÷
-    		while(mid < end && a[mid] < a[end]){
-    			mid++;
-    		}
-    	}
-    	//²»ÅÅ³ı ËùÎ½ÓÒ×ÓÊ÷Àï±ßÓĞ½ÚµãÖµĞ¡ÓÚ¸ù½ÚµãÖµµÄÇé¿ö
-    	int temp = mid;
-    	while(temp < end){
-    		if(a[temp++] < a[end]) return false;
-    	}
-    	return VerifySquenceOfBST_R(a, start, mid - 1) && VerifySquenceOfBST_R(a, mid, end - 1);
+        if(start >= end) return true;
+        //midæŒ‡å³å­æ ‘çš„èµ·å§‹index
+        //ç”±äºä¸æ’é™¤æ²¡æœ‰å·¦å­æ ‘çš„å¯èƒ½
+        //æ‰€ä»¥midåˆå§‹åŒ–ä¸ºstart
+        int mid = start;
+        //å­˜åœ¨å·¦å­æ ‘
+        if(a[start] < a[end]){
+            mid++;
+            //mid == endæ—¶è¯´æ˜æ²¡æœ‰å³å­æ ‘
+            while(mid < end && a[mid] < a[end]){
+                mid++;
+            }
+        }
+        //ä¸æ’é™¤ æ‰€è°“å³å­æ ‘é‡Œè¾¹æœ‰èŠ‚ç‚¹å€¼å°äºæ ¹èŠ‚ç‚¹å€¼çš„æƒ…å†µ
+        int temp = mid;
+        while(temp < end){
+            if(a[temp++] < a[end]) return false;
+        }
+        return VerifySquenceOfBST_R(a, start, mid - 1) && VerifySquenceOfBST_R(a, mid, end - 1);
     }
-    
-    
-    //ÔËĞĞÊ±¼ä£º18ms Õ¼ÓÃÄÚ´æ£º9296k
+
+
+    //è¿è¡Œæ—¶é—´ï¼š18ms å ç”¨å†…å­˜ï¼š9296k
     public int MoreThanHalfNum_Solution(int [] array) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < array.length; i++){
-        	if(!map.keySet().contains(array[i])){
-        		map.put(array[i], 1);
-        		if(map.get(array[i]) > array.length / 2){
-        			return array[i];
-        		}
-        	}
-        	else{
-        		map.put(array[i], map.get(array[i]) + 1);
-        		if(map.get(array[i]) > array.length / 2){
-        			return array[i];
-        		}
-        	}
+            if(!map.keySet().contains(array[i])){
+                map.put(array[i], 1);
+                if(map.get(array[i]) > array.length / 2){
+                    return array[i];
+                }
+            }
+            else{
+                map.put(array[i], map.get(array[i]) + 1);
+                if(map.get(array[i]) > array.length / 2){
+                    return array[i];
+                }
+            }
         }
         return 0;
     }
-    
-    
-    /**
-     * ÊäÈën¸öÕûÊı
-     * ÕÒ³öÆäÖĞ×îĞ¡µÄK¸öÊı
-     * ÀıÈçÊäÈë4,5,1,6,2,7,3,8Õâ8¸öÊı×Ö
-     * Ôò×îĞ¡µÄ4¸öÊı×ÖÊÇ1,2,3,4
-     */
-    //ÔËĞĞÊ±¼ä£º20ms Õ¼ÓÃÄÚ´æ£º9584k
-    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
-    	ArrayList<Integer> list = new ArrayList<>();
-    	int length = input.length;
-    	if(k > length || length == 0 || k == 0) return list;
-    	PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>() {
 
-			@Override
-			public int compare(Integer arg0, Integer arg1) {
-				if(arg0 > arg1) return -1;
-				if(arg0 == arg1) return 0;
-				return 1;
-			}
-    		
-    	});
-    	for(int i = 0; i < length; i++){
-    		if(i < k){
-    			maxHeap.add(input[i]);
-    		}
-    		else{
-    			if(maxHeap.peek() > input[i]){
-    				maxHeap.poll();
-    				maxHeap.add(input[i]);
-    			}
-    		}
-    	}
-    	for(int i : maxHeap){
-    		list.add(i);
-    	}
-    	return list;
-    }
-    
+
     /**
-     * ÕÒÁ¬Ğø×ÓÊı×éµÄ×î´óºÍ
+     * è¾“å…¥nä¸ªæ•´æ•°
+     * æ‰¾å‡ºå…¶ä¸­æœ€å°çš„Kä¸ªæ•°
+     * ä¾‹å¦‚è¾“å…¥4,5,1,6,2,7,3,8è¿™8ä¸ªæ•°å­—
+     * åˆ™æœ€å°çš„4ä¸ªæ•°å­—æ˜¯1,2,3,4
      */
-    //ÔËĞĞÊ±¼ä£º17ms Õ¼ÓÃÄÚ´æ£º9368k
+    //è¿è¡Œæ—¶é—´ï¼š20ms å ç”¨å†…å­˜ï¼š9584k
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list = new ArrayList<>();
+        int length = input.length;
+        if(k > length || length == 0 || k == 0) return list;
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer arg0, Integer arg1) {
+                if(arg0 > arg1) return -1;
+                if(arg0 == arg1) return 0;
+                return 1;
+            }
+
+        });
+        for(int i = 0; i < length; i++){
+            if(i < k){
+                maxHeap.add(input[i]);
+            }
+            else{
+                if(maxHeap.peek() > input[i]){
+                    maxHeap.poll();
+                    maxHeap.add(input[i]);
+                }
+            }
+        }
+        for(int i : maxHeap){
+            list.add(i);
+        }
+        return list;
+    }
+
+    /**
+     * æ‰¾è¿ç»­å­æ•°ç»„çš„æœ€å¤§å’Œ
+     */
+    //è¿è¡Œæ—¶é—´ï¼š17ms å ç”¨å†…å­˜ï¼š9368k
     public int FindGreatestSumOfSubArray(int[] array) {
-    	if(array.length == 0) return 0;
+        if(array.length == 0) return 0;
         int max = array[0];
         int cur = array[0];
         for(int i = 1; i < array.length; i++){
-        	cur = Math.max(array[i], cur + array[i]);
-        	max = Math.max(cur, max);
+            cur = Math.max(array[i], cur + array[i]);
+            max = Math.max(cur, max);
         }
         return max;
     }
-    
-    //ÔËĞĞÊ±¼ä£º15ms Õ¼ÓÃÄÚ´æ£º9664k
+
+    //è¿è¡Œæ—¶é—´ï¼š15ms å ç”¨å†…å­˜ï¼š9664k
     public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
         ArrayList<ArrayList<Integer>> res = new ArrayList<>();
         r(res, root, target, new ArrayList<Integer>());
         return res;
     }
-    
+
     public void r(ArrayList<ArrayList<Integer>> res, TreeNode root, int target, ArrayList<Integer> temp){
-    	if(root == null) return;
-    	if(root.val == target){
-    		if(root.left == null && root.right == null){
-    			temp.add(root.val);
-        		res.add(temp);
-    		}
-    		return;
-    	}
-    	if(root.val > target) return;
-    	temp.add(root.val);
-    	ArrayList<Integer> r1 = new ArrayList<>(temp);
-    	ArrayList<Integer> r2 = new ArrayList<>(temp);
-    	r(res, root.left, target - root.val, r1);
-    	r(res, root.right, target - root.val, r2);
+        if(root == null) return;
+        if(root.val == target){
+            if(root.left == null && root.right == null){
+                temp.add(root.val);
+                res.add(temp);
+            }
+            return;
+        }
+        if(root.val > target) return;
+        temp.add(root.val);
+        ArrayList<Integer> r1 = new ArrayList<>(temp);
+        ArrayList<Integer> r2 = new ArrayList<>(temp);
+        r(res, root.left, target - root.val, r1);
+        r(res, root.right, target - root.val, r2);
     }
-    
-    
+
+
     /**
-     * ÊäÈëÒ»¿Ã¶ş²æÊ÷
-     * Çó¸ÃÊ÷µÄÉî¶È
-     * ´Ó¸ù½áµãµ½Ò¶½áµãÒÀ´Î¾­¹ıµÄ½áµã£¨º¬¸ù¡¢Ò¶½áµã£©ĞÎ³ÉÊ÷µÄÒ»ÌõÂ·¾¶
-     * ×î³¤Â·¾¶µÄ³¤¶ÈÎªÊ÷µÄÉî¶È
+     * è¾“å…¥ä¸€æ£µäºŒå‰æ ‘
+     * æ±‚è¯¥æ ‘çš„æ·±åº¦
+     * ä»æ ¹ç»“ç‚¹åˆ°å¶ç»“ç‚¹ä¾æ¬¡ç»è¿‡çš„ç»“ç‚¹ï¼ˆå«æ ¹ã€å¶ç»“ç‚¹ï¼‰å½¢æˆæ ‘çš„ä¸€æ¡è·¯å¾„
+     * æœ€é•¿è·¯å¾„çš„é•¿åº¦ä¸ºæ ‘çš„æ·±åº¦
      */
-    //ÔËĞĞÊ±¼ä£º17ms Õ¼ÓÃÄÚ´æ£º9152k
+    //è¿è¡Œæ—¶é—´ï¼š17ms å ç”¨å†…å­˜ï¼š9152k
     public int TreeDepth(TreeNode root) {
         if(root == null) return 0;
         int left = TreeDepth(root.left);
         int right = TreeDepth(root.right);
         return Math.max(left, right) + 1;
     }
-    
+
 
     /**
-     * ÔÚÒ»¸ö×Ö·û´®(0<=×Ö·û´®³¤¶È<=10000£¬È«²¿ÓÉ×ÖÄ¸×é³É)ÖĞ
-     * ÕÒµ½µÚÒ»¸öÖ»³öÏÖÒ»´ÎµÄ×Ö·û
-     * ²¢·µ»ØËüµÄÎ»ÖÃ
-     * Èç¹ûÃ»ÓĞÔò·µ»Ø -1(ĞèÒªÇø·Ö´óĞ¡Ğ´)
+     * åœ¨ä¸€ä¸ªå­—ç¬¦ä¸²(0<=å­—ç¬¦ä¸²é•¿åº¦<=10000ï¼Œå…¨éƒ¨ç”±å­—æ¯ç»„æˆ)ä¸­
+     * æ‰¾åˆ°ç¬¬ä¸€ä¸ªåªå‡ºç°ä¸€æ¬¡çš„å­—ç¬¦
+     * å¹¶è¿”å›å®ƒçš„ä½ç½®
+     * å¦‚æœæ²¡æœ‰åˆ™è¿”å› -1(éœ€è¦åŒºåˆ†å¤§å°å†™)
      */
-    //ÔËĞĞÊ±¼ä£º45ms Õ¼ÓÃÄÚ´æ£º9952k
+    //è¿è¡Œæ—¶é—´ï¼š45ms å ç”¨å†…å­˜ï¼š9952k
     public int FirstNotRepeatingChar(String str) {
-    	Map<Character, Integer> map = new HashMap<>();
-    	for(int i = 0; i < str.length(); i++){
-    		if(map.get(str.charAt(i)) == null){
-    			map.put(str.charAt(i), 1);
-    		}
-    		else{
-    			map.put(str.charAt(i), map.get(str.charAt(i)) + 1);
-    		}
-    	}
-    	for(int i = 0; i < str.length(); i++){
-    		if(map.get(str.charAt(i)) == 1){
-    			return i;
-    		}
-    	}
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < str.length(); i++){
+            if(map.get(str.charAt(i)) == null){
+                map.put(str.charAt(i), 1);
+            }
+            else{
+                map.put(str.charAt(i), map.get(str.charAt(i)) + 1);
+            }
+        }
+        for(int i = 0; i < str.length(); i++){
+            if(map.get(str.charAt(i)) == 1){
+                return i;
+            }
+        }
         return -1;
     }
-    
-    //Ğı×ªÊı×éÕÒ×î´óÖµ
+
+    //æ—‹è½¬æ•°ç»„æ‰¾æœ€å¤§å€¼
     public int CC01(int[] a){
-    	int left = 0;
-    	int right = a.length - 1;
-    	if(a[left] < a[right]) return a[right];
-    	while(left < right){
-    		int mid = (left + right) / 2;
-    		if(a[mid] > a[mid + 1]) return a[mid];
-    		if(a[mid] < a[left]) right--;
-    		else left++;
-    	}
-    	return a[left];
+        int left = 0;
+        int right = a.length - 1;
+        if(a[left] < a[right]) return a[right];
+        while(left < right){
+            int mid = (left + right) / 2;
+            if(a[mid] > a[mid + 1]) return a[mid];
+            if(a[mid] < a[left]) right--;
+            else left++;
+        }
+        return a[left];
     }
-    
-    //Ğı×ªÇó×î´óÖµ
+
+    //æ—‹è½¬æ±‚æœ€å¤§å€¼
     public int CC02(int[] a){
-    	int left = 0;
-    	int right = a.length - 1;
-    	if(a[left] < a[right]) return a[left];
-    	while(left < right){
-    		int mid = (left + right) / 2;
-    		if(a[mid] < a[mid - 1]) return a[mid];
-    		if(a[mid] < a[left]) right--;
-    		else left++;
-    	}
-    	return a[left];
+        int left = 0;
+        int right = a.length - 1;
+        if(a[left] < a[right]) return a[left];
+        while(left < right){
+            int mid = (left + right) / 2;
+            if(a[mid] < a[mid - 1]) return a[mid];
+            if(a[mid] < a[left]) right--;
+            else left++;
+        }
+        return a[left];
     }
-    
-    
+
+
     /**
-     * ÊäÈëÒ»¸ö×Ö·û´®
-     * °´×ÖµäĞò´òÓ¡³ö¸Ã×Ö·û´®ÖĞ×Ö·ûµÄËùÓĞÅÅÁĞ
-     * ÀıÈçÊäÈë×Ö·û´®abc
-     * Ôò´òÓ¡³öÓÉ×Ö·ûa,b,cËùÄÜÅÅÁĞ³öÀ´µÄËùÓĞ×Ö·û´®
-     * abc,acb,bac,bca,cabºÍcba¡£
+     * è¾“å…¥ä¸€ä¸ªå­—ç¬¦ä¸²
+     * æŒ‰å­—å…¸åºæ‰“å°å‡ºè¯¥å­—ç¬¦ä¸²ä¸­å­—ç¬¦çš„æ‰€æœ‰æ’åˆ—
+     * ä¾‹å¦‚è¾“å…¥å­—ç¬¦ä¸²abc
+     * åˆ™æ‰“å°å‡ºç”±å­—ç¬¦a,b,cæ‰€èƒ½æ’åˆ—å‡ºæ¥çš„æ‰€æœ‰å­—ç¬¦ä¸²
+     * abc,acb,bac,bca,cabå’Œcbaã€‚
      */
-    //Ê¹ÓÃ»ØËİ·¨ ×¢ÒâÑ­»·Àï»ØËİ·½·¨µÄµÚÒ»¸ö²ÎÊıÊÇi+1²»ÊÇj+1
-    //×îºóÒªÓÃCollections.sort()½øĞĞ×ÔÈ»ÅÅĞò
-    //ÔËĞĞÊ±¼ä£º165ms Õ¼ÓÃÄÚ´æ£º12224k
+    //ä½¿ç”¨å›æº¯æ³• æ³¨æ„å¾ªç¯é‡Œå›æº¯æ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯i+1ä¸æ˜¯j+1
+    //æœ€åè¦ç”¨Collections.sort()è¿›è¡Œè‡ªç„¶æ’åº
+    //è¿è¡Œæ—¶é—´ï¼š165ms å ç”¨å†…å­˜ï¼š12224k
     public ArrayList<String> Permutation(String str) {
-    	ArrayList<String> res = new ArrayList<>();
-    	if(str == null || str.length() == 0) return res;
-    	Permutation_r(0, str.toCharArray(), res);
-    	Collections.sort(res);
-    	return res;
+        ArrayList<String> res = new ArrayList<>();
+        if(str == null || str.length() == 0) return res;
+        Permutation_r(0, str.toCharArray(), res);
+        Collections.sort(res);
+        return res;
     }
-    
+
     public void Permutation_r(int index, char[] c, ArrayList<String> res){
-    	if(index == c.length - 1){
-    		String s = String.valueOf(c);
-    		if(!res.contains(s)){
-    			res.add(s);
-    		} 
+        if(index == c.length - 1){
+            String s = String.valueOf(c);
+            if(!res.contains(s)){
+                res.add(s);
+            }
             return;
-    	}
-    	for(int i = index; i < c.length; i++){
-    		for(int j = i; j < c.length; j++){
-    			char t1 = c[i];
-    			c[i] = c[j];
-    			c[j] = t1;
-    			Permutation_r(i + 1, c, res);
-    			t1 = c[i];
-    			c[i] = c[j];
-    			c[j] = t1;
-    		}
-    	}
+        }
+        for(int i = index; i < c.length; i++){
+            for(int j = i; j < c.length; j++){
+                char t1 = c[i];
+                c[i] = c[j];
+                c[j] = t1;
+                Permutation_r(i + 1, c, res);
+                t1 = c[i];
+                c[i] = c[j];
+                c[j] = t1;
+            }
+        }
     }
-    
-    
+
+
     /**
-     * Çó1+2+3+...+n
-     * ÒªÇó²»ÄÜÊ¹ÓÃ³Ë³ı·¨¡¢for¡¢while¡¢if¡¢else¡¢switch¡¢caseµÈ¹Ø¼ü×Ö¼°Ìõ¼şÅĞ¶ÏÓï¾ä£¨A?B:C£©
+     * æ±‚1+2+3+...+n
+     * è¦æ±‚ä¸èƒ½ä½¿ç”¨ä¹˜é™¤æ³•ã€forã€whileã€ifã€elseã€switchã€caseç­‰å…³é”®å­—åŠæ¡ä»¶åˆ¤æ–­è¯­å¥ï¼ˆA?B:Cï¼‰
      */
-    //¼ÈÈ»²»ÄÜÓÃÑ­»· ÄÇ¾ÍÖ»ÄÜÓÃµİ¹é
-    //µİ¹éµÃÓĞifÖÕÖ¹Ìõ¼ş 
-    //µ«if²»ÈÃÓÃ
-    //¾ÍÓÃ¶ÌÂ·²Ù×÷´úÌæif
-    //ÎŞÄÎjava»¹±ØĞë¸øÕâ¸ö²Ù×÷µÄ½á¹û¸³¸öÖµ
-    //ÔËĞĞÊ±¼ä£º19ms Õ¼ÓÃÄÚ´æ£º9180k
+    //æ—¢ç„¶ä¸èƒ½ç”¨å¾ªç¯ é‚£å°±åªèƒ½ç”¨é€’å½’
+    //é€’å½’å¾—æœ‰ifç»ˆæ­¢æ¡ä»¶
+    //ä½†ifä¸è®©ç”¨
+    //å°±ç”¨çŸ­è·¯æ“ä½œä»£æ›¿if
+    //æ— å¥ˆjavaè¿˜å¿…é¡»ç»™è¿™ä¸ªæ“ä½œçš„ç»“æœèµ‹ä¸ªå€¼
+    //è¿è¡Œæ—¶é—´ï¼š19ms å ç”¨å†…å­˜ï¼š9180k
     public int Sum_Solution(int n) {
         int res = n;
         boolean flag = (res != 0) && ((res += Sum_Solution(n - 1)) > 0);
         return res;
     }
-    
-    
-    
+
+
+
     /**
-     * Ğ´³öÒ»¸ö³ÌĞò
-     * ½ÓÊÜÒ»¸öÊ®Áù½øÖÆµÄÊıÖµ×Ö·û´®
-     * Êä³ö¸ÃÊıÖµµÄÊ®½øÖÆ×Ö·û´®£¨¶à×éÍ¬Ê±ÊäÈë £©
-     * ÊäÈëÃèÊö:
-     * ÊäÈëÒ»¸öÊ®Áù½øÖÆµÄÊıÖµ×Ö·û´®¡£
-     * Êä³öÃèÊö:
-     * Êä³ö¸ÃÊıÖµµÄÊ®½øÖÆ×Ö·û´®¡£
+     * å†™å‡ºä¸€ä¸ªç¨‹åº
+     * æ¥å—ä¸€ä¸ªåå…­è¿›åˆ¶çš„æ•°å€¼å­—ç¬¦ä¸²
+     * è¾“å‡ºè¯¥æ•°å€¼çš„åè¿›åˆ¶å­—ç¬¦ä¸²ï¼ˆå¤šç»„åŒæ—¶è¾“å…¥ ï¼‰
+     * è¾“å…¥æè¿°:
+     * è¾“å…¥ä¸€ä¸ªåå…­è¿›åˆ¶çš„æ•°å€¼å­—ç¬¦ä¸²ã€‚
+     * è¾“å‡ºæè¿°:
+     * è¾“å‡ºè¯¥æ•°å€¼çš„åè¿›åˆ¶å­—ç¬¦ä¸²ã€‚
      */
-    //Èç¹û×Ô²âÃ»ÎÊÌâ µ«¾ÍÊÇAC²»ÁË
-    //¿ÉÒÔ»»Ò»ÏÂscannerµÄĞ´·¨
-    //ÔËĞĞÊ±¼ä£º51ms Õ¼ÓÃÄÚ´æ£º10536k
+    //å¦‚æœè‡ªæµ‹æ²¡é—®é¢˜ ä½†å°±æ˜¯ACä¸äº†
+    //å¯ä»¥æ¢ä¸€ä¸‹scannerçš„å†™æ³•
+    //è¿è¡Œæ—¶é—´ï¼š51ms å ç”¨å†…å­˜ï¼š10536k
     @Test
-    public void C_Ê®Áù½øÖÆ×ªÊ®½øÖÆ(){
-    	Scanner scanner = new Scanner(System.in);
-    	while(scanner.hasNext()){
-    		String s = scanner.nextLine();
-        	StringBuffer sb = new StringBuffer();
-        	System.out.println(s.substring(2).toLowerCase());
-        	sb.append(s.substring(2).toLowerCase());
-        	char[] c = sb.reverse().toString().toCharArray();
-        	int sum = 0;
-        	for(int i = 0; i < c.length; i++){
-        		int val = c[i] - '0';
-        		if(val >= 49){
-        			sum += (val - 39) * Math.pow(16, i);
-        		}
-        		else{
-        			sum += val * Math.pow(16, i);
-        		}
-        	}
-        	System.out.println(sum);
-    	}
-    	scanner.close();
+    public void C_åå…­è¿›åˆ¶è½¬åè¿›åˆ¶(){
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNext()){
+            String s = scanner.nextLine();
+            StringBuffer sb = new StringBuffer();
+            System.out.println(s.substring(2).toLowerCase());
+            sb.append(s.substring(2).toLowerCase());
+            char[] c = sb.reverse().toString().toCharArray();
+            int sum = 0;
+            for(int i = 0; i < c.length; i++){
+                int val = c[i] - '0';
+                if(val >= 49){
+                    sum += (val - 39) * Math.pow(16, i);
+                }
+                else{
+                    sum += val * Math.pow(16, i);
+                }
+            }
+            System.out.println(sum);
+        }
+        scanner.close();
     }
-    
-    
+
+
     /**
-     * ÊäÈëÁ½¸öÁ´±í£¬ÕÒ³öËüÃÇµÄµÚÒ»¸ö¹«¹²½áµã¡£
+     * è¾“å…¥ä¸¤ä¸ªé“¾è¡¨ï¼Œæ‰¾å‡ºå®ƒä»¬çš„ç¬¬ä¸€ä¸ªå…¬å…±ç»“ç‚¹ã€‚
      */
-    //Ê×ÏÈÒªÀí½âÕâ¸öÌâÄ¿µÄº¬Òå
-    //ÕâÆäÊµÊÇ¸öYĞÍÁ´±í
-    //¾ÍÊÇËµÁ½¸öÁ´±íµÄÎ²°ÍÊÇÒ»ÑùµÄ
+    //é¦–å…ˆè¦ç†è§£è¿™ä¸ªé¢˜ç›®çš„å«ä¹‰
+    //è¿™å…¶å®æ˜¯ä¸ªYå‹é“¾è¡¨
+    //å°±æ˜¯è¯´ä¸¤ä¸ªé“¾è¡¨çš„å°¾å·´æ˜¯ä¸€æ ·çš„
     public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
-    	if(pHead1 == null || pHead2 == null) return null;
-    	int len1 = 0;
-    	int len2 = 0;
-    	ListNode temp1 = pHead1;
-    	ListNode temp2 = pHead2;
-    	while(temp1 != null){
-    		len1++;
-    		temp1 = temp1.next;
-    	}
-    	while(temp2 != null){
-    		len2++;
-    		temp2 = temp2.next;
-    	}
-    	temp1 = pHead1;
-    	temp2 = pHead2;
-    	int diff = 0;
-    	if(len1 < len2){
-    		diff = len2 - len1;
-    		while(diff != 0){
-    			temp2 = temp2.next;
-    			diff--;
-    		}
-    	}
-    	else{
-    		diff = len1 - len2;
-    		while(diff != 0){
-    			temp1 = temp1.next;
-    			diff--;
-    		}
-    	}
-    	while(temp1.val != temp2.val){
-    		temp1 = temp1.next;
-    		temp2 = temp2.next;
-    	}
-    	return temp1 == null ? null : temp1;
+        if(pHead1 == null || pHead2 == null) return null;
+        int len1 = 0;
+        int len2 = 0;
+        ListNode temp1 = pHead1;
+        ListNode temp2 = pHead2;
+        while(temp1 != null){
+            len1++;
+            temp1 = temp1.next;
+        }
+        while(temp2 != null){
+            len2++;
+            temp2 = temp2.next;
+        }
+        temp1 = pHead1;
+        temp2 = pHead2;
+        int diff = 0;
+        if(len1 < len2){
+            diff = len2 - len1;
+            while(diff != 0){
+                temp2 = temp2.next;
+                diff--;
+            }
+        }
+        else{
+            diff = len1 - len2;
+            while(diff != 0){
+                temp1 = temp1.next;
+                diff--;
+            }
+        }
+        while(temp1.val != temp2.val){
+            temp1 = temp1.next;
+            temp2 = temp2.next;
+        }
+        return temp1 == null ? null : temp1;
     }
-    
-    
+
+
     /**
-     * ¸´ÖÆÒ»¸ö¸´ÔÓÁ´±í(leetcode138)
+     * å¤åˆ¶ä¸€ä¸ªå¤æ‚é“¾è¡¨(leetcode138)
      * 2018-09-26
      */
     /**
-     * ÕâÓ¦¸ÃÊÇ½ÏÎ¨Ò»µÄĞ´·¨ÁË
-     * ÒòÎªÈç¹ûÏë¶ÀÁ¢ÓÚÁ´±íÔÙÔìÒ»¸öÆ½ĞĞÁ´±íÊ±
-     * »á·¢ÏÖrandomÎŞ·¨´¦Àí(ÔìÊÇ¿Ï¶¨ÒªÔìµÄ µ«²»ÖªµÀÔÚºÎ´¦Ôì)
-     * ÏÈÔÚÔ­Á´±íÃ¿¸ö½Úµãºó¸´ÖÆ×ÔÉí
-     * ¾ÍÄÜºÜºÃ½â¾öÕâ¸öÎÊÌâÁË
+     * è¿™åº”è¯¥æ˜¯è¾ƒå”¯ä¸€çš„å†™æ³•äº†
+     * å› ä¸ºå¦‚æœæƒ³ç‹¬ç«‹äºé“¾è¡¨å†é€ ä¸€ä¸ªå¹³è¡Œé“¾è¡¨æ—¶
+     * ä¼šå‘ç°randomæ— æ³•å¤„ç†(é€ æ˜¯è‚¯å®šè¦é€ çš„ ä½†ä¸çŸ¥é“åœ¨ä½•å¤„é€ )
+     * å…ˆåœ¨åŸé“¾è¡¨æ¯ä¸ªèŠ‚ç‚¹åå¤åˆ¶è‡ªèº«
+     * å°±èƒ½å¾ˆå¥½è§£å†³è¿™ä¸ªé—®é¢˜äº†
      */
     public RandomListNode Clone(RandomListNode pHead){
-    	RandomListNode cur = pHead;
-    	RandomListNode next;
-    	while(cur != null){
-    		next = cur.next;
-    		RandomListNode temp = new RandomListNode(cur.label);
-    		cur.next = temp;
-    		temp.next = next;
-    		cur = next;
-    	}
-    	cur = pHead;
-    	while(cur != null){
-    		if(cur.random != null){
-    			cur.next.random = cur.random.next;
-    		}
-    		cur = cur.next.next;
-    	}
-    	cur = pHead;
-    	RandomListNode res = new RandomListNode(0);
-    	RandomListNode r1;
-    	RandomListNode r2 = res;
-    	while(cur != null){
-    		next = cur.next.next;
-    		r1 = cur.next;
-    		r2.next = r1;
-    		r2 = r1;
-    		cur.next = next;
-    		cur = next;
-    	}
-    	return res.next;
+        RandomListNode cur = pHead;
+        RandomListNode next;
+        while(cur != null){
+            next = cur.next;
+            RandomListNode temp = new RandomListNode(cur.label);
+            cur.next = temp;
+            temp.next = next;
+            cur = next;
+        }
+        cur = pHead;
+        while(cur != null){
+            if(cur.random != null){
+                cur.next.random = cur.random.next;
+            }
+            cur = cur.next.next;
+        }
+        cur = pHead;
+        RandomListNode res = new RandomListNode(0);
+        RandomListNode r1;
+        RandomListNode r2 = res;
+        while(cur != null){
+            next = cur.next.next;
+            r1 = cur.next;
+            r2.next = r1;
+            r2 = r1;
+            cur.next = next;
+            cur = next;
+        }
+        return res.next;
     }
-    
-    
-    
-    
-    
-	//----------------------------------------------------------
-	class ListNode {
-		int val;
-		ListNode next = null;
-		ListNode(int val) {
-			this.val = val;
-		}
-	}
-	
-	class TreeNode {
-		int val;
-		TreeNode left;
-		TreeNode right;
-		TreeNode(int x) { val = x; }
-	}
 
-	class RandomListNode {
-		int label;
-		RandomListNode next = null;
-		RandomListNode random = null;
 
-		RandomListNode(int label) {
-			this.label = label;
-		}
-	}
-	
+
+
+
+    //----------------------------------------------------------
+    class ListNode {
+        int val;
+        ListNode next = null;
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    class RandomListNode {
+        int label;
+        RandomListNode next = null;
+        RandomListNode random = null;
+
+        RandomListNode(int label) {
+            this.label = label;
+        }
+    }
+
 }

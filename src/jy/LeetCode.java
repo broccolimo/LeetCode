@@ -35,12 +35,12 @@ import util.Utils;
 @SuppressWarnings("all")
 public class LeetCode {
 	/**
-	 * Ò²ĞíÒ»¿ªÊ¼ÊÇÒ»Æ¬»ÄÎß
-	 * ¿ÉÄÜÒ²ÖªµÀÈçºÎÈ¥ÂÌ»¯
+	 * ä¹Ÿè®¸ä¸€å¼€å§‹æ˜¯ä¸€ç‰‡è’èŠœ
+	 * å¯èƒ½ä¹ŸçŸ¥é“å¦‚ä½•å»ç»¿åŒ–
 	 * 
-	 * ÄÇ¾Í×ß°É
-	 * ×ß×Å¼ûµÄ¶àÁË
-	 * ×ÔÈ»¾Í»áÁË
+	 * é‚£å°±èµ°å§
+	 * èµ°ç€è§çš„å¤šäº†
+	 * è‡ªç„¶å°±ä¼šäº†
 	 */
 	/**
 	 * description
@@ -132,7 +132,7 @@ public class LeetCode {
 					q = q.next;
 				}
 			}
-			//×îºóÒ»Î»¼ÆËãµÄÊ±ºò¿ÉÄÜ»á²úÉú½øÎ»
+			//æœ€åä¸€ä½è®¡ç®—çš„æ—¶å€™å¯èƒ½ä¼šäº§ç”Ÿè¿›ä½
 			if(carry > 0){
 				cursor.next = new ListNode(carry);
 			}
@@ -145,7 +145,7 @@ public class LeetCode {
 		}
 		catch(Exception e){
 			System.out.println("input error");
-			System.out.println("¶à¸öÊı×ÖÖ®¼äÓÃ'->'¸ô¿ª");
+			System.out.println("å¤šä¸ªæ•°å­—ä¹‹é—´ç”¨'->'éš”å¼€");
 		}
 	}
 
@@ -322,23 +322,23 @@ public class LeetCode {
 	 * @problem ZigZag Conversion
 	 * @date 2018-05-04
 	 * 
-	 * ¾ßÌåÒªÇó¿´leetcode
+	 * å…·ä½“è¦æ±‚çœ‹leetcode
 	 */
 	public String C006_Convert(String s, int numRows) {
 		if(numRows == 1) return s;
-		//Ò»×éÓĞ¼¸¸öÔªËØ
+		//ä¸€ç»„æœ‰å‡ ä¸ªå…ƒç´ 
 		int m = numRows * 2 - 2;
-		//Ò»×éÕ¼¼¸ĞĞ
+		//ä¸€ç»„å å‡ è¡Œ
 		int line = numRows - 1;
-		//ÓàÊı
+		//ä½™æ•°
 		int yushu = s.length() % m;
-		//ÉÌ
+		//å•†
 		int shang = s.length() / m;
-		//ÓĞ¼¸×é
+		//æœ‰å‡ ç»„
 		int n = yushu == 0 ? shang : shang + 1;
-		//¶îÍâÒª¼ÓµÄÊı
+		//é¢å¤–è¦åŠ çš„æ•°
 		int extra = yushu == 0 ? (numRows - 2) : (yushu <= numRows ? 0 : (yushu - numRows));
-		//×Ü¹²ĞèÒª¼¸ÁĞ
+		//æ€»å…±éœ€è¦å‡ åˆ—
 		int count = line * (n - 1) + 1 + extra;
 		char[][] arr = new char[numRows][count];
 		C006_r(0, 0, 0, s, arr, numRows);
@@ -394,18 +394,18 @@ public class LeetCode {
 			sign = -1;
 		}
 		/**
-		 * Math.absÊÇ¸ö¿Ó
-		 * ËüµÄ²ÎÊı¿ÉÒÔÊÇint Ò²¿ÉÒÔÊÇdouble 
-		 * Èç¹û²ÎÊıÊÇint Ôò½á¹ûÒ²ÊÇint
-		 * Èç¹û²ÎÊıÊÇdouble Ôò½á¹ûÒ²ÊÇdouble
-		 * ÔÚÕâÀï±ØĞë°ÑintÇ¿ĞĞ×ª»¯Îªlong
-		 * ÒòÎªintµÄÈ¡ÖµÊÇ -2147483648 ~ 2147483647
-		 * ÈôÊäÈëµÄ²ÎÊıÊÇ-2147483648£¬ËüµÄÀàĞÍÊÇint
-		 * °´³£¹æ¾ø¶ÔÖµÀ´Ëµ ½á¹ûÓ¦ÊÇ2147483648
-		 * ÕâÒÑ¾­³¬³öÁËintµÄ·¶Î§
-		 * ËùÒÔÕâÀïÊÇÓĞÎÊÌâµÄ abs´¦Àí²»ÁËÕâ¸öÊı¾İ
-		 * ½á¹û»¹ÊÇ-2147483648
-		 * ËùÒÔ±ØĞë°ÑintÇ¿ĞĞ×ª»¯Îªlong
+		 * Math.absæ˜¯ä¸ªå‘
+		 * å®ƒçš„å‚æ•°å¯ä»¥æ˜¯int ä¹Ÿå¯ä»¥æ˜¯double 
+		 * å¦‚æœå‚æ•°æ˜¯int åˆ™ç»“æœä¹Ÿæ˜¯int
+		 * å¦‚æœå‚æ•°æ˜¯double åˆ™ç»“æœä¹Ÿæ˜¯double
+		 * åœ¨è¿™é‡Œå¿…é¡»æŠŠintå¼ºè¡Œè½¬åŒ–ä¸ºlong
+		 * å› ä¸ºintçš„å–å€¼æ˜¯ -2147483648 ~ 2147483647
+		 * è‹¥è¾“å…¥çš„å‚æ•°æ˜¯-2147483648ï¼Œå®ƒçš„ç±»å‹æ˜¯int
+		 * æŒ‰å¸¸è§„ç»å¯¹å€¼æ¥è¯´ ç»“æœåº”æ˜¯2147483648
+		 * è¿™å·²ç»è¶…å‡ºäº†intçš„èŒƒå›´
+		 * æ‰€ä»¥è¿™é‡Œæ˜¯æœ‰é—®é¢˜çš„ abså¤„ç†ä¸äº†è¿™ä¸ªæ•°æ®
+		 * ç»“æœè¿˜æ˜¯-2147483648
+		 * æ‰€ä»¥å¿…é¡»æŠŠintå¼ºè¡Œè½¬åŒ–ä¸ºlong
 		 */
 		char[] c = String.valueOf(Math.abs((long)x)).toCharArray();
 		int l = c.length;
@@ -448,33 +448,33 @@ public class LeetCode {
 	 */
 	public int C008_StringToInteger(String str) {
 		int l = str.length();
-		//Çø±ğÕı¸º
+		//åŒºåˆ«æ­£è´Ÿ
 		int sign = 1;
-		//×îÖÕÖµ
+		//æœ€ç»ˆå€¼
 		int total = 0;
-		//ÓÎ±ê
+		//æ¸¸æ ‡
 		int index = 0;
 		if(str == null || l == 0){
 			return 0;
 		}
-		//ÕÒµ½µÚÒ»¸ö²»Îª¿Õ¸ñµÄ×Ö·û
+		//æ‰¾åˆ°ç¬¬ä¸€ä¸ªä¸ä¸ºç©ºæ ¼çš„å­—ç¬¦
 		while(str.charAt(index) == ' ' && index < l){
 			index++;
 		}
-		//Èç¹ûÒ»¿ªÊ¼ÊÇÕı¸ººÅ£¬´¦ÀíÒ»ÏÂ
-		//Õı¸ººÅÖ»ÄÜ³öÏÖÔÚ¿ªÍ·
-		//Èô²»ÊÇ¼´Îª´íÎó ¼´Ê¹Ç°±ßÈ«ÊÇ0
+		//å¦‚æœä¸€å¼€å§‹æ˜¯æ­£è´Ÿå·ï¼Œå¤„ç†ä¸€ä¸‹
+		//æ­£è´Ÿå·åªèƒ½å‡ºç°åœ¨å¼€å¤´
+		//è‹¥ä¸æ˜¯å³ä¸ºé”™è¯¯ å³ä½¿å‰è¾¹å…¨æ˜¯0
 		if(str.charAt(index) == '+' || str.charAt(index) == '-'){
 			sign = str.charAt(index) == '+' ? 1 : -1;
 			index++;
 		}
 		while(index < l){
 			int digit = str.charAt(index) - '0';
-			//ÅĞ¶ÏÊÇ·ñÎªÊı×Ö Èô²»ÊÇÔòÖ±½Ó°Ñ½ØÖÁÒÑÓĞµÄ½á¹ûÊä³ö
+			//åˆ¤æ–­æ˜¯å¦ä¸ºæ•°å­— è‹¥ä¸æ˜¯åˆ™ç›´æ¥æŠŠæˆªè‡³å·²æœ‰çš„ç»“æœè¾“å‡º
 			if(digit < 0 || digit > 9){
 				break;
 			}
-			//²»ÄÜµÈµ½Òç³öµÄÊ±ºòÔÙ´¦Àí ÒªÌáÇ°´¦Àí ÒÔÏÂ¾ÍÊÇ´¦ÀíµÄÈ·¶¨ĞÔ·½·¨
+			//ä¸èƒ½ç­‰åˆ°æº¢å‡ºçš„æ—¶å€™å†å¤„ç† è¦æå‰å¤„ç† ä»¥ä¸‹å°±æ˜¯å¤„ç†çš„ç¡®å®šæ€§æ–¹æ³•
 			if(total > Integer.MAX_VALUE / 10 || total == Integer.MAX_VALUE / 10 && digit > Integer.MAX_VALUE % 10){
 				return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 			}
@@ -488,9 +488,9 @@ public class LeetCode {
 	 * @problem #9 Palindrome Number
 	 * @date 2017-11-22
 	 * 
-	 * ÅĞ¶ÏÒ»¸öintÀàĞÍµÄÊı×ÖÊÇ·ñÎª»ØÎÄÊı
-	 * Ã»É¶ºÃËµµÄ
-	 * ÈÎºÎ¸ºÊı¶¼²»ÊÇ»ØÎÄÊı
+	 * åˆ¤æ–­ä¸€ä¸ªintç±»å‹çš„æ•°å­—æ˜¯å¦ä¸ºå›æ–‡æ•°
+	 * æ²¡å•¥å¥½è¯´çš„
+	 * ä»»ä½•è´Ÿæ•°éƒ½ä¸æ˜¯å›æ–‡æ•°
 	 */
 	public boolean C009_PalindromeNumber(int x) {
 		if(x < 0){
@@ -512,7 +512,7 @@ public class LeetCode {
 	 * 
 	 * Implement regular expression matching with support for '.' and '*'.
 	 * 
-	 * ¼Ç×¡°É ¾ÍÕâÑùĞ´
+	 * è®°ä½å§ å°±è¿™æ ·å†™
 	 */
 	public boolean C010_RegularExpressionMatching(String s, String p){
 		boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
@@ -552,11 +552,11 @@ public class LeetCode {
 	 * such that the container contains the most water.
 	 * Note: You may not slant the container and n is at least 2.
 	 * 
-	 * ×î¼òµ¥µÄÓÃÂùÁ¦·¨¾ÍÄÜ½â¾ö
-	 * ¿ÉÊÇµ±Êı¾İÁ¿´óµÄÊ±ºò 
-	 * »áÒòÊ±¼äÌ«³¤¶ø²»Í¨¹ı
-	 * Ô­ÒòÊÇ´æÔÚºÜ¶à²»±ØÒªµÄ¼ÆËã
-	 * ½â¾ö·½·¨¾ÍÊÇ´ÓÁ½±ßÏòÖĞ¼ä±Æ½ü
+	 * æœ€ç®€å•çš„ç”¨è›®åŠ›æ³•å°±èƒ½è§£å†³
+	 * å¯æ˜¯å½“æ•°æ®é‡å¤§çš„æ—¶å€™ 
+	 * ä¼šå› æ—¶é—´å¤ªé•¿è€Œä¸é€šè¿‡
+	 * åŸå› æ˜¯å­˜åœ¨å¾ˆå¤šä¸å¿…è¦çš„è®¡ç®—
+	 * è§£å†³æ–¹æ³•å°±æ˜¯ä»ä¸¤è¾¹å‘ä¸­é—´é€¼è¿‘
 	 */
 	public int C011_ContainerWithMostWater(int[] height) {
 		int l = height.length;
@@ -632,7 +632,7 @@ public class LeetCode {
 	 * Write a function to find the longest common prefix string 
 	 * amongst an array of strings.
 	 * 
-	 * ÓÃV2
+	 * ç”¨V2
 	 */
 	public String C014_LongestCommonPrefix(String[] strs) {
 		int l = strs.length;
@@ -661,35 +661,35 @@ public class LeetCode {
 	}
 
 	/**
-	 * 2ÖÖË¼ÏëµÄ²îÒì
-	 * Ç°Õß(×Ô¼ºÏëµÄ)
-	 * ´ÓµÚÒ»¸öÔªËØµÄµÚÒ»¸ö×Ö·û¿ªÊ¼
-	 * °ÑÃ¿Ò»¸ö×Ö·û¸úºóĞøËùÓĞÔªËØµÄÏàÓ¦×Ö·û±È½Ï
-	 * Ö»ÒªÓĞÒ»¸ö¶Ô²»ÉÏ
-	 * ¾Í°ÑÖ®Ç°µÄ·µ»Ø
+	 * 2ç§æ€æƒ³çš„å·®å¼‚
+	 * å‰è€…(è‡ªå·±æƒ³çš„)
+	 * ä»ç¬¬ä¸€ä¸ªå…ƒç´ çš„ç¬¬ä¸€ä¸ªå­—ç¬¦å¼€å§‹
+	 * æŠŠæ¯ä¸€ä¸ªå­—ç¬¦è·Ÿåç»­æ‰€æœ‰å…ƒç´ çš„ç›¸åº”å­—ç¬¦æ¯”è¾ƒ
+	 * åªè¦æœ‰ä¸€ä¸ªå¯¹ä¸ä¸Š
+	 * å°±æŠŠä¹‹å‰çš„è¿”å›
 	 * 
-	 * ºóÕß(±ğÈËµÄ)
-	 * Ö±½Ó´ÓµÚ2¸öÔªËØ±È½ÏµÚ1¸öÔªËØ
-	 * ÖĞ¼ä¾­¹ıÈô¸É´Î¶ÔµÚÒ»¸öÔªËØµÄÏ÷¼õ
-	 * ÖªµÀµÚÒ»¸öÔªËØÏ÷¼õ³ÉµÚ2¸öÔªËØµÄÇ°×º
-	 * ÔÙÄÃÏ÷¼õºóµÄÇ°×ºÈ¥¸úºóĞøÔªËØ±È½Ï
-	 * Èç¹ûÇ°×º²»ĞÒ±»Ï÷Îª¿Õ
-	 * ÔòÖ¤Ã÷Ã»ÓĞLCS ·µ»Ø¿Õ×Ö·û´®
+	 * åè€…(åˆ«äººçš„)
+	 * ç›´æ¥ä»ç¬¬2ä¸ªå…ƒç´ æ¯”è¾ƒç¬¬1ä¸ªå…ƒç´ 
+	 * ä¸­é—´ç»è¿‡è‹¥å¹²æ¬¡å¯¹ç¬¬ä¸€ä¸ªå…ƒç´ çš„å‰Šå‡
+	 * çŸ¥é“ç¬¬ä¸€ä¸ªå…ƒç´ å‰Šå‡æˆç¬¬2ä¸ªå…ƒç´ çš„å‰ç¼€
+	 * å†æ‹¿å‰Šå‡åçš„å‰ç¼€å»è·Ÿåç»­å…ƒç´ æ¯”è¾ƒ
+	 * å¦‚æœå‰ç¼€ä¸å¹¸è¢«å‰Šä¸ºç©º
+	 * åˆ™è¯æ˜æ²¡æœ‰LCS è¿”å›ç©ºå­—ç¬¦ä¸²
 	 * 
-	 * Èç¹û°Ñ×Ö·ûÔÚÔªËØÉÏÒÆ¶¯µÄ·½ÏòËµÊÇºáÏò
-	 * °Ñ±éÀúÔªËØµÄ¹ı³ÌËµÊÇ×İÏò
-	 * ÔòÇ°ÕßÊÇÏÈºáÔÙ×İ
-	 * ºóÕßÊÇÏÈ×İºóºá
+	 * å¦‚æœæŠŠå­—ç¬¦åœ¨å…ƒç´ ä¸Šç§»åŠ¨çš„æ–¹å‘è¯´æ˜¯æ¨ªå‘
+	 * æŠŠéå†å…ƒç´ çš„è¿‡ç¨‹è¯´æ˜¯çºµå‘
+	 * åˆ™å‰è€…æ˜¯å…ˆæ¨ªå†çºµ
+	 * åè€…æ˜¯å…ˆçºµåæ¨ª
 	 */
 
 	/**
-	 * indexOfÖµ·Ö3Àà
+	 * indexOfå€¼åˆ†3ç±»
 	 * a) -1
-	 * Ñ¹¸ù²»°üº¬
+	 * å‹æ ¹ä¸åŒ…å«
 	 * b) 0
-	 * ÊÇÇ°×º
+	 * æ˜¯å‰ç¼€
 	 * c) 1,2,...
-	 * °üº¬µ«²»ÊÇÇ°×º
+	 * åŒ…å«ä½†ä¸æ˜¯å‰ç¼€
 	 */
 	public String C014_LongestCommonPrefix_V2(String[] strs) {
 		int l = strs.length;
@@ -697,16 +697,16 @@ public class LeetCode {
 			return "";
 		}
 		String prefix = strs[0];
-		//ÈÃi´Ó1¿ªÊ¼ÓĞ2¸ö×÷ÓÃ
-		//ÈôÊı×éÖĞ½öÓĞÒ»¸öÔªËØ ÔòÖ±½Ó·µ»Ø ²»½øÈëforÑ­»·
-		//ÈôÊı×éÖĞ²»Ö¹Ò»¸öÔªËØ ½øÈëÑ­»· Õı³£Âß¼­
+		//è®©iä»1å¼€å§‹æœ‰2ä¸ªä½œç”¨
+		//è‹¥æ•°ç»„ä¸­ä»…æœ‰ä¸€ä¸ªå…ƒç´  åˆ™ç›´æ¥è¿”å› ä¸è¿›å…¥forå¾ªç¯
+		//è‹¥æ•°ç»„ä¸­ä¸æ­¢ä¸€ä¸ªå…ƒç´  è¿›å…¥å¾ªç¯ æ­£å¸¸é€»è¾‘
 		for(int i = 1; i < l; i++){
-			//Ö»Òªprefix²»ÊÇÇ°×º ¾Í´ÓºóÍùÇ°Ï÷
-			//Ö±µ½ÊÇµ±Ç°ÔªËØµÄÇ°×º
-			//ÔÙ°Ñµ±Ç°Öµ¸øºó±ßµÄÊı×éÔªËØÊ³ÓÃ
-			//²»ĞĞ¾ÍÔÙÏ÷
-			//Èç¹û²»ĞÒ±»Ï÷ÍêÁË 
-			//ÄÇ¾ÍÖ»ÄÜGGÁË ·µ»Ø""
+			//åªè¦prefixä¸æ˜¯å‰ç¼€ å°±ä»åå¾€å‰å‰Š
+			//ç›´åˆ°æ˜¯å½“å‰å…ƒç´ çš„å‰ç¼€
+			//å†æŠŠå½“å‰å€¼ç»™åè¾¹çš„æ•°ç»„å…ƒç´ é£Ÿç”¨
+			//ä¸è¡Œå°±å†å‰Š
+			//å¦‚æœä¸å¹¸è¢«å‰Šå®Œäº† 
+			//é‚£å°±åªèƒ½GGäº† è¿”å›""
 			while(strs[i].indexOf(prefix) != 0){
 				prefix = prefix.substring(0, prefix.length() - 1);
 				if(prefix.isEmpty()){
@@ -766,8 +766,8 @@ public class LeetCode {
 	 * Return the sum of the three integers. 
 	 * You may assume that each input would have exactly one solution.
 	 * 
-	 * ÊäÈëÊı×éµÄ³¤¶È²»Ğ¡ÓÚ3
-	 * ¸ú#15µÄË¼Ïë±£³ÖÒ»ÖÂ
+	 * è¾“å…¥æ•°ç»„çš„é•¿åº¦ä¸å°äº3
+	 * è·Ÿ#15çš„æ€æƒ³ä¿æŒä¸€è‡´
 	 */
 	public int C016_3SumClosest(int[] nums, int target) {
 		Arrays.sort(nums);
@@ -776,7 +776,7 @@ public class LeetCode {
 		int l =nums.length;
 		DL:
 			for(int i = 0; i < l - 2; i++){
-				//¹ıÂËÖØ¸´Êı×Ö i==0ÊÇÀıÍâ
+				//è¿‡æ»¤é‡å¤æ•°å­— i==0æ˜¯ä¾‹å¤–
 				if(i == 0 || (i > 0 && i != i - 1)){
 					int j = i + 1;
 					int k = l - 1;
@@ -785,26 +785,26 @@ public class LeetCode {
 							result = target;
 							break DL;
 						}
-						//ºÍ±ÈÄ¿±êĞ¡ jÒª¼Ó
+						//å’Œæ¯”ç›®æ ‡å° jè¦åŠ 
 						else if(nums[i] + nums[j] + nums[k] < target){
 							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
 								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
 								result = nums[i] + nums[j] + nums[k];
 							}
 							j++;
-							//¹ıÂËÖØ¸´Êı×Ö
+							//è¿‡æ»¤é‡å¤æ•°å­—
 							while(j < k && nums[j] == nums[j - 1]){
 								j++;
 							}
 						}
-						//ºÍ±ÈÄ¿±ê´ó kÒª¼õ
+						//å’Œæ¯”ç›®æ ‡å¤§ kè¦å‡
 						else{
 							if(Math.abs(nums[i] + nums[j] + nums[k] - target) < m){
 								m = Math.abs(nums[i] + nums[j] + nums[k] - target);
 								result = nums[i] + nums[j] + nums[k];
 							}
 							k--;
-							//¹ıÂËÖØ¸´Êı×Ö
+							//è¿‡æ»¤é‡å¤æ•°å­—
 							while(j < k && nums[k] == nums[k + 1]){
 								k--;
 							}
@@ -830,21 +830,21 @@ public class LeetCode {
 		LinkedList<String> res = new LinkedList<String>();
 		String[] mapping = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 		int l = digits.length();
-		//²âÊÔÊ±»áÓÃ¿Õ×Ö·û´®
+		//æµ‹è¯•æ—¶ä¼šç”¨ç©ºå­—ç¬¦ä¸²
 		if(l == 0){
 			return res;
 		}
 		/**
-		 * ÕâÀï¼Ó¸ö¿Õ×Ö·û´®
-		 * 1ÊÇÎªÁËÒ»¿ªÊ¼peek()¿ÉÓÃ ÌåÏÖÔÚ¼ÓÁËÒ»¸ö¶ÔÏó
-		 * 2ÊÇÎªÁËÓëi¶ÔÓ¦ ÌåÏÖÔÚÕâ¸ö¶ÔÏóµÄ³¤¶ÈÊÇ0
+		 * è¿™é‡ŒåŠ ä¸ªç©ºå­—ç¬¦ä¸²
+		 * 1æ˜¯ä¸ºäº†ä¸€å¼€å§‹peek()å¯ç”¨ ä½“ç°åœ¨åŠ äº†ä¸€ä¸ªå¯¹è±¡
+		 * 2æ˜¯ä¸ºäº†ä¸iå¯¹åº” ä½“ç°åœ¨è¿™ä¸ªå¯¹è±¡çš„é•¿åº¦æ˜¯0
 		 */
 		res.add("");
 		for(int i = 0; i < l; i++){
-			//charÀàĞÍµÄÊı×Ö±ä³Éint
+			//charç±»å‹çš„æ•°å­—å˜æˆint
 			int x = Character.getNumericValue(digits.charAt(i));
-			//LinkedListÏàµ±ÓÚÒ»¸ö¶ÓÁĞ ÏÈ½øÏÈ³ö peekÏàµ±ÓÚÍ·
-			//iµÄÖµ ×Ô¼ºÌå»á
+			//LinkedListç›¸å½“äºä¸€ä¸ªé˜Ÿåˆ— å…ˆè¿›å…ˆå‡º peekç›¸å½“äºå¤´
+			//içš„å€¼ è‡ªå·±ä½“ä¼š
 			while(res.peek().length() == i){
 				String remove = res.remove();
 				for(char c : mapping[x].toCharArray()){
@@ -868,25 +868,25 @@ public class LeetCode {
 		Arrays.sort(nums);
 		int l = nums.length;
 		for(int i = 0; i < l - 3; i++){
-			//iÎªÍ· ×ÜÑ­»·ÎªiµÄÒÆ¶¯ if¹ıÂËÖØ¸´Êı×Ö
+			//iä¸ºå¤´ æ€»å¾ªç¯ä¸ºiçš„ç§»åŠ¨ ifè¿‡æ»¤é‡å¤æ•°å­—
 			if(i == 0 || nums[i] != nums[i - 1]){
 				for(int m = l - 1; i < m; m--){
-					//mÊÇÎ² ÇÒ¶ÔÓÚÃ¿¸öi¶¼ÊÇÎ² Ã¿´Î¶¼ÓÉmÏòi±Æ½ü ×Üºê¹Û¿ØÖÆÎªiºÍm
-					//if¹ıÂËÖØ¸´Êı×Ö
+					//mæ˜¯å°¾ ä¸”å¯¹äºæ¯ä¸ªiéƒ½æ˜¯å°¾ æ¯æ¬¡éƒ½ç”±må‘ié€¼è¿‘ æ€»å®è§‚æ§åˆ¶ä¸ºiå’Œm
+					//ifè¿‡æ»¤é‡å¤æ•°å­—
 					if(m == l - 1 || nums[m] != nums[m + 1]){
 						int j = i + 1;
 						int k = m - 1;
-						//j kÎªÃ¿´Îºê¹Û¿ØÖÆÏÂµÄ»î¶¯ÔªËØ ±éÀúºê¹Û¹æ¶¨µÄÄÚÈİ
+						//j kä¸ºæ¯æ¬¡å®è§‚æ§åˆ¶ä¸‹çš„æ´»åŠ¨å…ƒç´  éå†å®è§‚è§„å®šçš„å†…å®¹
 						while(j < k){
 							if(nums[i] + nums[j] + nums[k] + nums[m] == target){
 								res.add(Arrays.asList(nums[i], nums[j], nums[k], nums[m]));
 								j++;
 								k--;
-								//¹ıÂËÖØ¸´Êı×Ö
+								//è¿‡æ»¤é‡å¤æ•°å­—
 								while(j < k && nums[j] == nums[j - 1]){
 									j++;
 								}
-								//¹ıÂËÖØ¸´Êı×Ö
+								//è¿‡æ»¤é‡å¤æ•°å­—
 								while(j < k && nums[k] == nums[k + 1]){
 									k--;
 								}
@@ -946,7 +946,7 @@ public class LeetCode {
 	 * The brackets must close in the correct order, "()" and "()[]{}" are all valid 
 	 * but "(]" and "([)]" are not.
 	 * 
-	 * ÓÃV3
+	 * ç”¨V3
 	 */
 	public boolean C020_ValidParentheses(String s) {
 		LinkedList<Character> list = new LinkedList<>();
@@ -1013,7 +1013,7 @@ public class LeetCode {
 	}
 
 	/**
-	 * °´V3µÄË¼Â·ĞŞ¸Ä
+	 * æŒ‰V3çš„æ€è·¯ä¿®æ”¹
 	 */
 	public boolean C020_ValidParentheses_V2(String s) {
 		LinkedList<Character> list = new LinkedList<>();
@@ -1063,7 +1063,7 @@ public class LeetCode {
 		return true;
 	}
 	/**
-	 * ÓÃStack
+	 * ç”¨Stack
 	 */
 	public boolean C020_ValidParentheses_V3(String s) {
 		Stack<Character> stack = new Stack<>();
@@ -1078,13 +1078,13 @@ public class LeetCode {
 				stack.push(']');
 			}
 			/** 
-			 * popÇ°Ò»¶¨Òª¿¼ÂÇÕ»ÊÇ·ñÎª¿Õ
-			 * ÈôÎª¿Õ ½èÖú||µÄ¶ÌÂ· Ö±½Ó¾Í²»ÓÃpopÁË
-			 * Ö±½ÓÅĞ´í ÀıÈç ']' ×óÊÇ½ø²»µ½Õâ¸öÅĞ¶ÏÌõ¼şµÄ
+			 * popå‰ä¸€å®šè¦è€ƒè™‘æ ˆæ˜¯å¦ä¸ºç©º
+			 * è‹¥ä¸ºç©º å€ŸåŠ©||çš„çŸ­è·¯ ç›´æ¥å°±ä¸ç”¨popäº†
+			 * ç›´æ¥åˆ¤é”™ ä¾‹å¦‚ ']' å·¦æ˜¯è¿›ä¸åˆ°è¿™ä¸ªåˆ¤æ–­æ¡ä»¶çš„
 			 * 
-			 * popµÄ×÷ÓÃ
-			 * Èç¹ûÊäÈëÁËÒ»¸öÓÒ ÏëÒªÅĞ¶ÏÎªÕıÈ·
-			 * ÄÇÃ´Õ»¶¥Ò»¶¨ÎªÏàÓ¦µÄ×ó
+			 * popçš„ä½œç”¨
+			 * å¦‚æœè¾“å…¥äº†ä¸€ä¸ªå³ æƒ³è¦åˆ¤æ–­ä¸ºæ­£ç¡®
+			 * é‚£ä¹ˆæ ˆé¡¶ä¸€å®šä¸ºç›¸åº”çš„å·¦
 			 * [{] 
 			 * [{}]
 			 */
@@ -1103,9 +1103,9 @@ public class LeetCode {
 	 * The new list should be made by splicing together the nodes of 
 	 * the first two lists.
 	 * 
-	 * Ä¬ÈÏÅÅĞòÊÇ´ÓĞ¡µ½´ó
-	 * ²»ÅÅ³ı¿ÕÁ´±íµÄÇé¿ö
-	 * Ê±¼ä³¬Ê±Òª×ª±ä·½·¨ ÓÃµİ¹é(recursion)
+	 * é»˜è®¤æ’åºæ˜¯ä»å°åˆ°å¤§
+	 * ä¸æ’é™¤ç©ºé“¾è¡¨çš„æƒ…å†µ
+	 * æ—¶é—´è¶…æ—¶è¦è½¬å˜æ–¹æ³• ç”¨é€’å½’(recursion)
 	 */
 	public ListNode C021_MergeTwoSortedLists(ListNode l1, ListNode l2) {
 		if(l1 == null){
@@ -1144,9 +1144,9 @@ public class LeetCode {
 		if(left == 0 && right == 0){
 			list.add(s);
 		}
-		//¼ÓÒ»¸ö×óÀ¨ºÅ
+		//åŠ ä¸€ä¸ªå·¦æ‹¬å·
 		C022_r(list, s + "(", left - 1, right);
-		//¼ÓÒ»¸öÓÒÀ¨ºÅ
+		//åŠ ä¸€ä¸ªå³æ‹¬å·
 		C022_r(list, s + ")", left, right - 1);
 	}
 
@@ -1158,19 +1158,19 @@ public class LeetCode {
 	 * Merge k sorted linked lists and return it as one sorted list. 
 	 * Analyze and describe its complexity.
 	 * 
-	 * ×ÜµÄË¼ÏëÊÇ¹é²¢(·ÖÖÎ)
+	 * æ€»çš„æ€æƒ³æ˜¯å½’å¹¶(åˆ†æ²»)
 	 * 
-	 * Ê±¼ä¸´ÔÓ¶È(²»¿¼ÂÇÏµÊı)
-	 * ¼ÙÉèÒ»¹²ÓĞk¸öÁ´±í ¹²n¸ö½Úµã
-	 * whileÖ´ĞĞµÄ´ÎÊıÎªO(logk)
-	 * ¶ÔÓÚÃ¿Ò»´Î¹é²¢
-	 * forÖ´ĞĞµÄ´ÎÊıÎªO(k)
-	 * Ã¿´Î¶¼ÊÇO(n)¸ö½ÚµãÔÚ±È½Ï´óĞ¡ ËùÒÔÃ¿´Î±È½ÏµÄÊ±¼ä¸´ÔÓ¶ÈÎªO(n)
-	 * ×ÜµÄÊ±¼ä¸´ÔÓ¶È=O(logk)*O(k)*O(n)=O(nklogk)
+	 * æ—¶é—´å¤æ‚åº¦(ä¸è€ƒè™‘ç³»æ•°)
+	 * å‡è®¾ä¸€å…±æœ‰kä¸ªé“¾è¡¨ å…±nä¸ªèŠ‚ç‚¹
+	 * whileæ‰§è¡Œçš„æ¬¡æ•°ä¸ºO(logk)
+	 * å¯¹äºæ¯ä¸€æ¬¡å½’å¹¶
+	 * foræ‰§è¡Œçš„æ¬¡æ•°ä¸ºO(k)
+	 * æ¯æ¬¡éƒ½æ˜¯O(n)ä¸ªèŠ‚ç‚¹åœ¨æ¯”è¾ƒå¤§å° æ‰€ä»¥æ¯æ¬¡æ¯”è¾ƒçš„æ—¶é—´å¤æ‚åº¦ä¸ºO(n)
+	 * æ€»çš„æ—¶é—´å¤æ‚åº¦=O(logk)*O(k)*O(n)=O(nklogk)
 	 * 
-	 * ´íÎóË¼Ïë£º
-	 * ²»Ó¦¸Ã´ÓÍ·¿ªÊ¼ ÓÉĞ¡¼°´óÒ»´Î´®³ÉÒ»¸öÁ´±í
-	 * ¶øÓ¦¸ÃÃ¿2¸öÁ´±íºÏ²¢ ×îºóºÏ²¢³ÉÒ»¸öµ¥Ò»Á´±í  ¼´ÎªËùÇó
+	 * é”™è¯¯æ€æƒ³ï¼š
+	 * ä¸åº”è¯¥ä»å¤´å¼€å§‹ ç”±å°åŠå¤§ä¸€æ¬¡ä¸²æˆä¸€ä¸ªé“¾è¡¨
+	 * è€Œåº”è¯¥æ¯2ä¸ªé“¾è¡¨åˆå¹¶ æœ€ååˆå¹¶æˆä¸€ä¸ªå•ä¸€é“¾è¡¨  å³ä¸ºæ‰€æ±‚
 	 */
 	public ListNode C023_MergeKSortedLists(ListNode[] lists) {
 		if(lists == null){
@@ -1183,12 +1183,12 @@ public class LeetCode {
 		if(len == 1){
 			return lists[0];
 		}
-		//Êı×éµÄ³¤¶ÈÊÇ¼¸¾Í´ú±íÊ£¼¸¸öÁ´±íÃ»ÓĞºÏ²¢
+		//æ•°ç»„çš„é•¿åº¦æ˜¯å‡ å°±ä»£è¡¨å‰©å‡ ä¸ªé“¾è¡¨æ²¡æœ‰åˆå¹¶
 		while(len > 1){
-			//mid´ú±í¿ç¶È Ò²´ú±íºÏ²¢ºóÊ£ÓàµÄÁ´±í¸öÊı
+			//midä»£è¡¨è·¨åº¦ ä¹Ÿä»£è¡¨åˆå¹¶åå‰©ä½™çš„é“¾è¡¨ä¸ªæ•°
 			//0 1 => 01 => 1 1
 			//0 1 2 => 02 1 => 2 2
-			//0 1 2 3 => 02 13 =>²îÎª2 ×îºóÒ²Ê£2¸ö
+			//0 1 2 3 => 02 13 =>å·®ä¸º2 æœ€åä¹Ÿå‰©2ä¸ª
 			//0 1 2 3 4 => 03 14 2 => 3 3
 			//0 1 2 3 4 5 => 03 14 25 => 3 3
 			int mid = (len + 1) / 2;
@@ -1201,9 +1201,9 @@ public class LeetCode {
 		return lists[0];
 	}
 
-	//ºÏ²¢2¸öÁ´±í ²»ÄÑ°É¡£¡£
-	//µİ¹éÒ²ºÃ Ñ­»·Ò²ºÃ
-	//r1 ÓÃµİ¹é r2 ÓÃÑ­»·
+	//åˆå¹¶2ä¸ªé“¾è¡¨ ä¸éš¾å§ã€‚ã€‚
+	//é€’å½’ä¹Ÿå¥½ å¾ªç¯ä¹Ÿå¥½
+	//r1 ç”¨é€’å½’ r2 ç”¨å¾ªç¯
 	public ListNode C023_r1(ListNode l1, ListNode l2){
 		if(l1 == null) return l2;
 		if(l2 == null) return l1;
@@ -1250,7 +1250,7 @@ public class LeetCode {
 	 * Given a linked list, swap every two adjacent nodes and return its head.
 	 */
 	public ListNode C024_SwapNodesInPairs(ListNode head) {
-		//±¾Éí¾ÍÊÇ¿Õ »òÕß Ö»ÓĞ1¸ö½Úµã
+		//æœ¬èº«å°±æ˜¯ç©º æˆ–è€… åªæœ‰1ä¸ªèŠ‚ç‚¹
 		if(head == null || head.next == null){
 			return head;
 		}
@@ -1334,7 +1334,7 @@ public class LeetCode {
 	 * Return the index of the first occurrence of needle in haystack, 
 	 * or -1 if needle is not part of haystack.
 	 * 
-	 * ±©Á¦Æ¥Åä·¨
+	 * æš´åŠ›åŒ¹é…æ³•
 	 */
 	public int C028_ImplementStrStr(String haystack, String needle) {
 		int i = 0;
@@ -1358,13 +1358,13 @@ public class LeetCode {
 	}
 
 	/**
-	 * ÀûÓÃKMPµÄÊµÏÖ
+	 * åˆ©ç”¨KMPçš„å®ç°
 	 */
 	public int C028_ImplementStrStr_V2(String haystack, String needle) {
 		int hl = haystack.length();
 		int nl = needle.length();
 		if(nl == 0) return 0;
-		//ÇónextÊı×é
+		//æ±‚nextæ•°ç»„
 		int[] next = new int[nl];
 		int j = 0;
 		int k = -1;
@@ -1408,29 +1408,29 @@ public class LeetCode {
 	 * Divide two integers without using multiplication, division and mod operator.
 	 * If it is overflow, return MAX_INT.
 	 * 
-	 * ³ı·¨µÄ±¾ÖÊ¾ÍÊÇ¶à´Î¼õ·¨
-	 * Ã¿´Î¼õµÄ¶¼ÊÇ³ıÊı
-	 * ÕâÑùÊÇ¿ÉÒÔµÄ µ«Ğ§ÂÊÌ«µÍ
-	 * Ë¼Â·¾ÍÊÇÈÃÃ¿Ò»´Î¾¡¿ÉÄÜµÄÈ¥¼õ¶à¸ö³ıÊı
-	 * ×îºÃµÄÔö³¤·½Ê½¾ÍÊÇÖ¸Êı¼¶Ôö³¤
-	 * ÓÃ×óÒÆ
+	 * é™¤æ³•çš„æœ¬è´¨å°±æ˜¯å¤šæ¬¡å‡æ³•
+	 * æ¯æ¬¡å‡çš„éƒ½æ˜¯é™¤æ•°
+	 * è¿™æ ·æ˜¯å¯ä»¥çš„ ä½†æ•ˆç‡å¤ªä½
+	 * æ€è·¯å°±æ˜¯è®©æ¯ä¸€æ¬¡å°½å¯èƒ½çš„å»å‡å¤šä¸ªé™¤æ•°
+	 * æœ€å¥½çš„å¢é•¿æ–¹å¼å°±æ˜¯æŒ‡æ•°çº§å¢é•¿
+	 * ç”¨å·¦ç§»
 	 */
 	public int C029_DivideTwoIntegers(int dividend, int divisor) {
-		//·µ»ØMAX_INTµÄÇé¿öÖ»ÓĞ³ıÊıÊÇ0»òÕßMIN_VALUE/-1
+		//è¿”å›MAX_INTçš„æƒ…å†µåªæœ‰é™¤æ•°æ˜¯0æˆ–è€…MIN_VALUE/-1
 		if(divisor == 0 || dividend == Integer.MIN_VALUE && divisor == -1) return Integer.MAX_VALUE;
 		boolean flag = dividend > 0 && divisor > 0 || dividend < 0 && divisor < 0 ? true : false;
 		long m = Math.abs((long)dividend);
 		long n = Math.abs((long)divisor);
 		int result = 0;
-		//m>=n´ú±íÊ²Ã´ ±íÊ¾mÖÁÉÙ°üº¬Ò»¸ön
+		//m>=nä»£è¡¨ä»€ä¹ˆ è¡¨ç¤ºmè‡³å°‘åŒ…å«ä¸€ä¸ªn
 		while(m >= n){
-			//count±íÊ¾ÒÆÎ» Ò»¿ªÊ¼²»ÄÜÒÆ ËùÒÔ³õÊ¼»¯Îª0
+			//countè¡¨ç¤ºç§»ä½ ä¸€å¼€å§‹ä¸èƒ½ç§» æ‰€ä»¥åˆå§‹åŒ–ä¸º0
 			int count = 0;
-			//¿´mÊÇ·ñ°üº¬1¸ön 2¸ön 4¸ön 8¸ön ...?
-			//ÈôÄÜ Ï÷¼õm Ìá¸ßnµÄÖ¸Êı¼¶
-			//Èô²»ÄÜ ÔÙ´Î±È½ÏÏ÷¼õºóµÄmºÍn ÔÙ´Ó1¸ön±È½Ï
+			//çœ‹mæ˜¯å¦åŒ…å«1ä¸ªn 2ä¸ªn 4ä¸ªn 8ä¸ªn ...?
+			//è‹¥èƒ½ å‰Šå‡m æé«˜nçš„æŒ‡æ•°çº§
+			//è‹¥ä¸èƒ½ å†æ¬¡æ¯”è¾ƒå‰Šå‡åçš„må’Œn å†ä»1ä¸ªnæ¯”è¾ƒ
 			while(m >= n << count){
-				//°´1 2 4 8µÄ·½Ê½¼ÆËã½á¹û
+				//æŒ‰1 2 4 8çš„æ–¹å¼è®¡ç®—ç»“æœ
 				result += 1 << count;
 				m -= n << count;
 				count++;
@@ -1452,32 +1452,32 @@ public class LeetCode {
 	 */
 	public List<Integer> C030_SubstringWithConcatenationOfAllWords(String s, String[] words) {
 		final Map<String, Integer> map = new HashMap<>();
-		//°ÑwordsÀïµÄÖµ·ÅÈëmapÖĞ
-		//keyÊÇÔªËØµÄÖµ
-		//valueÊÇÔªËØ³öÏÖµÄ´ÎÊı
+		//æŠŠwordsé‡Œçš„å€¼æ”¾å…¥mapä¸­
+		//keyæ˜¯å…ƒç´ çš„å€¼
+		//valueæ˜¯å…ƒç´ å‡ºç°çš„æ¬¡æ•°
 		for(String word : words){
 			map.put(word, map.getOrDefault(word, 0) + 1);
 		}
 		List<Integer> result = new ArrayList<>();
-		//Ö÷´®³¤¶È
+		//ä¸»ä¸²é•¿åº¦
 		int sl = s.length();
-		//Êı×éÀïÔªËØµÄ¸öÊı
+		//æ•°ç»„é‡Œå…ƒç´ çš„ä¸ªæ•°
 		int num = words.length;
-		//Ã¿¸öÔªËØµÄ³¤¶È
+		//æ¯ä¸ªå…ƒç´ çš„é•¿åº¦
 		int len = words[0].length();
-		//Ä£Ê½´®µÄ³¤¶ÈÎªnum*len
-		//ËùÒÔÓ¦¸ÃÆ¥Åäsl - num * len + 1´Î
+		//æ¨¡å¼ä¸²çš„é•¿åº¦ä¸ºnum*len
+		//æ‰€ä»¥åº”è¯¥åŒ¹é…sl - num * len + 1æ¬¡
 		for(int i = 0; i < sl - num * len + 1; i++){
 			int j = 0;
 			Map<String, Integer> temp = new HashMap<>();
 			while(j < num){
-				//½ØÈ¡µ±Ç°ÒªÆ¥ÅäµÄÖ÷´®ÉÏµÚj+1¸ö³¤¶ÈÎªlenµÄ×Ö´®
+				//æˆªå–å½“å‰è¦åŒ¹é…çš„ä¸»ä¸²ä¸Šç¬¬j+1ä¸ªé•¿åº¦ä¸ºlençš„å­—ä¸²
 				String match = s.substring(i + j * len, i + (j + 1) * len);
-				//Æ¥ÅäÉÏµÄ
+				//åŒ¹é…ä¸Šçš„
 				if(map.containsKey(match)){
 					temp.put(match, temp.getOrDefault(match, 0) + 1);
-					//·ÀÖØ¸´ 
-					//ÀıÈç wordsÖĞÄ³ÔªËØÖ»ÓĞÒ»¸ö µ±Ç°Ö÷´®µÄ×Ö´®ÉÏ³öÏÖÁËµÚ¶ş¸ö¸ÃÔªËØ
+					//é˜²é‡å¤ 
+					//ä¾‹å¦‚ wordsä¸­æŸå…ƒç´ åªæœ‰ä¸€ä¸ª å½“å‰ä¸»ä¸²çš„å­—ä¸²ä¸Šå‡ºç°äº†ç¬¬äºŒä¸ªè¯¥å…ƒç´ 
 					if(temp.get(match) > map.get(match)){
 						break;
 					}
@@ -1507,23 +1507,23 @@ public class LeetCode {
 	 * it must rearrange it as the lowest possible order (ie, sorted in ascending order).
 	 * The replacement must be in-place, do not allocate extra memory.
 	 * Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
-	 * 1,2,3 ¡ú 1,3,2
-	 * 3,2,1 ¡ú 1,2,3
-	 * 1,1,5 ¡ú 1,5,1
+	 * 1,2,3 â†’ 1,3,2
+	 * 3,2,1 â†’ 1,2,3
+	 * 1,1,5 â†’ 1,5,1
 	 */
 	public void C031_NextPermutation(int[] nums) {
 		int l = nums.length;
 		int k = l - 1;
-		//´ÓºóÍùÇ°ÕÒ¸öÏÂ±êk ¸ÃÖµĞ¡ÓÚÆäÇ°±ßµÄÊı
-		//Òş²Ø¹æÂÉ: kÇ°±ßµÄÄÇ¸öÔªËØ¾ÍÊÇµ¶¿Ú
+		//ä»åå¾€å‰æ‰¾ä¸ªä¸‹æ ‡k è¯¥å€¼å°äºå…¶å‰è¾¹çš„æ•°
+		//éšè—è§„å¾‹: kå‰è¾¹çš„é‚£ä¸ªå…ƒç´ å°±æ˜¯åˆ€å£
 		while(k > 0){
 			if(nums[k - 1] < nums[k]) break;
 			else k--;
 		}
-		//Èôk=0 ÔòËµÃ÷Õû¸öÊı×éÅÅÁĞÎªµ¹Ğò 
-		//Ö±½Ó¶ÔÈ«²¿½øĞĞreserve²Ù×÷¼´¿É
-		//Èôk!=0 ÔòÏÈ½«kÇ°±ßÄÇ¸öÊıÓë´ÓkÍùºóµ¹ĞòµÚÒ»¸ö´óÓÚÆäµÄÊı½»»»
-		//Ö®ºóÔÙ´Ók¿ªÊ¼ÅÅĞò reserve¼´¿É
+		//è‹¥k=0 åˆ™è¯´æ˜æ•´ä¸ªæ•°ç»„æ’åˆ—ä¸ºå€’åº 
+		//ç›´æ¥å¯¹å…¨éƒ¨è¿›è¡Œreserveæ“ä½œå³å¯
+		//è‹¥k!=0 åˆ™å…ˆå°†kå‰è¾¹é‚£ä¸ªæ•°ä¸ä»kå¾€åå€’åºç¬¬ä¸€ä¸ªå¤§äºå…¶çš„æ•°äº¤æ¢
+		//ä¹‹åå†ä»kå¼€å§‹æ’åº reserveå³å¯
 		if(k != 0){
 			for(int i = l - 1; i >= k; i--){
 				if(nums[i] > nums[k - 1]){
@@ -1537,7 +1537,7 @@ public class LeetCode {
 		C031_r1(nums, k, l - 1);
 	}
 
-	//ÓÉÓÚÒªÅÅĞòµÄÊıÒ»¶¨ÊÇ´Ó´óµ½Ğ¡ÅÅĞòµÄ ËùÒÔÖ»ĞèÒªreserve
+	//ç”±äºè¦æ’åºçš„æ•°ä¸€å®šæ˜¯ä»å¤§åˆ°å°æ’åºçš„ æ‰€ä»¥åªéœ€è¦reserve
 	//C031_r1(nums, 0, nums.length - 1);
 	public void C031_r1(int[] nums, int left, int right){
 		while(left < right){
@@ -1547,11 +1547,11 @@ public class LeetCode {
 		}
 	}
 
-	//ÎÂÏ°Ò»ÏÂ ¿ìËÙÅÅĞò
-	//¿ìÅÅµÄË¼ÏëÊÇ·ÖÖÎ
-	//ËùÒÔ ·Ö ÊÇÒ»¸öº¯Êı ÖÎÓÖÊÇÒ»¸öº¯Êı
-	//ÔÚ ·Ö Àï±ß ÓÃµİ¹é 
-	//·Ö²»·Ö£¨Ò²¾ÍÊÇÊ²Ã´Ê±ºòËã·Öµ½Í·£© ÒÀÀµÓÚÅĞ¶ÏÌõ¼ş
+	//æ¸©ä¹ ä¸€ä¸‹ å¿«é€Ÿæ’åº
+	//å¿«æ’çš„æ€æƒ³æ˜¯åˆ†æ²»
+	//æ‰€ä»¥ åˆ† æ˜¯ä¸€ä¸ªå‡½æ•° æ²»åˆæ˜¯ä¸€ä¸ªå‡½æ•°
+	//åœ¨ åˆ† é‡Œè¾¹ ç”¨é€’å½’ 
+	//åˆ†ä¸åˆ†ï¼ˆä¹Ÿå°±æ˜¯ä»€ä¹ˆæ—¶å€™ç®—åˆ†åˆ°å¤´ï¼‰ ä¾èµ–äºåˆ¤æ–­æ¡ä»¶
 	public void C031_r2(int[] nums, int left, int right){
 		if(left < right){
 			int pos = C031_r3(nums, left, right);
@@ -1560,7 +1560,7 @@ public class LeetCode {
 		}
 	}
 
-	//ÖÎ
+	//æ²»
 	public int C031_r3(int[] nums, int left, int right){
 		int value = nums[right];
 		int pos = left;
@@ -1587,7 +1587,7 @@ public class LeetCode {
 	 * Another example is ")()())", 
 	 * where the longest valid parentheses substring is "()()", which has length = 4.
 	 * 
-	 * tmdÊÇÔõÃ´Ïë³öÀ´µÄ
+	 * tmdæ˜¯æ€ä¹ˆæƒ³å‡ºæ¥çš„
 	 */
 	public int C032_LongestValidParentheses(String s) {
 		LinkedList<Integer> stack = new LinkedList<>();
@@ -1618,9 +1618,9 @@ public class LeetCode {
 	 * If found in the array return its index, otherwise return -1.
 	 * You may assume no duplicate exists in the array.
 	 * 
-	 * ¶ş·Ö²éÕÒÒ²¿ÉÒÔÓÃÑ­»· Ò²¿ÉÓÃµİ¹é
-	 * Õâ¸ö·ÂÕÕµÄÊÇÑ­»·µÄ¶ş·Ö²éÕÒ
-	 * Í¨¹ıÒÆ¶¯2¶ËµÄÎ»ÖÃÀ´È·¶¨midµÄÎ»ÖÃ
+	 * äºŒåˆ†æŸ¥æ‰¾ä¹Ÿå¯ä»¥ç”¨å¾ªç¯ ä¹Ÿå¯ç”¨é€’å½’
+	 * è¿™ä¸ªä»¿ç…§çš„æ˜¯å¾ªç¯çš„äºŒåˆ†æŸ¥æ‰¾
+	 * é€šè¿‡ç§»åŠ¨2ç«¯çš„ä½ç½®æ¥ç¡®å®šmidçš„ä½ç½®
 	 */
 	public int C033_SearchInRotatedSortedArray(int[] nums, int target) {
 		int min = 0;
@@ -1830,12 +1830,12 @@ public class LeetCode {
 	 * A solution set is: 
 	 * [[7],[2, 2, 3]]
 	 * 
-	 * ×¢Òâµã
-	 * 1.ÓÃÓÚ´æ·ÅÃ¿¸ö·ÖÖ§ÄÚÈİµÄÈİÆ÷²»ÒªÓÃList,ÒòÎª¼´Ê¹ÓÃ¶¨ÒåÒ»¸ö¶ÔÏóµÈÓÚËü£¬¸Ä±äÕâ¸ö¶ÔÏóÈÔÈ»»á¸Ä±äËü
-	 * 2.·µ»ØµÄÀàĞÍ×îÀï±ßÀàĞÍÊÇInteger,´¦Àí¹ı³ÌÖĞ»¹ÓÃintÀàĞÍµÄÊı×é,×îºóÊÖ¶¯×ª»»,ÓÃjava native·½·¨»á³öÎÊÌâ
-	 * 3.¶¨ÒåµÄ»ØËİ·½·¨Àï±ßµÄ²ÎÊıÀï±ßµÄlenÖµÊÇ±ØĞëÓĞµÄ ÒòÎª²»ÄÜÍ¨¹ılistµÄ³¤¶ÈÍùlistÀï±ßÌí¼ÓÔªËØ
-	 * 4.listµÄ³¤¶È³õÊ¼»¯Îªtarget,Õâ¸öÊÇ×Ô¶¨ÒåµÄ,±È½Ï¿ÆÑ§
-	 * 5.²»ÓÃ¶ÔÒ»¿ªÊ¼µÄÊı×éÅÅĞò,±Ï¾¹»ØËİ
+	 * æ³¨æ„ç‚¹
+	 * 1.ç”¨äºå­˜æ”¾æ¯ä¸ªåˆ†æ”¯å†…å®¹çš„å®¹å™¨ä¸è¦ç”¨List,å› ä¸ºå³ä½¿ç”¨å®šä¹‰ä¸€ä¸ªå¯¹è±¡ç­‰äºå®ƒï¼Œæ”¹å˜è¿™ä¸ªå¯¹è±¡ä»ç„¶ä¼šæ”¹å˜å®ƒ
+	 * 2.è¿”å›çš„ç±»å‹æœ€é‡Œè¾¹ç±»å‹æ˜¯Integer,å¤„ç†è¿‡ç¨‹ä¸­è¿˜ç”¨intç±»å‹çš„æ•°ç»„,æœ€åæ‰‹åŠ¨è½¬æ¢,ç”¨java nativeæ–¹æ³•ä¼šå‡ºé—®é¢˜
+	 * 3.å®šä¹‰çš„å›æº¯æ–¹æ³•é‡Œè¾¹çš„å‚æ•°é‡Œè¾¹çš„lenå€¼æ˜¯å¿…é¡»æœ‰çš„ å› ä¸ºä¸èƒ½é€šè¿‡listçš„é•¿åº¦å¾€listé‡Œè¾¹æ·»åŠ å…ƒç´ 
+	 * 4.listçš„é•¿åº¦åˆå§‹åŒ–ä¸ºtarget,è¿™ä¸ªæ˜¯è‡ªå®šä¹‰çš„,æ¯”è¾ƒç§‘å­¦
+	 * 5.ä¸ç”¨å¯¹ä¸€å¼€å§‹çš„æ•°ç»„æ’åº,æ¯•ç«Ÿå›æº¯
 	 */
 	public List<List<Integer>> C039_CombinationSum(int[] candidates, int target) {
 		int[] list = new int[target];
@@ -1879,13 +1879,13 @@ public class LeetCode {
 	 * A solution set is: 
 	 * [[1, 7],[1, 2, 5],[2, 6],[1, 1, 6]]
 	 * 
-	 * ÕâµÀÌâÏà½ÏÓÚÉÏµÀÌâ
-	 * ÒªÇóÃ¿¸öÊıÖ»ÄÜÓÃÒ»´Î
-	 * ¿´ÉÏÈ¥ÊÇÈİÒ×ÁË
-	 * ÆäÊµÊÇ¸üÄÑÁË
-	 * ÒòÎª¸ø¶¨Êı×éÖĞµÄÊıÊÇ¿ÉÒÔÖØ¸´µÄ µ«½á¹ûÊÇ²»ÄÜ°üº¬ÖØ¸´½á¹ûµÄ
-	 * ·ÅÆúset°É runtimeÌ«³¤ÁË
-	 * Ò»°ãÕâÖÖÇé¿ö¾ÍÊÇĞ´¸öifÌõ¼ş µ«ÕâÒ²ÊÇºËĞÄÄÑµã
+	 * è¿™é“é¢˜ç›¸è¾ƒäºä¸Šé“é¢˜
+	 * è¦æ±‚æ¯ä¸ªæ•°åªèƒ½ç”¨ä¸€æ¬¡
+	 * çœ‹ä¸Šå»æ˜¯å®¹æ˜“äº†
+	 * å…¶å®æ˜¯æ›´éš¾äº†
+	 * å› ä¸ºç»™å®šæ•°ç»„ä¸­çš„æ•°æ˜¯å¯ä»¥é‡å¤çš„ ä½†ç»“æœæ˜¯ä¸èƒ½åŒ…å«é‡å¤ç»“æœçš„
+	 * æ”¾å¼ƒsetå§ runtimeå¤ªé•¿äº†
+	 * ä¸€èˆ¬è¿™ç§æƒ…å†µå°±æ˜¯å†™ä¸ªifæ¡ä»¶ ä½†è¿™ä¹Ÿæ˜¯æ ¸å¿ƒéš¾ç‚¹
 	 */
 	public List<List<Integer>> C040_CombinationSumII(int[] candidates, int target) {
 		Arrays.sort(candidates);
@@ -1898,25 +1898,25 @@ public class LeetCode {
 	public void C040_r(List<List<Integer>> result, List<Integer> temp, int[] candidates, int target, int start){
 		if(target < 0) return;
 		if(target == 0){
-			//ÎªºÎÓÃnew ArrayListÀ´³Ğ½Ó
-			//²»newµÄ»°Ö¸ÏòµÄtemp±¾ÉíµÄµØÖ·
-			//ÎÒÃÇÊÇÒª°Ñ´ËÊ±´Ë¿ÌµÄtempÖµ·Å½øresult
-			//²»newµÄ»°¾ÍÈÃresult addÖ¸Ïòµ±Ç°µÄµØÖ·
-			//µ«Õâ¸öµØÖ·ÉÏµÄÄÚÈİÊÇ¶¯Ì¬±ä»¯µÄ ×îºóÄÚÈİÎª¿Õ
-			//½á¹û¾ÍÊÇÖ¸ÁËÈô¸É´ÎÍ¬ÑùµÄµØÖ·£¬×îºóÕâ¸öµØÖ·Àï±ßÊÇ¿ÕµÄ
-			//ËùÒÔÒªnewÒ»¸öĞÂµÄµØÖ·±£´æµ±Ç°ÄÚÈİ
-			//ÄÇÃ´ÒÔºóÔ­tempÄÚÈİ±äÁËÒ²¾ÍÎŞËùÎ½ÁË
+			//ä¸ºä½•ç”¨new ArrayListæ¥æ‰¿æ¥
+			//ä¸newçš„è¯æŒ‡å‘çš„tempæœ¬èº«çš„åœ°å€
+			//æˆ‘ä»¬æ˜¯è¦æŠŠæ­¤æ—¶æ­¤åˆ»çš„tempå€¼æ”¾è¿›result
+			//ä¸newçš„è¯å°±è®©result addæŒ‡å‘å½“å‰çš„åœ°å€
+			//ä½†è¿™ä¸ªåœ°å€ä¸Šçš„å†…å®¹æ˜¯åŠ¨æ€å˜åŒ–çš„ æœ€åå†…å®¹ä¸ºç©º
+			//ç»“æœå°±æ˜¯æŒ‡äº†è‹¥å¹²æ¬¡åŒæ ·çš„åœ°å€ï¼Œæœ€åè¿™ä¸ªåœ°å€é‡Œè¾¹æ˜¯ç©ºçš„
+			//æ‰€ä»¥è¦newä¸€ä¸ªæ–°çš„åœ°å€ä¿å­˜å½“å‰å†…å®¹
+			//é‚£ä¹ˆä»¥ååŸtempå†…å®¹å˜äº†ä¹Ÿå°±æ— æ‰€è°“äº†
 			result.add(new ArrayList<>(temp));
 			return;
 		}
-		//target >= candidates[i] ±¾Éí¾ÍÊÇ´ÓĞ¡µ½´óÅÅµÄ ¼õÉÙ²Ù×÷´ÎÊı
+		//target >= candidates[i] æœ¬èº«å°±æ˜¯ä»å°åˆ°å¤§æ’çš„ å‡å°‘æ“ä½œæ¬¡æ•°
 		for(int i = start; i < candidates.length && target >= candidates[i]; i++){
 			//{1,2,2,5}
-			//Èôtarget=10  1->2->2->5Ã»ÎÊÌâ iÒ»Ö±ºÍstartÏàÍ¬
-			//Èôtarget=8   1->2->5  1->2->5 µÚ¶ş¸öµÄi±Èstart´ó
+			//è‹¥target=10  1->2->2->5æ²¡é—®é¢˜ iä¸€ç›´å’Œstartç›¸åŒ
+			//è‹¥target=8   1->2->5  1->2->5 ç¬¬äºŒä¸ªçš„iæ¯”startå¤§
 			if(i > start && candidates[i] == candidates[i - 1]) continue;
 			temp.add(candidates[i]);
-			//×¢ÒâÕâÀïÊÇi+1 ²»ÊÇstart+1
+			//æ³¨æ„è¿™é‡Œæ˜¯i+1 ä¸æ˜¯start+1
 			C040_r(result, temp, candidates, target - candidates[i], i + 1);
 			temp.remove(temp.size() - 1);
 		}
@@ -1950,8 +1950,8 @@ public class LeetCode {
 	 * For example,
 	 * Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 	 * 
-	 * ²»Òªºá×Å¼ÓÕâÑùË¼¿¼
-	 * ×îÖÕË¼Â·ÊÇÊú×Å¼Ó
+	 * ä¸è¦æ¨ªç€åŠ è¿™æ ·æ€è€ƒ
+	 * æœ€ç»ˆæ€è·¯æ˜¯ç«–ç€åŠ 
 	 */
 	public int C042_TrappingRainWater(int[] height) {
 		int res = 0;
@@ -1960,9 +1960,9 @@ public class LeetCode {
 		int left_max = 0;
 		int right_max = 0;
 		while(left < right){
-			//Õâ¸öÌõ¼şÈ·±£ÁË 
-			//Ö»Òª×ó±ß·ûºÏÁËÌõ¼ş¾ÍÖ»¹ÜÈ¥¼Ó
-			//´ó²»ÁËÓÒ±ßÀ´ÊÕÎ²
+			//è¿™ä¸ªæ¡ä»¶ç¡®ä¿äº† 
+			//åªè¦å·¦è¾¹ç¬¦åˆäº†æ¡ä»¶å°±åªç®¡å»åŠ 
+			//å¤§ä¸äº†å³è¾¹æ¥æ”¶å°¾
 			if(height[left] <= height[right]){
 				if(height[left] >= left_max){
 					left_max = height[left];
@@ -2031,7 +2031,7 @@ public class LeetCode {
 	 * The matching should cover the entire input string (not partial).
 	 */
 	public boolean C044_WildcardMatching(String s, String p) {
-		//sÊÇ×Ö·û´® pÊÇÍ¨Åä·û
+		//sæ˜¯å­—ç¬¦ä¸² pæ˜¯é€šé…ç¬¦
 		int i = 0;
 		int j = 0;
 		int sl = s.length();
@@ -2044,17 +2044,17 @@ public class LeetCode {
 				j++;
 			}
 			else if(j < pl && p.charAt(j) == '*'){
-				//¼ÇÂ¼³öÏÖ*ºÅ ¶şÕßµÄÎ»ÖÃ
+				//è®°å½•å‡ºç°*å· äºŒè€…çš„ä½ç½®
 				match = i;
 				ps = j;
-				//×Ö·û´®²»¶¯ Æ¥Åä¶Î¼ÌĞø
+				//å­—ç¬¦ä¸²ä¸åŠ¨ åŒ¹é…æ®µç»§ç»­
 				j++;
 			}
-			//Õâ¸öÆ¥ÅäÓĞÎÊÌâ
+			//è¿™ä¸ªåŒ¹é…æœ‰é—®é¢˜
 			else if(ps != -1){
-				//Ê¼ÖÕ°Ñ*ºó±ßÒ»Î»×÷Îª»ù×¼
+				//å§‹ç»ˆæŠŠ*åè¾¹ä¸€ä½ä½œä¸ºåŸºå‡†
 				j = ps + 1;
-				//i ÊÇ Ëæ×Å match ±äµÃ
+				//i æ˜¯ éšç€ match å˜å¾—
 				match++;
 				i = match;
 			}
@@ -2062,7 +2062,7 @@ public class LeetCode {
 				return false;
 			}
 		}
-		//µ¥µ¥ÓÃÒ»¸ö*Æ¥ÅäÒ»¸ö¿Õ×Ö·û´® 666
+		//å•å•ç”¨ä¸€ä¸ª*åŒ¹é…ä¸€ä¸ªç©ºå­—ç¬¦ä¸² 666
 		while(j < pl && p.charAt(j) == '*'){
 			j++;
 		}
@@ -2083,11 +2083,11 @@ public class LeetCode {
 	 * (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
 	 */
 	public int C045_JumpGameII(int[] nums) {
-		//¿´ÁËË¼Â· µ«Ã»¿´¾ßÌåÊµÏÖ
-		//ÄªÃûÆäÃî¾ÍACÁË
-		//ÌøµÄÊ±ºò ¿Ï¶¨Òª¼ÆËãcount
-		//²»¹ÜÌø²»Ìø¶¼Òª¼ÆËãt ÔÚÌøµÄÊ±ºò¸³Óèmax ÒòÎªmax¾ö¶¨Ìø²»Ìø
-		//ĞèÒª×¢ÒâµÄÊÇÔÚÌøµÄµã ÈÔÈ»Òª¼ÆËãt ¹ÊÓĞi--
+		//çœ‹äº†æ€è·¯ ä½†æ²¡çœ‹å…·ä½“å®ç°
+		//è«åå…¶å¦™å°±ACäº†
+		//è·³çš„æ—¶å€™ è‚¯å®šè¦è®¡ç®—count
+		//ä¸ç®¡è·³ä¸è·³éƒ½è¦è®¡ç®—t åœ¨è·³çš„æ—¶å€™èµ‹äºˆmax å› ä¸ºmaxå†³å®šè·³ä¸è·³
+		//éœ€è¦æ³¨æ„çš„æ˜¯åœ¨è·³çš„ç‚¹ ä»ç„¶è¦è®¡ç®—t æ•…æœ‰i--
 		int max = nums[0];
 		int count = nums.length <= 1 ? 0 : 1;
 		int t = 0;
@@ -2119,20 +2119,20 @@ public class LeetCode {
 
 	public void C046_backtracking(List<List<Integer>> res, List<Integer> temp, int[] nums){
 		if(temp.size() == nums.length){
-			//tempµÄÖµÊÇ¶¯Ì¬µÄ Èç¹ûnewÒ»¸ö ÆäÊµ¼ÓµÄÊ±ºòÓĞÊı¾İ ×îºó¾­¹ıremoveÀï±ß¶¼ÊÇ¿ÕÔªËØ
-			//newµÄº¬ÒåÊÇ´´½¨Ò»¸öĞÂ¶ÔÏóÀ´±£´æµ±Ç°×´Ì¬
+			//tempçš„å€¼æ˜¯åŠ¨æ€çš„ å¦‚æœnewä¸€ä¸ª å…¶å®åŠ çš„æ—¶å€™æœ‰æ•°æ® æœ€åç»è¿‡removeé‡Œè¾¹éƒ½æ˜¯ç©ºå…ƒç´ 
+			//newçš„å«ä¹‰æ˜¯åˆ›å»ºä¸€ä¸ªæ–°å¯¹è±¡æ¥ä¿å­˜å½“å‰çŠ¶æ€
 			res.add(new ArrayList<>(temp));
 		}
 		else{
 			for(int i = 0; i < nums.length; i++){
-				//Ê¡È¥ÁËÒ»Ğ©Âé·³
-				//Í³Ò»ÓÃÕâÖÖ·½Ê½À´±æ±ğ
+				//çœå»äº†ä¸€äº›éº»çƒ¦
+				//ç»Ÿä¸€ç”¨è¿™ç§æ–¹å¼æ¥è¾¨åˆ«
 				if(temp.contains(nums[i])) continue;
 				temp.add(nums[i]);
 				C046_backtracking(res, temp, nums);
-				//Ç°±ßaddµÄÊÇ¶àÉÙ ÕâÀïremoveµÄ¾ÍÊÇ¶àÉÙ
-				//¼´Ê¹ÖĞ¼äÓĞ»ØËİ²Ù×÷ µ«»ØËİ»¹ÊÇÕâ¸ö ²»Ã¬¶Ü
-				//Õâ¸ö¹ı³ÌÀí½âÆğÀ´ÓĞµãÄÑÊÜ ¶àÅªÅª¾ÍºÃÁË
+				//å‰è¾¹addçš„æ˜¯å¤šå°‘ è¿™é‡Œremoveçš„å°±æ˜¯å¤šå°‘
+				//å³ä½¿ä¸­é—´æœ‰å›æº¯æ“ä½œ ä½†å›æº¯è¿˜æ˜¯è¿™ä¸ª ä¸çŸ›ç›¾
+				//è¿™ä¸ªè¿‡ç¨‹ç†è§£èµ·æ¥æœ‰ç‚¹éš¾å— å¤šå¼„å¼„å°±å¥½äº†
 				temp.remove(temp.size() - 1);
 			}
 		}
@@ -2230,11 +2230,11 @@ public class LeetCode {
 	 * @problem #50 Pow(x, n)
 	 * @date 2018-03-09
 	 * 
-	 * ÇóÃİÔËËã
-	 * Ö±½ÓÑ­»·×Å³ËÊÇ²»ĞĞµÄ ¿Ï¶¨ÒªÓÃµİ¹éµÄË¼Ïë
-	 * ÁíÍâ»¹ÒªÓÃÕÛ°ë
-	 * ·Ö³É2¸öº¯ÊıÊÇÎªÁË´¦ÀínµÄÕı¸º
-	 * µ±È»Ò²ÄÜÔÚÒ»¸öµİ¹éÀïÓÃ ÒÔºóÓĞÊ±¼äÔÙÓÅ»¯
+	 * æ±‚å¹‚è¿ç®—
+	 * ç›´æ¥å¾ªç¯ç€ä¹˜æ˜¯ä¸è¡Œçš„ è‚¯å®šè¦ç”¨é€’å½’çš„æ€æƒ³
+	 * å¦å¤–è¿˜è¦ç”¨æŠ˜åŠ
+	 * åˆ†æˆ2ä¸ªå‡½æ•°æ˜¯ä¸ºäº†å¤„ç†nçš„æ­£è´Ÿ
+	 * å½“ç„¶ä¹Ÿèƒ½åœ¨ä¸€ä¸ªé€’å½’é‡Œç”¨ ä»¥åæœ‰æ—¶é—´å†ä¼˜åŒ–
 	 */
 	public double C050_Powxn(double x, int n) {
 		if(n < 0) return 1 / C050_pow(x, -n);
@@ -2251,64 +2251,64 @@ public class LeetCode {
 	/**
 	 * @problem #51 N-Queens
 	 * @date 2018-08-27
-	 * ºó±ßµÄ#52ÊÇÇó·ûºÏÒªÇóµÄÇé¿öµÄ×Ü¸öÊı
-	 * Ö±½Ó·µ»Ø±¾³ÌĞòresµÄ´óĞ¡¼´¿É
-	 * ²»»¨ÀïºúÉÚÔÙ¶Ôcount½øĞĞ´¦Àí
+	 * åè¾¹çš„#52æ˜¯æ±‚ç¬¦åˆè¦æ±‚çš„æƒ…å†µçš„æ€»ä¸ªæ•°
+	 * ç›´æ¥è¿”å›æœ¬ç¨‹åºresçš„å¤§å°å³å¯
+	 * ä¸èŠ±é‡Œèƒ¡å“¨å†å¯¹countè¿›è¡Œå¤„ç†
 	 */
-	//ÒÔÏÂ±äÁ¿C051_DFSÒªÓÃ µ«È´ÎªÈ«¾Ö±äÁ¿
-	//Í¬Ò»ÁĞ²»ÄÜ³öÏÖ2¸ö»Êºó
+	//ä»¥ä¸‹å˜é‡C051_DFSè¦ç”¨ ä½†å´ä¸ºå…¨å±€å˜é‡
+	//åŒä¸€åˆ—ä¸èƒ½å‡ºç°2ä¸ªçš‡å
 	public Set<Integer> C051_col = new HashSet<Integer>();
-	//k=1µÄĞ±ÏßÉÏ²»ÄÜ³öÏÖ2¸ö»Êºó
+	//k=1çš„æ–œçº¿ä¸Šä¸èƒ½å‡ºç°2ä¸ªçš‡å
 	public Set<Integer> C051_slash1 = new HashSet<Integer>();
-	//k=-1µÄĞ±ÏßÉÏ²»ÄÜ³öÏÖ2¸ö»Êºó
+	//k=-1çš„æ–œçº¿ä¸Šä¸èƒ½å‡ºç°2ä¸ªçš‡å
 	public Set<Integer> C051_slash2 = new HashSet<Integer>();
 
 	public List<List<String>> C051_solveNQueens(int n) {
-		//ËùĞèÒªµÄ½á¹û
+		//æ‰€éœ€è¦çš„ç»“æœ
 		List<List<String>> res = new ArrayList<>();
-		//µİ¹é
-		//×ÜµÄÁĞ±í  ÁĞ±íÖĞµÄÒ»¸öÁĞ±í µÚ¼¸¸ö»Êºó ×Ü¹²ÓĞ¼¸¸ö»Êºó
+		//é€’å½’
+		//æ€»çš„åˆ—è¡¨  åˆ—è¡¨ä¸­çš„ä¸€ä¸ªåˆ—è¡¨ ç¬¬å‡ ä¸ªçš‡å æ€»å…±æœ‰å‡ ä¸ªçš‡å
 		C051_DFS(res, new ArrayList<String>(), 0 , n);
 		return res;
 	}
 
 	public void C051_DFS(List<List<String>> res, List<String> list, int who, int n){
-		//µİ¹éÒ»¶¨ÒªÓĞ½ØÖ¹
+		//é€’å½’ä¸€å®šè¦æœ‰æˆªæ­¢
 		if(who == n){
-			//²»ÄÜÖ±½Óadd list
+			//ä¸èƒ½ç›´æ¥add list
 			res.add(new ArrayList<>(list));
 		}
 
-		//»ÊºóÑ¡Î»ÖÃ
-		//Ä¬ÈÏµÚn¸ö»Êºó¾Í×øÔÚµÚnÅÅ ÕâÀïÖ»ÊÇ¶ÔÁĞµÄÎ»ÖÃ½øĞĞÑ­»·
+		//çš‡åé€‰ä½ç½®
+		//é»˜è®¤ç¬¬nä¸ªçš‡åå°±ååœ¨ç¬¬næ’ è¿™é‡Œåªæ˜¯å¯¹åˆ—çš„ä½ç½®è¿›è¡Œå¾ªç¯
 		for(int i = 0; i < n; i++){
-			//ÒÔÏÂ¶¼ÊÇ½áÂÛµÄÓ¦ÓÃ
+			//ä»¥ä¸‹éƒ½æ˜¯ç»“è®ºçš„åº”ç”¨
 			if(C051_col.contains(i) || C051_slash1.contains(i + who) || C051_slash2.contains(i - who)){
-				//¸Ã»Êºó²»ÄÜ×øÔÚÕâ »»ÏÂÒ»¸öÎ»ÖÃ
+				//è¯¥çš‡åä¸èƒ½ååœ¨è¿™ æ¢ä¸‹ä¸€ä¸ªä½ç½®
 				continue; 
 			}
 
-			//ÄÜ×øÏÂ
+			//èƒ½åä¸‹
 
-			//¸üĞÂÅĞ¶ÏÖµ
+			//æ›´æ–°åˆ¤æ–­å€¼
 			C051_col.add(i);
 			C051_slash1.add(i + who);
 			C051_slash2.add(i - who);
 
-			//°ÑÕâÒ»ĞĞ·Å½øÈ¥
+			//æŠŠè¿™ä¸€è¡Œæ”¾è¿›å»
 			char[] charArray = new char[n];
 			Arrays.fill(charArray, '.');
 			charArray[i] = 'Q';
 			String rowString = new String(charArray);
 			list.add(rowString);
 
-			//½ÓÏÂÀ´Òªµİ¹é ÏÂÒ»¸ö»Êºó
+			//æ¥ä¸‹æ¥è¦é€’å½’ ä¸‹ä¸€ä¸ªçš‡å
 			C051_DFS(res, list, who + 1, n);
 
-			//ÎŞÂÛÔõÑù¶¼Òª¿¼ÂÇ²»Í¨¹ıµÄÇé¿ö
-			//¼´Ê¹Ã»ÓĞ²»Í¨¹ı ×÷Îª»ØËİ Ò²ÒªÓĞ»¹Ô­µÄ¹¦ÄÜ
+			//æ— è®ºæ€æ ·éƒ½è¦è€ƒè™‘ä¸é€šè¿‡çš„æƒ…å†µ
+			//å³ä½¿æ²¡æœ‰ä¸é€šè¿‡ ä½œä¸ºå›æº¯ ä¹Ÿè¦æœ‰è¿˜åŸçš„åŠŸèƒ½
 
-			//set¿ÉÒÔÒÆ³ıÄ³¸ö¶ÔÏó µ«listÖ»ÄÜ°´ÏÂ±ê½øĞĞÒÆ³ı
+			//setå¯ä»¥ç§»é™¤æŸä¸ªå¯¹è±¡ ä½†liståªèƒ½æŒ‰ä¸‹æ ‡è¿›è¡Œç§»é™¤
 			C051_col.remove(i);
 			C051_slash1.remove(i + who);
 			C051_slash2.remove(i - who);
@@ -2320,19 +2320,19 @@ public class LeetCode {
 	/**
 	 * @problem #53 Maximum Subarray
 	 * @date 2018-08-27
-	 * O(n)ÇóÒ»¸öÊı×éµÄÈô¸É¸ö×ÓÊı×éÖĞÔªËØºÍ×î´óµÄÊı×éµÄÔªËØºÍ
+	 * O(n)æ±‚ä¸€ä¸ªæ•°ç»„çš„è‹¥å¹²ä¸ªå­æ•°ç»„ä¸­å…ƒç´ å’Œæœ€å¤§çš„æ•°ç»„çš„å…ƒç´ å’Œ
 	 */
 	public int C053_maxSubArray(int[] nums) {
-		//maxÎª×îÖÕÒª·µ»ØµÄÖµ
+		//maxä¸ºæœ€ç»ˆè¦è¿”å›çš„å€¼
 		int max = nums[0];
-		//tolerateÊÇÊÔÌ½ĞÔµÄÖµ ×öÒ»´Î±È½Ï
-		//Çø·Ö¿É±£ÁôÖµºÍÍêÈ«²»ĞèÒª±£ÁôÖµ
-		//Èç4, -6ºÍ4, -1
-		//Ç°ÕßÍêÈ«²»ÓÃ±£Áô ºóÕßĞèÒª ÒòÎª¿ÉÄÜºó±ß¸ú¸ö±È1´óµÄÊı
-		//ËùÒÔÅĞ¶Ï·½·¨ÊÇÒª´¦ÀíµÄÊıºÍÔ­ÖµÓë¸ÃÊıÏà¼ÓµÄÖµ×÷±È½Ï
-		//µ±È»¶ÔÓÚ4, -1 maxÊÇ²»¿ÉÄÜÒòÎª-1±äµÄ
-		//ËùÒÔĞèÒª°ÑĞÂµÄtolerateÖµÓëµ±Ç°max±È½Ï
-		//max×îÖÕ¾ö¶¨ÊÇ·ñÒª±ä
+		//tolerateæ˜¯è¯•æ¢æ€§çš„å€¼ åšä¸€æ¬¡æ¯”è¾ƒ
+		//åŒºåˆ†å¯ä¿ç•™å€¼å’Œå®Œå…¨ä¸éœ€è¦ä¿ç•™å€¼
+		//å¦‚4, -6å’Œ4, -1
+		//å‰è€…å®Œå…¨ä¸ç”¨ä¿ç•™ åè€…éœ€è¦ å› ä¸ºå¯èƒ½åè¾¹è·Ÿä¸ªæ¯”1å¤§çš„æ•°
+		//æ‰€ä»¥åˆ¤æ–­æ–¹æ³•æ˜¯è¦å¤„ç†çš„æ•°å’ŒåŸå€¼ä¸è¯¥æ•°ç›¸åŠ çš„å€¼ä½œæ¯”è¾ƒ
+		//å½“ç„¶å¯¹äº4, -1 maxæ˜¯ä¸å¯èƒ½å› ä¸º-1å˜çš„
+		//æ‰€ä»¥éœ€è¦æŠŠæ–°çš„tolerateå€¼ä¸å½“å‰maxæ¯”è¾ƒ
+		//maxæœ€ç»ˆå†³å®šæ˜¯å¦è¦å˜
 		int tolerate = nums[0];
 		for(int i = 1; i < nums.length; i++){
 			tolerate = Math.max(nums[i], tolerate + nums[i]);
@@ -2347,7 +2347,7 @@ public class LeetCode {
 	 * @problem #54 Spiral Matrix
 	 * @date 2018-08-27
 	 */
-	public List<Integer> spiralOrder(int[][] matrix) {
+	public List<Integer> C054_spiralOrder(int[][] matrix) {
 		if(matrix.length == 0){
 			return new ArrayList<>();
 		}
@@ -2409,23 +2409,23 @@ public class LeetCode {
 	 */
 	//
 	/**
-	 * Õâ¸öË¼Î¬ÓĞµãÇÉÃî
-	 * ÒòÎªÃ¿¸öÊıÖµ´ú±íµÄÊÇ×î´ó²½Êı
-	 * ËùÒÔ¾Í¿ÉÒÔÈÏÎª
-	 * Ö»ÒªÄÜµ½´ï´ÓÄ³¸öÎ»ÖÃ¿ªÊ¼°´×î´ó²½Êı×ßµ½µÄÎ»ÖÃ
-	 * Ö®¼äµÄÎ»ÖÃÒ²¶¼ÄÜ×ßµ½
-	 * ËùÒÔÕâ²¿·Ö²»ĞèÒªÂß¼­´¦Àí
-	 * Èç¹û´¦ÀíÁË ¾Í»á³¬Ê±
-	 * ´¦ÀíµÄÇéĞÎÓ¦¸ÃÊÇ´Ë´ÎÌø×ªµÄÎ»ÖÃÓÉÉÏÒ»´ÎÌø×ª¾ö¶¨
-	 * ÏÂ±ß´úÂëµÄÂß¼­´¦ÀíÊÇ´ÓÒ»¿ªÊ¼ÖğÒ»Ñ­»·µÄ
-	 * ÏàÁÚÌø×ªÖ®¼äÎŞÈÎºÎ¹ØÏµ
-	 * Ö»¼ÇÂ¼Ò»¸ö×îÔ¶Ìø×ªÎ»ÖÃ
-	 * i > maxËµÃ÷µ½´ïÁË²»¿Éµ½´ïµÄµØ·½
-	 * ÓàÏÂµÄÊı×éÔªËØ¾Í²»ÓÃ´¦ÀíÁË
-	 * ÖÁÓÚmaxÎªÊ²Ã´Òª³õÊ¼»¯Îª0
-	 * ÒòÎªÊı×éÏÂ±ê´Ó0¿ªÊ¼ ²»¹ÜÔõÑù0Õâ¸öÎ»ÖÃ¶¼»áµ½´ïµÄ
+	 * è¿™ä¸ªæ€ç»´æœ‰ç‚¹å·§å¦™
+	 * å› ä¸ºæ¯ä¸ªæ•°å€¼ä»£è¡¨çš„æ˜¯æœ€å¤§æ­¥æ•°
+	 * æ‰€ä»¥å°±å¯ä»¥è®¤ä¸º
+	 * åªè¦èƒ½åˆ°è¾¾ä»æŸä¸ªä½ç½®å¼€å§‹æŒ‰æœ€å¤§æ­¥æ•°èµ°åˆ°çš„ä½ç½®
+	 * ä¹‹é—´çš„ä½ç½®ä¹Ÿéƒ½èƒ½èµ°åˆ°
+	 * æ‰€ä»¥è¿™éƒ¨åˆ†ä¸éœ€è¦é€»è¾‘å¤„ç†
+	 * å¦‚æœå¤„ç†äº† å°±ä¼šè¶…æ—¶
+	 * å¤„ç†çš„æƒ…å½¢åº”è¯¥æ˜¯æ­¤æ¬¡è·³è½¬çš„ä½ç½®ç”±ä¸Šä¸€æ¬¡è·³è½¬å†³å®š
+	 * ä¸‹è¾¹ä»£ç çš„é€»è¾‘å¤„ç†æ˜¯ä»ä¸€å¼€å§‹é€ä¸€å¾ªç¯çš„
+	 * ç›¸é‚»è·³è½¬ä¹‹é—´æ— ä»»ä½•å…³ç³»
+	 * åªè®°å½•ä¸€ä¸ªæœ€è¿œè·³è½¬ä½ç½®
+	 * i > maxè¯´æ˜åˆ°è¾¾äº†ä¸å¯åˆ°è¾¾çš„åœ°æ–¹
+	 * ä½™ä¸‹çš„æ•°ç»„å…ƒç´ å°±ä¸ç”¨å¤„ç†äº†
+	 * è‡³äºmaxä¸ºä»€ä¹ˆè¦åˆå§‹åŒ–ä¸º0
+	 * å› ä¸ºæ•°ç»„ä¸‹æ ‡ä»0å¼€å§‹ ä¸ç®¡æ€æ ·0è¿™ä¸ªä½ç½®éƒ½ä¼šåˆ°è¾¾çš„
 	 */
-	public boolean canJump(int[] nums) {
+	public boolean C055_canJump(int[] nums) {
 		int max = 0;
 		for(int i = 0; i < nums.length; i++){
 			if(i > max) return false;
@@ -2439,13 +2439,13 @@ public class LeetCode {
 	 * @date 2018-08-27
 	 */
 	/**
-	 * Ê×ÏÈÕâ¸öÌâÃ»ÓĞËµ°´Ä³ÖÖË³ĞòÅÅÁĞinterval
-	 * Æä´ÎÔ­Ê¼listµÄË³Ğò¶Ô´ËÌâÓĞÓ°Ïì
-	 * ËùÒÔ±ØĞëÏÈÅÅĞò
-	 * ¸´Ï°Ò»ÏÂ±È½ÏÆ÷µÄ±àĞ´
-	 * ÄÇÖ®ºó¾ÍºÃÅĞ¶ÏÁË
-	 * ÒòÎªstartÒÑ¾­ÓĞĞòÁË
-	 * ËùÒÔ¾Í¿ÉÒÔ°´Ë³ĞòÒ»¸öÒ»¸ö²åÈëÁË
+	 * é¦–å…ˆè¿™ä¸ªé¢˜æ²¡æœ‰è¯´æŒ‰æŸç§é¡ºåºæ’åˆ—interval
+	 * å…¶æ¬¡åŸå§‹listçš„é¡ºåºå¯¹æ­¤é¢˜æœ‰å½±å“
+	 * æ‰€ä»¥å¿…é¡»å…ˆæ’åº
+	 * å¤ä¹ ä¸€ä¸‹æ¯”è¾ƒå™¨çš„ç¼–å†™
+	 * é‚£ä¹‹åå°±å¥½åˆ¤æ–­äº†
+	 * å› ä¸ºstartå·²ç»æœ‰åºäº†
+	 * æ‰€ä»¥å°±å¯ä»¥æŒ‰é¡ºåºä¸€ä¸ªä¸€ä¸ªæ’å…¥äº†
 	 */
 	class IntervalCompator implements Comparator<Interval>{
 
@@ -2469,221 +2469,18 @@ public class LeetCode {
 		return res;
 	}
 
-	@Test
-	public void c1(){
-		int[] nums = {2, 3, 1, 1, 4};
-		System.out.println(canJump(nums));
-	}
-	/**
-	 * @problem #138 Copy List with Random Pointer
-	 * @date 2017-11-23
-	 * @reference RandomListNode.java
-	 * 
-	 * A linked list is given such that 
-	 * each node contains an additional random pointer 
-	 * which could point to any node in the list or null.
-	 * Return a deep copy of the list.
-	 * 
-	 */
-	public RandomListNode C138_CopyListWithRandomPointer(RandomListNode head){
-		RandomListNode cursor = head;
-		RandomListNode next;
-		//ÔÚÃ¿¸ö½Úµãºó±ß(next)¶¼¼ÓÉÏ×ÔÉíµÄ¸´ÖÆ
-		//²¢Ö¸Ïò¸´ÖÆ ÈÃ¸´ÖÆÖ¸ÏòÔ­À´×Ô¼ºµÄÖ¸Ïò
-		//Round 1
-		while(cursor != null){
-			//next±íÊ¾Ô­Á´±íÖĞµ±Ç°½ÚµãÕæÊµµÄnextÖ¸Ïò
-			next = cursor.next;
-			//´´½¨¸´ÖÆ½Úµã ×¢Òâ²ÎÊıÊÇÓÉcursorµÃÀ´µÄ
-			RandomListNode copy = new RandomListNode(cursor.label);
-			//¸Ä±äÔ­Á´±íµ±Ç°½ÚµãµÄnextÖ¸Ïò Ö¸Ïò×ÔÉíµÄ¸´ÖÆ
-			cursor.next = copy;
-			//ÈÃ×ÔÉí¸´ÖÆnextÖ¸ÏòÔ­Á´±íÖĞ×ÔÉíµÄnextÖ¸Ïò
-			copy.next = next;
-			//Ìøµ½ÏÂÒ»¸öÒª´¦ÀíµÄ½Úµã
-			cursor = next;
-		}
-		//ÖØĞÂÀ´ Õâ´Î´¦Àírandom
-		cursor = head;
-		//Round 2 
-		while(cursor != null){
-			//Òª¶Ô¸´ÖÆµÄrandom¸³Öµ
-			//¸³µÄÖµÊÇÔ´½ÚµãrandomµÄ¸³Öµ Ò²¾ÍÊÇÆäÈç½ñµÄnext
-			//µ«Ô­À´µÄÈç¹û¾ÍÊÇnullµÄ»° ¾Í²»´¦ÀírandomÁË
-			if(cursor.random != null){
-				cursor.next.random = cursor.random.next;
-			}
-			//Ìøµ½ÏÂÒ»¸öÒª´¦ÀíµÄ½Úµã
-			cursor = cursor.next.next;
-		}
-		//nextºÍrandomÖ¸Ïò¶¼×öºÃÁË 
-		//°Ñµ±Ç°Á´±í²ğ³ÉÔ­Á´±íºÍ¸´ÖÆºÃµÄÁ´±í
-		//µ±È»²ğÊÇ°´next²ğµÄ 
-		//ÎªÉ¶²»¿¼ÂÇrandom
-		//ÒòÎªÃ»ÓĞ¶¯¹ırandomÔÚÔ­Á´±íÖĞµÄÖ¸Ïò
-		//ËùÒÔ²»ÓÃ¹Ü
-		cursor = head;
-		//cursor±Ï¾¹Ö»ÊÇÏàµ±ÓÚË÷Òı ÒªÀ´»Ø±ä
-		//ËùÒÔĞèÒªÒ»¸öĞÂ½ÚµãÀ´Òıµ¼¸´ÖÆµ½ºÃµÄÁ´±í
-		//Õâ¸ö½ÚµãµÄÖµÊÇËæ±ã¸³µÄ
-		RandomListNode fr = new RandomListNode(0);
-		//Ó¦¸ÃÒ²ÓĞÒ»¸öÏàµ±ÓÚfrµÄcursor
-		//ÕâÀïĞèÒª2¸ö
-		//cr1 Ïàµ±ÓÚ ÏÈ·æÓÎ±ê ÊÇÕÒ½ÚµãµÄ ³öÉíËæÒâ
-		RandomListNode cr1;
-		//cr2Ïàµ±ÓÚ ´ó²¿¶Ó £¬±ØĞë´ÓÖ¸»Ó²¿(fr)³ö·¢ ¸ú×Åcr1×ß 
-		//cr1µ½ÄÄ cr2¾ÍÏÈÖ¸Ïòcr1 ÔÙ¸úcr1»áºÏ
-		RandomListNode cr2 = fr;
-		//¿ªÊ¼Ì½Ë÷
-		//Round 3
-		while(cursor != null){
-			//nextÒÀÈ»ÊÇÔ­Á´±íÖĞµ±Ç°Á´±íµÄÕæÊµµÄnextÖ¸Ïò
-			next = cursor.next.next;
-			//µÚÒ»¸öÅÀµ½¸´ÖÆÉÏ
-			cr1 = cursor.next;
-			//µÚ¶ş¸ö Ò²¾ÍÊÇ ĞÂÆğµã nextÖ¸Ïòcr1
-			//Õâ¸öÁ¬½Ó²»ÄÜÓÉfr½¨Á¢ ËùÒÔcr2±ØĞëºÍfr³öÉíÏàÍ¬
-			cr2.next = cr1;
-			//µÚ¶ş¸öÒ²ÅÀµ½µ±Ç°¸´ÖÆÉÏ
-			//Ö¸ÏòÓÉfr±£Áô
-			cr2 = cr1;
-			//»¹Ô­Ô­Á´±íÖ¸Ïò
-			cursor.next = next;
-			//Ìøµ½ÏÂÒ»¸ö½Úµã
-			cursor = next;
-		}
-		//Ö¸»Ó²¿Ö¸ÏòµÄµÚÒ»¸ö½Úµã ¾ÍÊÇÒª·µ»ØµÄ
-		return fr.next;
-	}
-
-
-	/**
-	 * @problem @209 Reverse Linked List
-	 * @date 2018-09-02
-	 */
-	//µÚÒ»ÖÖ×ö·¨ µü´ú£¨Ñ­»·£©
-	public ListNode C209_reverseList_1(ListNode head){
-		ListNode prev = null;
-		while(head != null){
-			ListNode next = head.next;
-			head.next = prev;
-			prev = head;
-			head = next;
-		}
-		return prev;
-	}
-
-	//µÚ¶şÖÖ×ö·¨ µİ¹é
-	public ListNode C209_reverseListNode_2(ListNode head){
-		ListNode prev = null;
-		return C209_reverseListNode_2_reversal(head, prev);
-	}
-
-	public ListNode C209_reverseListNode_2_reversal(ListNode now, ListNode prev){
-		if(now == null) return prev;
-		ListNode next = now.next;
-		now.next = prev;
-		prev = now;
-		return C209_reverseListNode_2_reversal(next, prev);
-	}
-
-
-	public String C214_shortestPalindrome(String s) {
-		if(s.length() < 2) return s;
-		int[] arr = new int[2];
-		for(int i = 0; i < s.length() - 1; i++){
-			r(s, i, i, arr);
-			r(s, i, i + 1, arr);
-		}
-		if(arr[0] + arr[1] == s.length()){
-			StringBuffer sb = new StringBuffer();
-			for(int i = arr[0] - 1; i >= 0; i--){
-				sb.append(s.charAt(i));
-			}
-			return s.substring(arr[0], arr[0] + arr[1]) + sb.toString();
-		}
-		return "";
-	}
-
-	public void r(String s, int start, int end, int[] arr){
-
-	}
-
-
-	/**
-	 * @problem #237 Delete Node in a Linked List
-	 * @date 2017-11-24
-	 * @reference ListNode.java
-	 * 
-	 * Write a function to delete a node (except the tail) in a singly linked list, 
-	 * given only access to that node.
-	 * Supposed the linked list is 1 -> 2 -> 3 -> 4 
-	 * and you are given the third node with value 3, 
-	 * the linked list should become 1 -> 2 -> 4 after calling your function.
-	 */
-	public void C237_DeleteNodeInALinkedList(ListNode node) {
-		ListNode next = node.next;
-		node.next = next.next;
-		node.val = next.val;
-		next.next = null;
-	}
-
-	/**
-	 * @problem Subdomain Visit Count
-	 * @date 2018-04-29
-	 * 
-	 * Ö±½Ó¿´ÊäÈëÊä³ö¾ÍÄÜÃ÷°×¸ÃÌâÒâÍ¼
-	 * Example 1:
-	 * Input: 
-	 * ["9001 discuss.leetcode.com"]
-	 * Output: 
-	 * ["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
-	 * 
-	 * Example 2:
-	 * Input: 
-	 * ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", 
-	 * "5 wiki.org"]
-	 * Output: 
-	 * ["901 mail.com","50 yahoo.com","900 google.mail.com",
-	 * "5 wiki.org","5 org","1 intel.mail.com","951 com"]
-	 */
-	public List<String> C811_SubdomainVisitCount(String[] cpdomains) {
-		Map<String, Integer> map = new HashMap<>();
-		for(int i = 0; i < cpdomains.length; i++){
-			int num = Integer.parseInt(cpdomains[i].split(" ")[0]);
-			String domain = cpdomains[i].split(" ")[1];
-			int index = 0;
-			do{
-				domain = index == 0 ? domain : domain.substring(index + 1, domain.length());
-				if(!map.keySet().contains(domain)){
-					map.put(domain, num);
-				}
-				else{
-					map.put(domain, map.get(domain) + num);
-				}
-			}while((index = domain.indexOf(".")) > 0);
-		}
-		List<String> res = new ArrayList<>();
-		for(String key : map.keySet()){
-			String s = map.get(key) + " " + key;
-			res.add(s);
-		}
-		return res;
-	}
-
-
 	/**
 	 * non-overlapping
 	 * intervals were initially sorted according to their start times
-	 * 
+	 *
 	 * Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
 	 * Output: [[1,5],[6,9]]
 	 */
 	/**
-	 * 1.²»ÒªÊÔÍ¼ÓÃÒ»¸öÑ­»·×ö³öÀ´
-	 * 2.ÓÉÓÚÊı¾İ±¾ÉíÊı¾İÊÇÓĞĞòµÄ ËùÒÔĞ´¶à¸öÑ­»·¸üÇåÎú¼òµ¥
-	 * 3.¿ÉÒÔ¸ù¾İ²åÈëµÄÏî°ÑÔ­À´µÄÁ´±í·Ö³É3²¿·Ö ½ö¶ÔÖĞ¼äµÄ²¿·Ö½øĞĞÌØÊâ´¦Àí
-	 * 4.×¢ÒâÅĞ¶ÏµÄ±ê×¼
+	 * 1.ä¸è¦è¯•å›¾ç”¨ä¸€ä¸ªå¾ªç¯åšå‡ºæ¥
+	 * 2.ç”±äºæ•°æ®æœ¬èº«æ•°æ®æ˜¯æœ‰åºçš„ æ‰€ä»¥å†™å¤šä¸ªå¾ªç¯æ›´æ¸…æ™°ç®€å•
+	 * 3.å¯ä»¥æ ¹æ®æ’å…¥çš„é¡¹æŠŠåŸæ¥çš„é“¾è¡¨åˆ†æˆ3éƒ¨åˆ† ä»…å¯¹ä¸­é—´çš„éƒ¨åˆ†è¿›è¡Œç‰¹æ®Šå¤„ç†
+	 * 4.æ³¨æ„åˆ¤æ–­çš„æ ‡å‡†
 	 */
 	public List<Interval> C057_insert(List<Interval> intervals, Interval newInterval) {
 		List<Interval> res = new ArrayList<>();
@@ -2712,13 +2509,13 @@ public class LeetCode {
 	 * Given a string s consists of upper/lower-case alphabets and empty space characters ' '
 	 * return the length of last word in the string.
 	 * If the last word does not exist, return 0.
-	 * 
+	 *
 	 * Input: "Hello World"
 	 * Output: 5
 	 */
 	/**
-	 * 1.²»½¨ÒéÓÃsplit ÒòÎª²»ÊÇ¿¼µã
-	 * 2.ÓÃtrim()ÊÇ¿ÉÒÔµÄ
+	 * 1.ä¸å»ºè®®ç”¨split å› ä¸ºä¸æ˜¯è€ƒç‚¹
+	 * 2.ç”¨trim()æ˜¯å¯ä»¥çš„
 	 */
 	public int C058_lengthOfLastWord(String s) {
 		int count = 0;
@@ -2737,7 +2534,7 @@ public class LeetCode {
 	/**
 	 * Given a positive integer n
 	 * generate a square matrix filled with elements from 1 to n2 in spiral order.
-	 * 
+	 *
 	 * Input: 3
 	 * Output:
 	 * [
@@ -2746,7 +2543,7 @@ public class LeetCode {
 	 * 	[ 7, 6, 5 ]
 	 * ]
 	 */
-	//×Ô´´ ²»½ÓÊÜÆäËû½â¾ö·½°¸
+	//è‡ªåˆ› ä¸æ¥å—å…¶ä»–è§£å†³æ–¹æ¡ˆ
 	public int[][] C059_generateMatrix(int n) {
 		int[][] res = new int[n][n];
 		int val = 1;
@@ -2801,11 +2598,11 @@ public class LeetCode {
 	 * Given n and k, return the kth permutation sequence.
 	 * Input: n = 3, k = 3
 	 * Output: "213"
-	 * 
+	 *
 	 * Input: n = 4, k = 9
 	 * Output: "2314"
 	 */
-	//×Ô´´ 
+	//è‡ªåˆ›
 	public String C060_getPermutation(int n, int k) {
 		StringBuffer sb = new StringBuffer();
 		List<Integer> list = new LinkedList<>();
@@ -2829,12 +2626,12 @@ public class LeetCode {
 		return sb.toString();
 	}
 
-	
+
 	/**
 	 * Given a linked list
 	 * rotate the list to the right by k places
 	 * where k is non-negative.
-	 * 
+	 *
 	 * Input: 0->1->2->NULL, k = 4
 	 * Output: 2->0->1->NULL
 	 * Explanation:
@@ -2875,13 +2672,13 @@ public class LeetCode {
 		return res;
 	}
 
-	
+
 	/**
-	 * A robot is located at the top-left corner of a m x n grid 
+	 * A robot is located at the top-left corner of a m x n grid
 	 * The robot can only move either down or right at any point in time.
-	 * The robot is trying to reach the bottom-right corner of the grid 
+	 * The robot is trying to reach the bottom-right corner of the grid
 	 * How many possible unique paths are there?
-	 * 
+	 *
 	 * Input: m = 3, n = 2
 	 * Output: 3
 	 * Explanation:
@@ -2892,16 +2689,16 @@ public class LeetCode {
 	 */
 	/**
 	 * 2018-09-27
-	 * Èç¹ûÓÃµİ¹é½â¾ö»¹³öÏÖTL
-	 * ËµÃ÷ÓÃµİ¹éÊÇ²»ĞĞµÄ µ«Õâ²»ÒâÎ¶×ÅÓÃÊıÑ§¾ÍÊÇ¿ÉÒÔµÄÁË
-	 * Õâ¸öÎÊÌâĞèÒªÓÃDP½â¾ö
-	 * µ«DPµÄË¼Â·ºÍµİ¹éÊÇÒ»ÑùµÄ
-	 * Ö»ÊÇÔÚ½â¾öĞÎÊ½ÉÏ´óÓĞ²»Í¬
-	 * DPÒ»°ãÊÇÕÒ¸öÊı×éÕâÑùµÄÔØÌåÀ´ÊµÏÖ
-	 * µ±È·¶¨Ä³¸öÎÊÌâĞèÒªÓÃDP½â¾ö È´ÓÖÎŞ´ÓÏÂÊÖÊ±
-	 * ²»·ÁË¼¿¼ÏÂ ËùÇóÄ¿±êµÄÉÏ¸ö×´Ì¬ÊÇÊ²Ã´
-	 * ÒÔ¼°ÉÏ¸ö×´Ì¬¸úËùÇóÄ¿±êÖ®¼äÓÖÓĞÊ²Ã´ÁªÏµ
-	 * Ò»°ã¶¼ÄÜÓÃÊı¾İÀ´½â¾ö
+	 * å¦‚æœç”¨é€’å½’è§£å†³è¿˜å‡ºç°TL
+	 * è¯´æ˜ç”¨é€’å½’æ˜¯ä¸è¡Œçš„ ä½†è¿™ä¸æ„å‘³ç€ç”¨æ•°å­¦å°±æ˜¯å¯ä»¥çš„äº†
+	 * è¿™ä¸ªé—®é¢˜éœ€è¦ç”¨DPè§£å†³
+	 * ä½†DPçš„æ€è·¯å’Œé€’å½’æ˜¯ä¸€æ ·çš„
+	 * åªæ˜¯åœ¨è§£å†³å½¢å¼ä¸Šå¤§æœ‰ä¸åŒ
+	 * DPä¸€èˆ¬æ˜¯æ‰¾ä¸ªæ•°ç»„è¿™æ ·çš„è½½ä½“æ¥å®ç°
+	 * å½“ç¡®å®šæŸä¸ªé—®é¢˜éœ€è¦ç”¨DPè§£å†³ å´åˆæ— ä»ä¸‹æ‰‹æ—¶
+	 * ä¸å¦¨æ€è€ƒä¸‹ æ‰€æ±‚ç›®æ ‡çš„ä¸Šä¸ªçŠ¶æ€æ˜¯ä»€ä¹ˆ
+	 * ä»¥åŠä¸Šä¸ªçŠ¶æ€è·Ÿæ‰€æ±‚ç›®æ ‡ä¹‹é—´åˆæœ‰ä»€ä¹ˆè”ç³»
+	 * ä¸€èˆ¬éƒ½èƒ½ç”¨æ•°æ®æ¥è§£å†³
 	 */
 	public int C062_uniquePaths(int m, int n) {
 		int[][] a = new int[m][n];
@@ -2917,12 +2714,590 @@ public class LeetCode {
 			}
 		}
 		return a[m -1][n - 1];
-    }
-	
-	
-	@Test
-	public void zzzz(){
 	}
+
+	public int C063_uniquePathsWithObstacles(int[][] obstacleGrid) {
+		int rows = obstacleGrid.length;
+		int cols = obstacleGrid[0].length;
+		int[][] a = new int[rows][cols];
+		a[0][0] = obstacleGrid[0][0] == 1 ? 0 : 1;
+		for(int i = 1; i < rows; i++){
+			if(obstacleGrid[i][0] == 1){
+				a[i][0] = 0;
+			}
+			else{
+				a[i][0] = a[i - 1][0];
+			}
+		}
+		for(int i = 1; i < cols; i++){
+			if(obstacleGrid[0][i] == 1){
+				a[0][i] = 0;
+			}
+			else{
+				a[0][i] = a[0][i - 1];
+			}
+		}
+		for(int i = 1; i < rows; i++){
+			for(int j = 1; j < cols; j++){
+				if(obstacleGrid[i][j] == 1){
+					a[i][j] = 0;
+				}
+				else{
+					a[i][j] = a[i - 1][j] + a[i][j - 1];
+				}
+			}
+		}
+		return a[rows - 1][cols - 1];
+	}
+
+	public int C064_minPathSum(int[][] grid) {
+		int rows = grid.length;
+		int cols = grid[0].length;
+		int[][] a = new int[rows][cols];
+		a[0][0] = grid[0][0];
+		for(int i = 1; i < rows; i++){
+			a[i][0] = a[i - 1][0] + grid[i][0];
+		}
+		for(int i = 1; i < cols; i++){
+			a[0][i] = a[0][i - 1] + grid[0][i];
+		}
+		for(int i = 1; i < rows; i++){
+			for(int j = 1; j < cols; j++){
+				a[i][j] = Math.min(a[i - 1][j], a[i][j - 1]) + grid[i][j];
+			}
+		}
+		return a[rows - 1][cols - 1];
+	}
+
+	public boolean C065_isNumber(String s) {
+		s = s.trim();
+		boolean isNum = false;
+		boolean hasE = false;
+		boolean hasPoint = false;
+		boolean hasNumAfterE = false;
+		for(int i = 0; i < s.length(); i++){
+			if('0' <= s.charAt(i) && s.charAt(i) <= '9'){
+				isNum = true;
+				if(hasE){
+					hasNumAfterE = true;
+				}
+			}
+			//å¦‚æœå‡ºç°è¿‡'e'æˆ–è€…'.' å†åŠ '.'è‚¯å®šæ˜¯ä¸è¡Œçš„
+			else if(s.charAt(i) == '.'){
+				if(hasE || hasPoint){
+					return false;
+				}
+				hasPoint = true;
+			}
+			//å¦‚æœå‡ºç°è¿‡'e' æˆ–è€… å‰è¾¹ä¸æ˜¯æ•°å­— å†åŠ 'e'è‚¯å®šæ˜¯ä¸è¡Œçš„
+			else if(s.charAt(i) == 'e'){
+				if(hasE || !isNum){
+					return false;
+				}
+				hasE = true;
+			}
+			else if(s.charAt(i) == '+' || s.charAt(i) == '-'){
+				if(i != 0 && s.charAt(i - 1) != 'e'){
+					return false;
+				}
+			}
+			else{
+				return false;
+			}
+		}
+		return isNum && !(hasE ^ hasNumAfterE);
+	}
+
+	public int[] C066_plusOne(int[] digits) {
+		int i = digits.length - 1;
+		digits[i] += 1;
+		while(i > 0 && digits[i] == 10){
+			digits[i] = 0;
+			digits[i - 1] += 1;
+			i--;
+		}
+		if(digits[0] != 10) return digits;
+		digits[0] = 0;
+		int[] a = new int[digits.length + 1];
+		a[0] = 1;
+		for(int x = 1; x < a.length; x++){
+			a[x] = digits[x - 1];
+		}
+		return a;
+	}
+
+	public String C067_addBinary(String a, String b) {
+		String max = a.length() > b.length() ? a : b;
+		String min = a.length() > b.length() ? b : a;
+		StringBuffer res = new StringBuffer();
+		int sub = max.length() - min.length();
+		int x = min.length() - 1;
+		int count = 0;
+		while(x >= 0){
+			int cur = (max.charAt(x + sub) - '0') + (min.charAt(x) - '0') + count;
+			if(cur < 2){
+				count = 0;
+				res.append(cur);
+			}
+			else if(cur == 2){
+				count = 1;
+				res.append(0);
+			}
+			else{
+				count = 1;
+				res.append(1);
+			}
+			x--;
+		}
+		x = sub - 1;
+		while(x >= 0){
+			int cur = (max.charAt(x) - '0') + count;
+			if(cur < 2){
+				count = 0;
+				res.append(cur);
+			}
+			else{
+				count = 1;
+				res.append(0);
+			}
+			x--;
+		}
+		if(count == 1){
+			res.append(1);
+		}
+		return res.reverse().toString();
+	}
+
+	public List<String> C068_fullJustify(String[] words, int maxWidth) {
+		List<String> res = new ArrayList<>();
+		int index = 0;
+		while(index < words.length){
+			int end = index + 1;
+			int curCount = words[index].length();
+			while(end < words.length){
+				if(curCount + 1 + words[end].length() > maxWidth) break;
+				curCount += words[end].length() + 1;
+				end++;
+			}
+			StringBuffer sb = new StringBuffer();
+			int spaceNum = end - index - 1;
+			if(spaceNum == 0 || end == words.length){
+				for(int i = index; i < end; i++){
+					sb.append(words[i] + " ");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+				for(int i = 1; i <= maxWidth - curCount; i++){
+					sb.append(" ");
+				}
+				res.add(sb.toString());
+			}
+
+			else{
+				int overallAdd = (maxWidth - curCount) / spaceNum;
+				int someAdd = (maxWidth - curCount) % spaceNum;
+				for(int i = index; i < end; i++){
+					sb.append(words[i]);
+					if(i - index < spaceNum){
+						for(int j = 0; j <= overallAdd + (i - index < someAdd ? 1 : 0); j++){
+							sb.append(" ");
+						}
+					}
+				}
+				res.add(sb.toString());
+			}
+			index = end;
+		}
+		return res;
+	}
+
+	public int C069_mySqrt(int x) {
+		//non-negative => >=0
+		if(x == 0) return x;
+		int left = 1;
+		int right = x;
+		int ans = left;
+		while(left <= right){
+			int mid = (left + right) / 2;
+			if(mid > x / mid){
+				right = mid - 1;
+			}
+			else{
+				left = mid + 1;
+				ans = mid;
+			}
+		}
+		return ans;
+	}
+
+	public int C070_climbStairs(int n) {
+		if(n == 1 || n == 2) return n;
+		int[] a = new int[n + 1];
+		a[1] = 1;
+		a[2] = 2;
+		for(int i = 3; i <= n; i++){
+			a[i] = a[i - 1] + a[i - 2];
+		}
+		return a[n];
+	}
+
+	public String C071_simplifyPath(String path) {
+		Stack<String> stack = new Stack<>();
+		Set<String> set = new HashSet<>(Arrays.asList(".", "..", ""));
+		String[] s = path.split("/");
+		for(String t : s){
+			if(!set.contains(t)){
+				stack.push(t);
+			}
+			else{
+				if(t.equals("..") && !stack.isEmpty()){
+					stack.pop();
+				}
+			}
+		}
+		String res = "";
+		for(String t : stack){
+			res += "/" + t;
+		}
+		return res.length() == 0 ? "/" : res;
+	}
+
+	/**
+	 * @date 2018-12-10
+	 *
+	 * è¿™ç§é¢˜ä¸€çœ‹å°±æ˜¯åŠ¨æ€è§„åˆ’
+	 * åŠ¨æ€è§„åˆ’çš„è§£å†³æ–¹æ¡ˆå°±æ˜¯æ•°ç»„
+	 * åœ¨æ„é€ æ•°ç»„çš„æ—¶å€™æœ‰2ä¸ªè¦ç´ 
+	 * 1.åˆå§‹åŒ– => ä¸€èˆ¬æ•°ç»„çš„å¤§å°ä¼šæ¯”æ•°æ®é•¿åº¦å¤§ä¸€åœˆ
+	 * a[i,0]å’Œa[0,j]ä¸€èˆ¬æ˜¯è®¾ç½®ä¸º0çš„
+	 * 2.çŠ¶æ€è¿ç§»æ–¹ç¨‹
+	 * è¿™ä¸ªæ˜¯å¾ˆéš¾å»æŠ½è±¡çš„ åŸºæœ¬ä¸Šè¿™ä¸ªæå‡ºæ¥å°±åšå‡ºæ¥äº†
+	 * æœ¬é¢˜ä¸­res[i,j]ä»£è¡¨srcå­—ç¬¦ä¸²ä»å¼€å§‹åˆ°ç¬¬iä¸ªä½ç½®å­—ç¬¦ç»„æˆçš„å­—ç¬¦ä¸²
+	 * å˜æˆtarå­—ç¬¦ä¸²ä»å¼€å§‹åˆ°ç¬¬jä¸ªå­—ç¬¦ç»„æˆçš„å­—ç¬¦ä¸²
+	 * æ‰€éœ€è¦çš„æœ€å°å˜åŒ–æ¬¡æ•°
+	 * é‚£ä¹ˆå¦‚æœsrcå’Œtaråœ¨æŸä¸ªä½ç½®ä¸Šå¯¹åº”çš„å­—ç¬¦ä¸ç›¸åŒçš„æ—¶å€™
+	 * srcå˜æˆtaræœ‰3ç§æ–¹å¼
+	 * 1.srcå¢åŠ ä¸€ä¸ªå­—ç¬¦ => æœ€å®¹æ˜“ç†è§£çš„
+	 * 2.srcåˆ é™¤ä¸€ä¸ªå­—ç¬¦ => è¿™ä¸ªæœ‰ç‚¹æ‰¯
+	 * 3.srcå’Œtarä¸€èµ·å¢åŠ ä¸€ä¸ªå­—ç¬¦ => æ›¿æ¢ï¼ˆæœ‰ç‚¹æŠ½è±¡ï¼‰
+	 * è‹¥æŸä¸ªä½ç½®ä¸Šå¯¹åº”å­—ç¬¦ç›¸åŒ
+	 * åˆ™ä¸éœ€è¦åŠ¨ => å³res[i,j]=res[i-1,j-1]
+	 */
+	public int C072_minDistance(String word1, String word2) {
+		int rows = word1.length() + 1;
+		int cols = word2.length() + 1;
+		int[][] res = new int[rows][cols];
+		for(int i = 0; i < cols; i++){
+			res[0][i] = i;
+		}
+		for(int i = 0; i < rows; i++){
+			res[i][0] = i;
+		}
+		for(int i = 1; i < rows; i++){
+			for(int j = 1; j < cols; j++){
+				if(word1.charAt(i - 1) == word2.charAt(j - 1)){
+					res[i][j] = res[i - 1][j - 1];
+				}
+				else{
+					int zs = res[i - 1][j - 1];
+					int s = res[i - 1][j];
+					int z = res[i][j - 1];
+					int min = zs < s ? (zs < z ? zs : z) : (s < z ? s : z);
+					res[i][j] = min + 1;
+				}
+			}
+		}
+		return res[rows - 1][cols - 1];
+	}
+
+	/**
+	 * @date 2018-12-10
+	 *
+	 * å¦‚æœä¸ºäº†ç¼©å°runtime
+	 * å°±å°½é‡ä¸è¦ä½¿ç”¨collection
+	 */
+	public void C073_setZeroes(int[][] matrix) {
+		int rows = matrix.length;
+		int cols = matrix[0].length;
+		boolean rows_zero = false;
+		boolean cols_zero = false;
+		for(int i = 0; i < rows; i++){
+			for(int j = 0; j < cols; j++){
+				if(matrix[i][j] == 0){
+					matrix[i][0] = 0;
+					matrix[0][j] = 0;
+					if(i == 0) rows_zero = true;
+					if(j == 0) cols_zero = true;
+				}
+			}
+		}
+		for(int i = 1; i < rows; i++){
+			for(int j = 1; j < cols; j++){
+				if(matrix[i][0] == 0 || matrix[0][j] == 0){
+					matrix[i][j] = 0;
+				}
+			}
+		}
+		if(rows_zero){
+			for(int j = 0; j < cols; j++){
+				matrix[0][j] = 0;
+			}
+		}
+		if(cols_zero){
+			for(int i = 0; i < rows; i++){
+				matrix[i][0] = 0;
+			}
+		}
+	}
+
+	/**
+	 * @date 2018-12-10
+	 */
+	public boolean C074_searchMatrix(int[][] matrix, int target) {
+		if(matrix.length == 0 || matrix[0].length == 0) return false;
+		int rows = matrix.length;
+		int cols = matrix[0].length;
+		int count = 0;
+		for(int i = 0; i < rows; i++){
+			if(target > matrix[i][cols - 1]) count++;
+			else break;
+		}
+		if(count == rows) return false;
+		for(int j = 0; j < cols; j++){
+			if(target == matrix[count][j]) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @date 2018-12-10
+	 *
+	 * è¿™é“é¢˜ç”¨å†’æ³¡è‚¯å®šæ˜¯å¯ä»¥åšå‡ºæ¥
+	 * ä½†æ˜¯å¦‚æœè¿™æ ·O(N^2)åšå‡ºæ¥æ²¡æœ‰æ„ä¹‰
+	 * å°½é‡æ˜¯ç”¨ä¸€ä¸ªå¾ªç¯
+	 * å¿…ç„¶è¦å’Œå€¼æœ‰å…³è”
+	 * æ€»ç»“å¦‚ä¸‹
+	 * 1.ä¸º2 ç›´æ¥å’Œendäº¤æ¢ æ¢å®Œæ›´æ–°end iä¸èƒ½å˜ => æœ€å¥½ç†è§£çš„ æ¢å®Œè¿˜æ˜¯2 èƒ½å˜å—
+	 * 2.ä¸º1 ç›´æ¥è¿‡ => åªå¤„ç†0å’Œ2çš„æƒ…å†µ 1è‡ªç„¶è€Œç„¶å°±å¥½äº†
+	 * 3.ä¸º0 å…ˆå’Œstartäº¤æ¢ æ¢å®ŒåŒæ—¶æ›´æ–°iå’Œstart => èƒ½æ›´æ–°iæ˜¯å› ä¸ºæˆªæ­¢åˆ°iå¿…ç„¶æœ‰åº
+	 */
+	public void C075_sortColors(int[] nums) {
+		int end = nums.length - 1;
+		int start = 0;
+		int i = 0;
+		while(i <= end && start <= end){
+			if(nums[i] == 2){
+				int temp = nums[i];
+				nums[i] = nums[end];
+				nums[end--] = temp;
+			}
+			else if(nums[i] == 0){
+				int temp = nums[i];
+				nums[i] = nums[start];
+				nums[start++] = temp;
+				i++;
+			}
+			else{
+				i++;
+			}
+		}
+		}
+	}
+
+	/**
+	 * @problem #138 Copy List with Random Pointer
+	 * @date 2017-11-23
+	 * @reference RandomListNode.java
+	 * 
+	 * A linked list is given such that 
+	 * each node contains an additional random pointer 
+	 * which could point to any node in the list or null.
+	 * Return a deep copy of the list.
+	 * 
+	 */
+	public RandomListNode C138_CopyListWithRandomPointer(RandomListNode head){
+		RandomListNode cursor = head;
+		RandomListNode next;
+		//åœ¨æ¯ä¸ªèŠ‚ç‚¹åè¾¹(next)éƒ½åŠ ä¸Šè‡ªèº«çš„å¤åˆ¶
+		//å¹¶æŒ‡å‘å¤åˆ¶ è®©å¤åˆ¶æŒ‡å‘åŸæ¥è‡ªå·±çš„æŒ‡å‘
+		//Round 1
+		while(cursor != null){
+			//nextè¡¨ç¤ºåŸé“¾è¡¨ä¸­å½“å‰èŠ‚ç‚¹çœŸå®çš„nextæŒ‡å‘
+			next = cursor.next;
+			//åˆ›å»ºå¤åˆ¶èŠ‚ç‚¹ æ³¨æ„å‚æ•°æ˜¯ç”±cursorå¾—æ¥çš„
+			RandomListNode copy = new RandomListNode(cursor.label);
+			//æ”¹å˜åŸé“¾è¡¨å½“å‰èŠ‚ç‚¹çš„nextæŒ‡å‘ æŒ‡å‘è‡ªèº«çš„å¤åˆ¶
+			cursor.next = copy;
+			//è®©è‡ªèº«å¤åˆ¶nextæŒ‡å‘åŸé“¾è¡¨ä¸­è‡ªèº«çš„nextæŒ‡å‘
+			copy.next = next;
+			//è·³åˆ°ä¸‹ä¸€ä¸ªè¦å¤„ç†çš„èŠ‚ç‚¹
+			cursor = next;
+		}
+		//é‡æ–°æ¥ è¿™æ¬¡å¤„ç†random
+		cursor = head;
+		//Round 2 
+		while(cursor != null){
+			//è¦å¯¹å¤åˆ¶çš„randomèµ‹å€¼
+			//èµ‹çš„å€¼æ˜¯æºèŠ‚ç‚¹randomçš„èµ‹å€¼ ä¹Ÿå°±æ˜¯å…¶å¦‚ä»Šçš„next
+			//ä½†åŸæ¥çš„å¦‚æœå°±æ˜¯nullçš„è¯ å°±ä¸å¤„ç†randomäº†
+			if(cursor.random != null){
+				cursor.next.random = cursor.random.next;
+			}
+			//è·³åˆ°ä¸‹ä¸€ä¸ªè¦å¤„ç†çš„èŠ‚ç‚¹
+			cursor = cursor.next.next;
+		}
+		//nextå’ŒrandomæŒ‡å‘éƒ½åšå¥½äº† 
+		//æŠŠå½“å‰é“¾è¡¨æ‹†æˆåŸé“¾è¡¨å’Œå¤åˆ¶å¥½çš„é“¾è¡¨
+		//å½“ç„¶æ‹†æ˜¯æŒ‰nextæ‹†çš„ 
+		//ä¸ºå•¥ä¸è€ƒè™‘random
+		//å› ä¸ºæ²¡æœ‰åŠ¨è¿‡randomåœ¨åŸé“¾è¡¨ä¸­çš„æŒ‡å‘
+		//æ‰€ä»¥ä¸ç”¨ç®¡
+		cursor = head;
+		//cursoræ¯•ç«Ÿåªæ˜¯ç›¸å½“äºç´¢å¼• è¦æ¥å›å˜
+		//æ‰€ä»¥éœ€è¦ä¸€ä¸ªæ–°èŠ‚ç‚¹æ¥å¼•å¯¼å¤åˆ¶åˆ°å¥½çš„é“¾è¡¨
+		//è¿™ä¸ªèŠ‚ç‚¹çš„å€¼æ˜¯éšä¾¿èµ‹çš„
+		RandomListNode fr = new RandomListNode(0);
+		//åº”è¯¥ä¹Ÿæœ‰ä¸€ä¸ªç›¸å½“äºfrçš„cursor
+		//è¿™é‡Œéœ€è¦2ä¸ª
+		//cr1 ç›¸å½“äº å…ˆé”‹æ¸¸æ ‡ æ˜¯æ‰¾èŠ‚ç‚¹çš„ å‡ºèº«éšæ„
+		RandomListNode cr1;
+		//cr2ç›¸å½“äº å¤§éƒ¨é˜Ÿ ï¼Œå¿…é¡»ä»æŒ‡æŒ¥éƒ¨(fr)å‡ºå‘ è·Ÿç€cr1èµ° 
+		//cr1åˆ°å“ª cr2å°±å…ˆæŒ‡å‘cr1 å†è·Ÿcr1ä¼šåˆ
+		RandomListNode cr2 = fr;
+		//å¼€å§‹æ¢ç´¢
+		//Round 3
+		while(cursor != null){
+			//nextä¾ç„¶æ˜¯åŸé“¾è¡¨ä¸­å½“å‰é“¾è¡¨çš„çœŸå®çš„nextæŒ‡å‘
+			next = cursor.next.next;
+			//ç¬¬ä¸€ä¸ªçˆ¬åˆ°å¤åˆ¶ä¸Š
+			cr1 = cursor.next;
+			//ç¬¬äºŒä¸ª ä¹Ÿå°±æ˜¯ æ–°èµ·ç‚¹ nextæŒ‡å‘cr1
+			//è¿™ä¸ªè¿æ¥ä¸èƒ½ç”±frå»ºç«‹ æ‰€ä»¥cr2å¿…é¡»å’Œfrå‡ºèº«ç›¸åŒ
+			cr2.next = cr1;
+			//ç¬¬äºŒä¸ªä¹Ÿçˆ¬åˆ°å½“å‰å¤åˆ¶ä¸Š
+			//æŒ‡å‘ç”±frä¿ç•™
+			cr2 = cr1;
+			//è¿˜åŸåŸé“¾è¡¨æŒ‡å‘
+			cursor.next = next;
+			//è·³åˆ°ä¸‹ä¸€ä¸ªèŠ‚ç‚¹
+			cursor = next;
+		}
+		//æŒ‡æŒ¥éƒ¨æŒ‡å‘çš„ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ å°±æ˜¯è¦è¿”å›çš„
+		return fr.next;
+	}
+
+
+
+	/**
+	 * @problem @209 Reverse Linked List
+	 * @date 2018-09-02
+	 */
+	//ç¬¬ä¸€ç§åšæ³• è¿­ä»£ï¼ˆå¾ªç¯ï¼‰
+	public ListNode C209_reverseList_1(ListNode head){
+		ListNode prev = null;
+		while(head != null){
+			ListNode next = head.next;
+			head.next = prev;
+			prev = head;
+			head = next;
+		}
+		return prev;
+	}
+
+	//ç¬¬äºŒç§åšæ³• é€’å½’
+	public ListNode C209_reverseListNode_2(ListNode head){
+		ListNode prev = null;
+		return C209_reverseListNode_2_reversal(head, prev);
+	}
+
+	public ListNode C209_reverseListNode_2_reversal(ListNode now, ListNode prev){
+		if(now == null) return prev;
+		ListNode next = now.next;
+		now.next = prev;
+		prev = now;
+		return C209_reverseListNode_2_reversal(next, prev);
+	}
+
+
+	public String C214_shortestPalindrome(String s) {
+		if(s.length() < 2) return s;
+		int[] arr = new int[2];
+		for(int i = 0; i < s.length() - 1; i++){
+			r(s, i, i, arr);
+			r(s, i, i + 1, arr);
+		}
+		if(arr[0] + arr[1] == s.length()){
+			StringBuffer sb = new StringBuffer();
+			for(int i = arr[0] - 1; i >= 0; i--){
+				sb.append(s.charAt(i));
+			}
+			return s.substring(arr[0], arr[0] + arr[1]) + sb.toString();
+		}
+		return "";
+	}
+
+	/**
+	 * @problem #237 Delete Node in a Linked List
+	 * @date 2017-11-24
+	 * @reference ListNode.java
+	 * 
+	 * Write a function to delete a node (except the tail) in a singly linked list, 
+	 * given only access to that node.
+	 * Supposed the linked list is 1 -> 2 -> 3 -> 4 
+	 * and you are given the third node with value 3, 
+	 * the linked list should become 1 -> 2 -> 4 after calling your function.
+	 */
+	public void C237_DeleteNodeInALinkedList(ListNode node) {
+		ListNode next = node.next;
+		node.next = next.next;
+		node.val = next.val;
+		next.next = null;
+	}
+
+	/**
+	 * @problem Subdomain Visit Count
+	 * @date 2018-04-29
+	 * 
+	 * ç›´æ¥çœ‹è¾“å…¥è¾“å‡ºå°±èƒ½æ˜ç™½è¯¥é¢˜æ„å›¾
+	 * Example 1:
+	 * Input: 
+	 * ["9001 discuss.leetcode.com"]
+	 * Output: 
+	 * ["9001 discuss.leetcode.com", "9001 leetcode.com", "9001 com"]
+	 * 
+	 * Example 2:
+	 * Input: 
+	 * ["900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", 
+	 * "5 wiki.org"]
+	 * Output: 
+	 * ["901 mail.com","50 yahoo.com","900 google.mail.com",
+	 * "5 wiki.org","5 org","1 intel.mail.com","951 com"]
+	 */
+	public List<String> C811_SubdomainVisitCount(String[] cpdomains) {
+		Map<String, Integer> map = new HashMap<>();
+		for(int i = 0; i < cpdomains.length; i++){
+			int num = Integer.parseInt(cpdomains[i].split(" ")[0]);
+			String domain = cpdomains[i].split(" ")[1];
+			int index = 0;
+			do{
+				domain = index == 0 ? domain : domain.substring(index + 1, domain.length());
+				if(!map.keySet().contains(domain)){
+					map.put(domain, num);
+				}
+				else{
+					map.put(domain, map.get(domain) + num);
+				}
+			}while((index = domain.indexOf(".")) > 0);
+		}
+		List<String> res = new ArrayList<>();
+		for(String key : map.keySet()){
+			String s = map.get(key) + " " + key;
+			res.add(s);
+		}
+		return res;
+	}
+
+
+
 	class Interval{
 		int start;
 		int end;
@@ -2935,6 +3310,6 @@ public class LeetCode {
 		ListNode next;
 		ListNode(int x) { val = x; }
 	}
-	//----------------------------------µ×Ïß------------------------------------------------
-	//----------------------------------µ×Ïß------------------------------------------------
+	//----------------------------------åº•çº¿------------------------------------------------
+	//----------------------------------åº•çº¿------------------------------------------------
 }

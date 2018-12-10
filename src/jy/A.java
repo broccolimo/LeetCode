@@ -3,55 +3,54 @@ package jy;
 import org.junit.Test;
 
 public class A {
-	public boolean C01_ÅĞ¶ÏÒ»¸öÊıÊÇ·ñÎªËØÊı(int n){
-		if(n <= 1) return false;
-		for(int i = 2; i <= Math.sqrt(n); i++){
-			if(n % i == 0){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	
-	public String C02_Çó×î³¤×Ó»ØÎÄ´®(String str){
-		if(str.length() <= 1) return str;
-		//arr 0´ú±í»ØÎÄ×Ó´®ÆğÊ¼×ø±ê 1´ú±í³¤¶È
-		int[] arr = new int[2];
-		//str.length()-1ÊÇ¿¼ÂÇ»ØÎÄ³¤¶ÈÎªÅ¼ÊıµÄÇé¿ö
-		//È»¶ø²»Ó°ÏìÆæÊıÇé¿ö
-		for(int i = 0; i < str.length() - 1; i++){
-			//ÆæÊıÇé¿ö
-			C02_h(str, i, i, arr);
-			//Å¼ÊıÇé¿ö
-			C02_h(str, i, i + 1, arr);
-		}
-		return str.substring(arr[0], arr[0] + arr[1]);
-	}
-	
-	public void C02_h(String str, int start, int end, int[] arr){
-		while(start >= 0 && end < str.length() && str.charAt(start) == str.charAt(end)){
-			start--;
-			end++;
-		}
-		if(arr[1] < end - start - 1){
-			arr[1] = end - start - 1;
-			arr[0] = start + 1;
-		} 
-	}
-	
-	public int C03_Çó×î³¤×ÓĞòÁĞºÍ(int[] arr){
-		int current = arr[0];
-		int max = arr[0];
-		for(int i = 1; i < arr.length; i++){
-			current = Math.max(arr[i], arr[i] + current);
-			max = Math.max(current, max);
-		}
-		return max;
-	}
-	@Test
-	public void zz(){
-		
-		
-	}
+    public boolean C01_åˆ¤æ–­ä¸€ä¸ªæ•°æ˜¯å¦ä¸ºç´ æ•°(int n){
+        if(n <= 1) return false;
+        for(int i = 2; i <= Math.sqrt(n); i++){
+            if(n % i == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public String C02_æ±‚æœ€é•¿å­å›æ–‡ä¸²(String str){
+        if(str.length() <= 1) return str;
+        //arr 0ä»£è¡¨å›æ–‡å­ä¸²èµ·å§‹åæ ‡ 1ä»£è¡¨é•¿åº¦
+        int[] arr = new int[2];
+        //str.length()-1æ˜¯è€ƒè™‘å›æ–‡é•¿åº¦ä¸ºå¶æ•°çš„æƒ…å†µ
+        //ç„¶è€Œä¸å½±å“å¥‡æ•°æƒ…å†µ
+        for(int i = 0; i < str.length() - 1; i++){
+            //å¥‡æ•°æƒ…å†µ
+            C02_h(str, i, i, arr);
+            //å¶æ•°æƒ…å†µ
+            C02_h(str, i, i + 1, arr);
+        }
+        return str.substring(arr[0], arr[0] + arr[1]);
+    }
+
+    public void C02_h(String str, int start, int end, int[] arr){
+        while(start >= 0 && end < str.length() && str.charAt(start) == str.charAt(end)){
+            start--;
+            end++;
+        }
+        if(arr[1] < end - start - 1){
+            arr[1] = end - start - 1;
+            arr[0] = start + 1;
+        }
+    }
+
+    public int C03_æ±‚æœ€é•¿å­åºåˆ—å’Œ(int[] arr){
+        int current = arr[0];
+        int max = arr[0];
+        for(int i = 1; i < arr.length; i++){
+            current = Math.max(arr[i], arr[i] + current);
+            max = Math.max(current, max);
+        }
+        return max;
+    }
+    @Test
+    public void zz(){
+        System.out.println(666);
+    }
 }
