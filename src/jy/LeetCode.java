@@ -3181,23 +3181,36 @@ public class LeetCode {
         visited[x][y] = false;
         return exists;
     }
-    @Test
-    public void zzz(){
-        //ABCCED ABCB SEE
-        char[][] board1 = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
-        char[][] board2 = {{'C','A','A'},{'A','A','A'},{'B','C','D'}};
-        char[][] board3 = {{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
-        String word1 = "ABCB";
-        String word2 = "ABCCED";
-        String word3 = "SEE";
-        String word4 = "AAB";
-        String word5 = "ABCESEEEFS";
-        System.out.println(exist(board1, word1));
-        System.out.println(exist(board1, word2));
-        System.out.println(exist(board1, word3));
-        System.out.println(exist(board2, word4));
-        System.out.println(exist(board3, word5));
+
+    /**
+     * @date 2018-12-11
+     *
+     * 这道题不仅要输出最终的个数
+     * 还要原地排序
+     * 因为测试是用substring的方式测的
+     */
+    public int C080_removeDuplicates(int[] nums) {
+        //重复的次数
+        int count = 1;
+        //总个数
+        int res = 1;
+        int left = 1;
+        int right = 1;
+        while(right < nums.length){
+            if(nums[right] != nums[right - 1]){
+                count = 0;
+            }
+            if(count < 2){
+                count++;
+                res++;
+                nums[left] = nums[right];
+                left++;
+            }
+            right++;
+        }
+        return res;
     }
+
     /**
      * @problem #138 Copy List with Random Pointer
      * @date 2017-11-23
